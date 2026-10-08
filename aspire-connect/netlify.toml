@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+  # The Supabase URL and anon key are public by design (they ship to every browser; the database is
+  # protected by row-level security). Without this, Netlify's secret scanner can fail the build because
+  # it finds these values in the built files.
+  [build.environment]
+    SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY"
+
+# Hashed build files never change -> cache forever.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# index.html must NEVER be cached, otherwise a browser keeps asking for old
+# (deleted) chunk files after a deploy -> blank screen / "X is not defined" on first load.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# A build file that no longer exists (old tab after a deploy) must fail as a real 404,
+# not be answered with index.html, so the app can detect it and reload.
+[[redirects]]
+  from = "/assets/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

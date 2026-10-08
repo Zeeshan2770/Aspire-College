@@ -1,0 +1,13 @@
+Netlify > Site configuration > Environment variables
+Add these two. Copy each value from this file; do not retype them.
+Both are public by design (every browser receives them; the database is protected by row-level security).
+NEVER use the "service_role" key here.
+
+VITE_SUPABASE_URL
+https://lqryvcdjpcqbetettmzz.supabase.co
+
+VITE_SUPABASE_ANON_KEY
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxxcnl2Y2RqcGNxYmV0ZXR0bXp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNTA0OTksImV4cCI6MjEwMzgyNjQ5OX0.WtuEbGISyKgmIoFjIPE4qIeezd81K1Wc20Nw2Z1y0ek
+
+After saving: Deploys > Trigger deploy > "Clear cache and deploy site".
+(These values are read when the site is built, so changing them without redeploying has no effect.)
