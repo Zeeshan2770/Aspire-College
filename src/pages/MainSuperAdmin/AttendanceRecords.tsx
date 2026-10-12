@@ -68,7 +68,7 @@ export default function AttendanceRecords() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Attendance Records</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Attendance Records</h1>
         <p className="text-sm text-slate-500">Drill into real attendance data for any class and section — not just totals.</p>
       </div>
 
@@ -133,7 +133,7 @@ export default function AttendanceRecords() {
                           <Badge key={k} tone={k === 'PRESENT' ? 'green' : k === 'ABSENT' ? 'red' : 'amber'}>{k}: {v}</Badge>
                         ))}
                       </div>
-                      <table className="w-full text-sm">
+                      <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
                         <tbody className="divide-y divide-slate-200">
                           {detail.map((r: any, i: number) => (
                             <tr key={i}>
@@ -142,7 +142,7 @@ export default function AttendanceRecords() {
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </table></div>
                     </div>
                   )}
                 </div>
@@ -160,7 +160,7 @@ export default function AttendanceRecords() {
           {loadingRoster ? (
             <div className="px-5 py-10 text-center text-slate-400">Loading roster…</div>
           ) : (
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
               <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-5 py-2.5">Student</th>
@@ -186,7 +186,7 @@ export default function AttendanceRecords() {
                   <tr><td colSpan={6} className="px-5 py-10 text-center text-slate-400">No students found for this filter.</td></tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           )}
         </Card>
       )}

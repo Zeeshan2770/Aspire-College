@@ -59,7 +59,7 @@ export default function WebsiteSettingsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Website & Branding</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Website & Branding</h1>
           <p className="text-sm text-slate-500">Institution details, logos, colors and the principal's message shown on the public website.</p>
         </div>
         <Button disabled={busy} onClick={save}>{busy ? 'Saving…' : 'Save changes'}</Button>

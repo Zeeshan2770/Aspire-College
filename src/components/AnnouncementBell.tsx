@@ -66,7 +66,7 @@ export function AnnouncementBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 z-40 mt-2 w-80 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+          <div className="fixed inset-x-3 top-14 z-40 mt-2 w-auto sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:w-80 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <p className="text-sm font-bold text-ink-900">Announcements</p>
               {unread.length > 0 && <span className="text-xs text-slate-400">{unread.length} unread</span>}

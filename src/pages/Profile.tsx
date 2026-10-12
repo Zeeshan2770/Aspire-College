@@ -74,7 +74,7 @@ export default function ProfilePage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">My Profile</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Profile</h1>
         <p className="text-sm text-slate-500">Your name, picture, email, and mobile number as they appear across the app.</p>
       </div>
 

@@ -80,7 +80,7 @@ export default function SettingsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">System Settings</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">System Settings</h1>
         <p className="text-sm text-slate-500">Branding and configuration used across reports and dashboards.</p>
       </div>
 

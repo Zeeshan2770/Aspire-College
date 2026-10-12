@@ -56,9 +56,9 @@ export default function PrincipalsPage() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Principal Accounts</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Principal Accounts</h1>
           <p className="text-sm text-slate-500">
             Principals get full read-only visibility &mdash; students, attendance, concerns, reports and statistics
             &mdash; with no management access and no visibility into activity logs.

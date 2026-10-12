@@ -73,7 +73,7 @@ export default function Concerns() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Report Student Concern</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Report Student Concern</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 

@@ -131,7 +131,7 @@ export default function StudentMyQueries() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">My Queries</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Queries</h1>
         <p className="text-sm text-slate-500">Only queries you've raised — never anyone else's.</p>
       </div>
 

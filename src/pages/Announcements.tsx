@@ -162,7 +162,7 @@ export default function AnnouncementsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Announcements</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Announcements</h1>
           <p className="text-sm text-slate-500">
             {canCompose
               ? `You can announce to: ${audience.map((r) => ROLE_PLURAL[r]).join(', ')}.`

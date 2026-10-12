@@ -104,11 +104,11 @@ export function Modal({
 }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 p-4 backdrop-blur-xs animate-fadeIn">
-      <div className={clsx('w-full rounded-2xl bg-white p-6 shadow-card', wide ? 'max-w-2xl' : 'max-w-md')}>
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-ink-900">{title}</h3>
-          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/40 p-0 backdrop-blur-xs animate-fadeIn sm:items-center sm:p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={clsx('max-h-[92dvh] w-full overflow-y-auto overscroll-contain rounded-t-2xl bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-card sm:max-h-[90dvh] sm:rounded-2xl sm:p-6', wide ? 'max-w-2xl' : 'max-w-md')}>
+        <div className="sticky -top-4 z-10 -mx-4 -mt-4 mb-4 flex items-center justify-between gap-2 bg-white px-4 py-3 sm:static sm:mx-0 sm:mt-0 sm:p-0">
+          <h3 className="min-w-0 break-words text-lg font-bold text-ink-900">{title}</h3>
+          <button aria-label="Close" onClick={onClose} className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
             ✕
           </button>
         </div>
@@ -147,13 +147,13 @@ export function StatCard({
     amber: 'bg-amber-700',
   };
   return (
-    <Card className="p-5">
-      <div className="flex items-center justify-between">
-        <div>
+    <Card className="p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
           <p className="mt-1 text-2xl font-extrabold text-ink-900">{value}</p>
         </div>
-        <div className={clsx('flex h-11 w-11 items-center justify-center rounded-xl text-white', tones[tone])}>
+        <div className={clsx('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white', tones[tone])}>
           {icon}
         </div>
       </div>

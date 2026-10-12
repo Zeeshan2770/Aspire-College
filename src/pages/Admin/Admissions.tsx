@@ -10,7 +10,7 @@ import QueriesPanel from './QueriesPanel';
 import { newQueryCount } from '@/services/queries';
 import {
   ADMISSION_STATUSES, Admission, AdmissionNote, AdmissionStatus, ContactMessage,
-  addAdmissionNote, admissionStatusCounts, createStudentFromAdmission, listAdmissionNotes,
+  addAdmissionNote, setAdmissionMessage, admissionStatusCounts, createStudentFromAdmission, listAdmissionNotes,
   listAdmissions, listClassesAndSections, listInquiries, setInquiryRead, unreadInquiryCount, updateAdmissionStatus,
 } from '@/services/admissions';
 
@@ -52,6 +52,7 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
   const [notes, setNotes] = useState<AdmissionNote[]>([]);
   const [status, setStatus] = useState<AdmissionStatus>(app.status);
   const [note, setNote] = useState('');
+  const [pubMsg, setPubMsg] = useState(app.applicant_message ?? '');
   const [busy, setBusy] = useState(false);
   const [studentOpen, setStudentOpen] = useState(false);
   const locked = !!app.student_id;
@@ -77,6 +78,11 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
     }
   }
 
+  async function savePubMsg() {
+    setBusy(true);
+    try { await setAdmissionMessage(app.id, pubMsg.trim()); toast.success(pubMsg.trim() ? 'Message saved. The applicant can now see it.' : 'Message removed.'); onChanged(); }
+    catch (e) { toast.error((e as Error).message); } finally { setBusy(false); }
+  }
   async function saveNote() {
     if (!note.trim()) return;
     setBusy(true);
@@ -149,7 +155,7 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
                 </div>
               )}
               <div className="mt-4">
-                <Label>Note</Label>
+                <Label>Internal note (staff only)</Label>
                 <textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
@@ -159,6 +165,19 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
                   className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
                 />
                 <Button className="mt-2" size="sm" variant="secondary" disabled={busy || !note.trim()} onClick={saveNote}>Add note only</Button>
+              </div>
+              <div className="mt-4 border-t border-slate-100 pt-4">
+                <Label>Message to the applicant (shown on the public status page)</Label>
+                <textarea
+                  value={pubMsg}
+                  onChange={(e) => setPubMsg(e.target.value)}
+                  rows={2}
+                  maxLength={600}
+                  placeholder="For example: Please bring your original documents to the admissions office by 20 October."
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
+                />
+                <p className="mt-1 text-xs text-slate-500">The applicant sees this together with the status when they check with their application number and phone. Do not write private details.</p>
+                <Button className="mt-2" size="sm" variant="secondary" disabled={busy || pubMsg.trim() === (app.applicant_message ?? '').trim()} onClick={savePubMsg}>Save message</Button>
               </div>
             </section>
           )}
@@ -305,7 +324,7 @@ function Applications({ canManage, canCreateStudent }: { canManage: boolean; can
           <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[36rem] text-sm">
               <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr><th className="px-4 py-3">Application</th><th className="px-4 py-3">Applicant</th><th className="px-4 py-3">Program</th><th className="px-4 py-3">Submitted</th><th className="px-4 py-3">Status</th></tr>
               </thead>
@@ -423,7 +442,7 @@ export default function AdmissionsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Admissions</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Admissions</h1>
         <p className="text-sm text-slate-500">Applications, contact-form messages and questions from the public website.</p>
       </div>
 

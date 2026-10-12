@@ -100,7 +100,7 @@ function NewsTab({ canEdit }: { canEdit: boolean }) {
       {canEdit && <div className="mb-4 flex justify-end"><Button onClick={() => setEditing('new')}><Plus size={16} /> Add news</Button></div>}
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
-          <div className="overflow-x-auto"><table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Category</th><th className="px-4 py-3">Published</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((n) => (<tr key={n.id} className="hover:bg-slate-50/60">
@@ -189,7 +189,7 @@ function EventsTab({ canEdit }: { canEdit: boolean }) {
       {canEdit && <div className="mb-4 flex justify-end"><Button onClick={() => setEditing('new')}><Plus size={16} /> Add event</Button></div>}
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
-          <div className="overflow-x-auto"><table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((e) => (<tr key={e.id} className="hover:bg-slate-50/60">
@@ -272,7 +272,7 @@ function ProgramsTab({ canEdit }: { canEdit: boolean }) {
       {canEdit && <div className="mb-4 flex justify-end"><Button onClick={() => setEditing('new')}><Plus size={16} /> Add program</Button></div>}
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
-          <div className="overflow-x-auto"><table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Program</th><th className="px-4 py-3">Level</th><th className="px-4 py-3">Duration</th><th className="px-4 py-3">Website</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((p) => (<tr key={p.id} className="hover:bg-slate-50/60">
@@ -464,7 +464,7 @@ function AlbumsTab({ canEdit }: { canEdit: boolean }) {
       {canEdit && <div className="mb-4 flex justify-end"><Button onClick={() => setEditing('new')}><Plus size={16} /> Add album</Button></div>}
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error.replace('Please try again.', '')} The photo tables may not be set up yet (run the 0024 database script). <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
-          <div className="overflow-x-auto"><table className="w-full text-sm">
+          <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Album</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((a) => (<tr key={a.id} className="hover:bg-slate-50/60">
@@ -497,7 +497,7 @@ export default function WebsiteContentPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Website Content</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Website Content</h1>
         <p className="text-sm text-slate-500">News, events, gallery, programs and page text shown on the public college website.</p>
       </div>
       {loading ? <div className="flex justify-center py-16"><Spinner /></div> : !canView ? <NoAccess /> : (

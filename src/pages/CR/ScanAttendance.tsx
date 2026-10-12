@@ -186,7 +186,7 @@ export default function ScanAttendance() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Scan Attendance Sheet</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Scan Attendance Sheet</h1>
         <p className="text-sm text-slate-500">Photograph a paper attendance sheet — nothing is saved until you confirm it below.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
@@ -249,7 +249,7 @@ export default function ScanAttendance() {
 
               <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Attendance Review</h2>
               <Card className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full min-w-[36rem] text-sm">
                   <thead>
                     <tr className="border-b border-slate-100 text-left text-xs uppercase tracking-wide text-slate-400">
                       <th className="px-4 py-3">Roll No.</th>

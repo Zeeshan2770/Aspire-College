@@ -212,7 +212,7 @@ export default function QueriesPanel({ canManage, onNew }: { canManage: boolean;
           <div className="p-8 text-center text-sm text-red-700" role="alert">{error} If this is the first time, the administrator needs to run the 0025 database script. <button className="ml-2 underline" onClick={load}>Retry</button></div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[36rem] text-sm">
               <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr><th className="px-4 py-3">Question</th><th className="px-4 py-3">From</th><th className="px-4 py-3">Topic</th><th className="px-4 py-3">Received</th><th className="px-4 py-3">Status</th></tr>
               </thead>

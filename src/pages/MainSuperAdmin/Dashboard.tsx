@@ -84,7 +84,7 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Welcome, {profile?.full_name}</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
         <p className="text-sm text-slate-500">Main Super Admin — full system overview</p>
       </div>
 

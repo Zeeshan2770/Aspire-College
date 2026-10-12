@@ -121,16 +121,16 @@ export default function TakeAttendance() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Take Attendance</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Take Attendance</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
-      <Card className="mb-4 flex flex-wrap items-end gap-4 p-5">
-        <div className="max-w-xs">
+      <Card className="mb-4 flex flex-wrap items-end gap-4 p-4 sm:p-5">
+        <div className="w-full sm:w-auto sm:max-w-xs">
           <Label>Date</Label>
           <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
-        <div className="max-w-xs flex-1">
+        <div className="w-full flex-1 sm:max-w-xs">
           <Label>Search Student</Label>
           <div className="relative">
             <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />

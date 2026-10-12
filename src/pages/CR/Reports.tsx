@@ -256,7 +256,7 @@ export default function CrReports() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Reports</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Reports</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 

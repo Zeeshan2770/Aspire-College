@@ -108,11 +108,11 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
   }, IDLE_TIMEOUT_MS);
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen min-h-[100dvh] bg-slate-50">
       {/* Sidebar */}
       <aside
         className={clsx(
-          'fixed inset-y-0 left-0 z-40 flex w-64 transform flex-col border-r border-slate-200 bg-white transition-transform duration-200 lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-40 flex w-[17rem] max-w-[85vw] transform flex-col border-r border-slate-200 bg-white transition-transform duration-200 lg:static lg:w-64 lg:max-w-none lg:shrink-0 lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -163,20 +163,20 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
       )}
 
       {/* Main */}
-      <div className="flex min-h-screen flex-1 flex-col">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-5 backdrop-blur">
-          <button className="rounded-lg p-2 hover:bg-slate-100 lg:hidden" onClick={() => setOpen(true)}>
+      <div className="flex min-h-screen min-h-[100dvh] min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-2 border-b border-slate-200 bg-white/95 px-3 sm:h-16 sm:px-5">
+          <button aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-slate-100 lg:hidden" onClick={() => setOpen(true)}>
             <Menu size={20} />
           </button>
           <div className="hidden text-sm text-slate-500 lg:block">
             {profile?.role.replace(/_/g, ' ')}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
             <AnnouncementBell />
-            <NavLink to="/profile" className="flex items-center gap-3 rounded-xl px-1.5 py-1 transition hover:bg-slate-50">
-              <div className="text-right">
-                <p className="text-sm font-semibold text-ink-900">{profile?.full_name}</p>
-                <p className="text-xs text-slate-400">{profile?.email}</p>
+            <NavLink to="/profile" className="flex min-w-0 items-center gap-3 rounded-xl px-1 py-1 transition hover:bg-slate-50 sm:px-1.5">
+              <div className="hidden min-w-0 text-right md:block">
+                <p className="max-w-[14rem] truncate text-sm font-semibold text-ink-900">{profile?.full_name}</p>
+                <p className="max-w-[14rem] truncate text-xs text-slate-400">{profile?.email}</p>
               </div>
               {profile?.avatar_url ? (
                 <img src={profile.avatar_url} alt={profile.full_name} className="h-9 w-9 rounded-xl object-cover ring-2 ring-white shadow-soft" />
@@ -188,14 +188,14 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             </NavLink>
             <button
               onClick={handleSignOut}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-500 sm:h-9 sm:w-9 transition hover:bg-red-50 hover:text-red-600"
               title="Sign out"
             >
               <LogOut size={16} />
             </button>
           </div>
         </header>
-        <main className="flex-1 p-5 lg:p-8">{children}</main>
+        <main className="min-w-0 flex-1 p-3 sm:p-5 lg:p-8">{children}</main>
       </div>
     </div>
   );

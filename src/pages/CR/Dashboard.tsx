@@ -70,7 +70,7 @@ export default function CrDashboard() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Welcome, {profile?.full_name}</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
         {assignment ? (
           <div className="mt-2"><CrSectionSwitcher /></div>
         ) : !loading ? (
@@ -82,17 +82,17 @@ export default function CrDashboard() {
         <div className="mb-6 space-y-3">
           {warnings.map((w) => (
             <Card key={w.id} className="border-l-4 border-l-red-400 bg-red-50/60 p-4">
-              <div className="flex items-start gap-3">
+              <div className="flex flex-wrap items-start gap-3 sm:flex-nowrap">
                 <ShieldAlert className="mt-0.5 shrink-0 text-red-500" size={20} />
-                <div className="flex-1">
-                  <div className="mb-1 flex items-center gap-2">
+                <div className="min-w-0 flex-1 basis-[calc(100%-2.5rem)] sm:basis-auto">
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
                     <Badge tone={w.severity === 'HIGH' ? 'red' : w.severity === 'MEDIUM' ? 'amber' : 'slate'}>{w.severity} Warning</Badge>
                     <span className="text-xs text-slate-400">{new Date(w.created_at).toLocaleString()}</span>
                   </div>
                   <p className="text-sm text-ink-800">{w.message}</p>
                   <p className="mt-1 text-xs text-slate-400">Issued by {w.issued_by_name}</p>
                 </div>
-                <Button size="sm" variant="secondary" onClick={() => handleAcknowledge(w.id)}><X size={13} /> Acknowledge</Button>
+                <Button size="sm" variant="secondary" className="shrink-0" onClick={() => handleAcknowledge(w.id)}><X size={13} /> Acknowledge</Button>
               </div>
             </Card>
           ))}

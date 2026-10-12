@@ -114,7 +114,7 @@ export default function MyStudents() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">My Students</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Students</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -129,7 +129,7 @@ export default function MyStudents() {
       </Card>
 
       <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3">Roll #</th>
@@ -159,7 +159,7 @@ export default function MyStudents() {
             ))}
             {!filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No students found.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </Card>
 
       <Modal open={addOpen} onClose={() => setAddOpen(false)} title="Add Student">

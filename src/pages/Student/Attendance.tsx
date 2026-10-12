@@ -27,7 +27,7 @@ export default function StudentAttendance() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">My Attendance</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Attendance</h1>
         <p className="text-sm text-slate-500">Read-only — calculated from official records. If something looks wrong, raise a query instead of trying to fix it here.</p>
       </div>
 
@@ -53,7 +53,7 @@ export default function StudentAttendance() {
         <>
           <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Subject-wise Attendance</h2>
           <Card className="mb-6 overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[36rem] text-sm">
               <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
                 <tr><th className="px-4 py-2.5">Subject</th><th className="px-4 py-2.5">Total</th><th className="px-4 py-2.5">Present</th><th className="px-4 py-2.5">Absent</th><th className="px-4 py-2.5">%</th></tr>
               </thead>

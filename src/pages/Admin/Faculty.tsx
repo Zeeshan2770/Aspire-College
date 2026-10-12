@@ -125,7 +125,7 @@ export default function FacultyPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Faculty</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Faculty</h1>
           <p className="text-sm text-slate-500">Teaching staff. Active faculty marked public appear on the college website.</p>
         </div>
         {canEdit && <Button onClick={() => setEditing('new')}><Plus size={16} /> Add faculty</Button>}
@@ -145,7 +145,7 @@ export default function FacultyPage() {
             </div>
             {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full min-w-[36rem] text-sm">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                     <tr><th className="px-4 py-3">Name</th><th className="px-4 py-3">Designation</th><th className="px-4 py-3">Department / Subject</th><th className="px-4 py-3">Website</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr>
                   </thead>

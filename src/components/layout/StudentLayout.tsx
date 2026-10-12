@@ -23,11 +23,11 @@ export function StudentLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
+    <div className="min-h-screen min-h-[100dvh] bg-slate-50 pb-24 md:pb-0">
       {/* Top header — identity + logout, no administrative nav ever appears here */}
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2.5">
+        <div className="mx-auto flex max-w-3xl md:max-w-4xl items-center justify-between px-4 py-3">
+          <div className="flex min-w-0 items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 font-bold text-white shadow-soft">
               A
             </div>
@@ -54,7 +54,7 @@ export function StudentLayout({ children }: { children: ReactNode }) {
         </div>
 
         {/* Desktop/tablet nav — a slim tab bar, distinct from the admin sidebar entirely */}
-        <nav className="mx-auto hidden max-w-3xl gap-1 px-4 pb-2 md:flex">
+        <nav className="mx-auto hidden max-w-3xl md:max-w-4xl gap-1 px-4 pb-2 md:flex">
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}
@@ -73,7 +73,7 @@ export function StudentLayout({ children }: { children: ReactNode }) {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 py-5">
+      <main className="mx-auto max-w-3xl md:max-w-4xl px-4 py-5">
         {profile?.must_change_password && (
           <NavLink
             to="/student/profile"
@@ -91,8 +91,8 @@ export function StudentLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Mobile bottom nav — this is the primary way students, on their phones, get around the portal */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
-        <div className="mx-auto flex max-w-3xl">
+      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
+        <div className="mx-auto flex max-w-3xl md:max-w-4xl">
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}

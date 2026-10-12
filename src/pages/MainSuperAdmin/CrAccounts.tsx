@@ -120,7 +120,7 @@ export default function CrAccountsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">CR Accounts &amp; Credentials</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">CR Accounts &amp; Credentials</h1>
           <p className="text-sm text-slate-500">Auto-generate CR logins from class &amp; section, and keep every credential on file.</p>
         </div>
         <Button onClick={() => { setGen({ fullName: '', phone: '', classId: '', sectionId: '' }); setGenOpen(true); }}>
@@ -129,7 +129,7 @@ export default function CrAccountsPage() {
       </div>
 
       <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3">CR Name</th>
@@ -193,7 +193,7 @@ export default function CrAccountsPage() {
             ))}
             {!loading && !vault.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">No CR accounts generated yet.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </Card>
 
       {/* Generate account */}

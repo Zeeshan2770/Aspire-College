@@ -25,6 +25,7 @@ export default function Admissions() {
             <p className="text-sm text-slate-600">{open ? 'You can submit your application online at any time.' : 'Please check back later or contact the admissions office.'}</p>
           </div>
           {open && <Link to="/admissions/apply" className={btnPrimary}>Apply Online</Link>}
+          <Link to="/admissions/status" className="ml-3 text-sm font-medium text-college-primary hover:underline">Check application status</Link>
         </div>
       </Section>
       <Section title="Available Programs" muted>

@@ -161,9 +161,9 @@ export default function ClassesPage() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Classes & Sections</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Classes & Sections</h1>
           <p className="text-sm text-slate-500">
             Organize the academic structure used across the system. If a CSV import doesn&rsquo;t match, rename a class
             or section here instead of deleting it &mdash; linked students stay attached automatically.
@@ -174,8 +174,8 @@ export default function ClassesPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {classes.map((c) => (
-          <Card key={c.id} className="p-5">
-            <div className="mb-3 flex items-center justify-between">
+          <Card key={c.id} className="p-4 sm:p-5">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1.5">
                 <h3 className="font-bold text-ink-900">{c.name}</h3>
                 <button
@@ -186,7 +186,7 @@ export default function ClassesPage() {
                   <Pencil size={13} />
                 </button>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button size="sm" variant="secondary" onClick={() => setAcademicsFor(c)}>
                   Teachers &amp; subjects
                 </Button>

@@ -46,7 +46,7 @@ export default function AttendanceHistory() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Attendance History</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Attendance History</h1>
         <p className="text-sm text-slate-500">Review past attendance days for your section.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
@@ -65,7 +65,7 @@ export default function AttendanceHistory() {
                     <Badge key={k} tone={k === 'PRESENT' ? 'green' : k === 'ABSENT' ? 'red' : 'amber'}>{k}: {v}</Badge>
                   ))}
                 </div>
-                <table className="w-full text-sm">
+                <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
                   <tbody className="divide-y divide-slate-200">
                     {detail.map((r: any, i: number) => (
                       <tr key={i}>
@@ -74,7 +74,7 @@ export default function AttendanceHistory() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             )}
           </div>

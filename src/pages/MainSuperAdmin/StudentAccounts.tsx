@@ -223,7 +223,7 @@ export default function StudentAccountsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Student Accounts</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Student Accounts</h1>
         <p className="text-sm text-slate-500">Create and manage Student Portal logins. Every student keeps their roster record whether or not they have an account.</p>
       </div>
 
@@ -313,7 +313,7 @@ export default function StudentAccountsPage() {
         </>
       ) : (
         <Card className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[36rem] text-sm">
             <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-4 py-3">Student</th>

@@ -86,9 +86,9 @@ export default function SubAdminsPage() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Sub Super Admins</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Sub Super Admins</h1>
           <p className="text-sm text-slate-500">Delegate administrative work with fine-grained permissions.</p>
         </div>
         <Button onClick={() => setCreateOpen(true)}><Plus size={16} /> Create Sub Super Admin</Button>

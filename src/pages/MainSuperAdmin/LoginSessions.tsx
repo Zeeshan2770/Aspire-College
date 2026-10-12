@@ -31,7 +31,7 @@ export default function LoginSessionsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Login Sessions</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Login Sessions</h1>
         <p className="text-sm text-slate-500">See who logged in, and who changed whose email or password.</p>
       </div>
 
@@ -52,7 +52,7 @@ export default function LoginSessionsPage() {
       </Card>
 
       <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3">When</th>
@@ -77,7 +77,7 @@ export default function LoginSessionsPage() {
             })}
             {!loading && !filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No session activity recorded yet.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </Card>
     </DashboardLayout>
   );

@@ -61,7 +61,7 @@ export default function StudentProfile() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">My Profile</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Profile</h1>
         <p className="text-sm text-slate-500">Your academic identity — class, section, and student ID can only be changed by a Main Super Admin.</p>
       </div>
 

@@ -195,7 +195,7 @@ export default function AdminReportsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Reports</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Reports</h1>
         <p className="text-sm text-slate-500">Preview a report before downloading so figures can be checked and corrected — pick "Today" for a daily report, a range for a period report, or leave the dates empty for the complete record. Choose student-wise detail for the actual attendance record of every student, not just totals.</p>
       </div>
 

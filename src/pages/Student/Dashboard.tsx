@@ -48,7 +48,7 @@ export default function StudentDashboard() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Welcome, {student.full_name.split(' ')[0]}</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {student.full_name.split(' ')[0]}</h1>
         <p className="text-sm text-slate-500">{student.classes?.name} — {student.sections?.name}</p>
       </div>
 
@@ -69,7 +69,7 @@ export default function StudentDashboard() {
             <p className="text-xs text-slate-400">Submitted and awaiting a response</p>
           </div>
         </div>
-        <p className="text-2xl font-extrabold text-ink-900">{activeQueries}</p>
+        <p className="text-xl font-extrabold text-ink-900 sm:text-2xl">{activeQueries}</p>
       </Card>
 
       <div className="grid gap-3 sm:grid-cols-2">

@@ -106,7 +106,7 @@ export default function ReportBrandingPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Report Branding</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Report Branding</h1>
         <p className="text-sm text-slate-500">
           Set a custom header, footer, and logo for a specific class or section's reports. Anything left blank falls
           back to the global settings in <span className="font-semibold">System Settings</span>.

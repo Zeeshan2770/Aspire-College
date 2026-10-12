@@ -136,7 +136,7 @@ export default function StudentsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Students</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Students</h1>
           <p className="text-sm text-slate-500">Manage student records across all classes and sections.</p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -181,7 +181,7 @@ export default function StudentsPage() {
       </Card>
 
       <Card className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
           <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3">Roll #</th>
@@ -212,7 +212,7 @@ export default function StudentsPage() {
               <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">No students found.</td></tr>
             )}
           </tbody>
-        </table>
+        </table></div>
         <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-sm text-slate-500">
           <span>{total} student{total !== 1 ? 's' : ''} total</span>
           <div className="flex gap-2">

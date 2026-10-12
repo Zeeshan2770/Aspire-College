@@ -32,6 +32,7 @@ export interface Admission {
   status: AdmissionStatus;
   reviewed_at: string | null;
   student_id: string | null;
+  applicant_message?: string | null;
   created_at: string;
 }
 
@@ -149,4 +150,24 @@ export async function unreadInquiryCount(): Promise<number> {
 export async function setInquiryRead(id: string, isRead: boolean) {
   const { error } = await supabase.from('contact_messages').update({ is_read: isRead }).eq('id', id);
   if (error) throw new Error('Unable to update the message.');
+}
+
+export async function setAdmissionMessage(id: string, message: string) {
+  const { error } = await supabase.rpc('set_admission_message', { p_id: id, p_message: message });
+  if (error) throw rpcError(error);
+}
+
+export interface TrackedApplication {
+  application_no: string; first_name: string; program: string; status: AdmissionStatus;
+  submitted_at: string; decided_at: string | null; message: string | null; message_at: string | null;
+}
+/** Public lookup: application number + the phone number used on the form. */
+export async function trackApplication(no: string, phone: string): Promise<TrackedApplication | null> {
+  const { data, error } = await supabase.rpc('track_application', { p_no: no, p_phone: phone });
+  if (error) {
+    if (/unsuccessful|wait a few minutes/i.test(error.message ?? '')) throw new Error(error.message);
+    if (/track_application|schema cache|does not exist/i.test(error.message ?? '')) throw new Error('Status checking is not switched on yet. Please contact the admissions office.');
+    throw new Error('Unable to check the status. Please try again.');
+  }
+  return (data as TrackedApplication | null) ?? null;
 }

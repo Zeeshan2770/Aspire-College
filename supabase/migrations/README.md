@@ -15,11 +15,12 @@ functions anonymous visitors can call, and let class managers create subjects.
 - `0024_gallery_and_multiple_images.sql` — adds the Gallery (albums) and extra photographs for news and events. Run once in the Supabase SQL Editor. Until it is run, the site works as before and the admin screens show a short note instead of the photo uploader.
 - `0025_query_box.sql` — public "Ask Us" question box (identity options, attachments, tracking code) and its management inbox (Admissions → Questions). Run once in the Supabase SQL Editor (then run 0026). It also creates the private `query-attachments` storage bucket.
 - `0026_query_box_hardening.sql` — run after 0025: upload limits, per-visitor rate limits for sending questions and checking tracking codes, and checks that attached files really exist.
+- `0027_application_status_tracking.sql` — run after 0026: applicants check their admission decision at `/admissions/status` with application number + phone; staff can add a message the applicant sees (Admissions → application → Message to the applicant).
 
 
 ## Order and status (Aspire Query project, checked 10 Oct 2026)
 
-Run the files in numeric order on a new project: `0001` to `0026`.
+Run the files in numeric order on a new project: `0001` to `0027`.
 
 | File | Live database |
 |---|---|

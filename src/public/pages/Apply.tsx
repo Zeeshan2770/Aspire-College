@@ -104,6 +104,7 @@ export default function Apply() {
             <p className="mt-4 text-sm text-slate-500">Your application number</p>
             <p className="font-display text-2xl font-semibold text-college-primary">{appNo}</p>
             <p className="mt-4 text-sm text-slate-600">Please keep this number for reference. The admissions office will contact you using the phone number you provided.</p>
+            <p className="mt-3 text-sm text-slate-600">You can check your decision at any time on the <Link to={`/admissions/status?no=${encodeURIComponent(appNo)}`} className="font-medium text-college-primary hover:underline">application status page</Link> using this number and your phone number.</p>
             <div className="mt-6 flex justify-center gap-3 print:hidden">
               <button onClick={() => window.print()} className={btnSecondary}>Print</button>
               <Link to="/" className={btnPrimary}>Back to Home</Link>

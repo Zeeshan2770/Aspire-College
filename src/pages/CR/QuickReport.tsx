@@ -153,7 +153,7 @@ export default function QuickReport() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Quick Reports &amp; Messages</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Quick Reports &amp; Messages</h1>
         <p className="text-sm text-slate-500">Prepare a professional report and forward it to the coordinator in seconds.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>

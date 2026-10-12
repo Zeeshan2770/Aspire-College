@@ -155,7 +155,7 @@ export default function LoginPage() {
                 <ArrowLeft size={15} /> Back to website
               </Link>
               <div className="mb-5">
-                <h2 className="text-2xl font-extrabold text-ink-900">{chosen ? `${chosen.label} sign in` : 'Welcome back'}</h2>
+                <h2 className="text-xl font-extrabold text-ink-900 sm:text-2xl">{chosen ? `${chosen.label} sign in` : 'Welcome back'}</h2>
                 <p className="mt-1 text-sm text-slate-500">
                   {chosen ? `${chosen.blurb}.` : 'Sign in with the account your admin created for you.'}
                 </p>

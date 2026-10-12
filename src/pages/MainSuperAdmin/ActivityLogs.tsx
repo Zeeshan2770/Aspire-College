@@ -17,7 +17,7 @@ export default function ActivityLogsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-ink-900">Administrative Activity Logs</h1>
+        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Administrative Activity Logs</h1>
         <p className="text-sm text-slate-500">
           Every action taken by any admin account. Visible only to the Main Super Admin.
         </p>

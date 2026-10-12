@@ -61,7 +61,7 @@ export default function StatisticsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Advanced Statistics</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Advanced Statistics</h1>
           <p className="text-sm text-slate-500">Trends and comparisons across the whole system.</p>
         </div>
         <Select className="w-44" value={range} onChange={(e) => setRange(Number(e.target.value))}>
@@ -148,7 +148,7 @@ export default function StatisticsPage() {
               <h3 className="font-bold text-ink-900">Students Needing Attention</h3>
               <span className="text-xs text-slate-400">(lowest attendance, min. 3 recorded days)</span>
             </div>
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
               <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-5 py-2.5">Student</th>
@@ -170,7 +170,7 @@ export default function StatisticsPage() {
                   <tr><td colSpan={4} className="px-5 py-10 text-center text-slate-400">No data for this period.</td></tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           </Card>
         </div>
       )}

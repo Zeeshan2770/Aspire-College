@@ -66,7 +66,7 @@ export default function PrincipalDashboard() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-ink-900">Welcome, {profile?.full_name}</h1>
+          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
           <p className="text-sm text-slate-500">Principal — full read-only visibility across the system.</p>
         </div>
         <div className="flex gap-2">

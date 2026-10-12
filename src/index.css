@@ -27,3 +27,23 @@ body {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
 }
+
+/* ---- Responsive safeguards (phones, tablets) ---- */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; overflow-wrap: break-word; }
+img, video, canvas { max-width: 100%; }
+
+/* 16px form text on touch screens stops iOS/Android zoom-on-focus. */
+@media (max-width: 767px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='file']),
+  select,
+  textarea { font-size: 16px !important; }
+  /* Comfortable tap targets for small buttons */
+  button, [role='button'] { min-height: 36px; }
+  /* Tables: allow horizontal scroll inside their card, tighter cells */
+  table th, table td { padding-left: 0.625rem !important; padding-right: 0.625rem !important; }
+  .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+}
+@supports (padding: max(0px)) {
+  .safe-bottom { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+}

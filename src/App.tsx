@@ -64,6 +64,7 @@ const PublicNewsDetail = lazy(() => import('@/public/pages/NewsDetail'));
 const PublicGallery = lazy(() => import('@/public/pages/Gallery'));
 const PublicGalleryAlbum = lazy(() => import('@/public/pages/GalleryAlbum'));
 const PublicAsk = lazy(() => import('@/public/pages/AskQuestion'));
+const PublicTrackApp = lazy(() => import('@/public/pages/TrackApplication'));
 const PublicTrack = lazy(() => import('@/public/pages/TrackQuery'));
 const PublicContact = lazy(() => import('@/public/pages/Contact'));
 
@@ -89,6 +90,7 @@ export default function App() {
         <Route path="/gallery" element={<PublicGallery />} />
         <Route path="/gallery/:id" element={<PublicGalleryAlbum />} />
         <Route path="/ask" element={<PublicAsk />} />
+        <Route path="/admissions/status" element={<PublicTrackApp />} />
         <Route path="/ask/track" element={<PublicTrack />} />
         <Route path="/contact" element={<PublicContact />} />
       </Route>
