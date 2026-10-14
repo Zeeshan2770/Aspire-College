@@ -2,7 +2,8 @@ import { FormEvent, ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { useSite } from '../SiteProvider';
-import { fetchPrograms, submitRpc } from '../api';
+import { Program, fetchPrograms, submitRpc } from '../api';
+import { PREVIOUS_CLASS_OTHER, PREVIOUS_CLASS_OTHER_MAX, encodePreviousClass, previousClassesForLevel } from '@/lib/previousClass';
 import { useAsync } from '../useAsync';
 import { saveTracking } from '../myTracking';
 import { PageHeader, Section, StateBox, btnPrimary, btnSecondary } from '../components';
@@ -26,7 +27,11 @@ function Field({ id, label, required, error, hint, children }: { id: string; lab
   );
 }
 
-function validate(f: Form): Record<string, string> {
+/** Previous-class choices for the program currently selected (all choices until a program is picked). */
+const previousClassOptions = (f: Form, programs: Program[] | null | undefined) =>
+  previousClassesForLevel(programs?.find((x) => x.name === f.program_applied)?.level);
+
+function validate(f: Form, programs: Program[] | null | undefined): Record<string, string> {
   const e: Record<string, string> = {};
   const req = (k: string, m: string) => { if (!f[k]?.trim()) e[k] = m; };
   req('full_name', 'Enter the applicant\'s full name.');
@@ -50,6 +55,13 @@ function validate(f: Form): Record<string, string> {
     const n = Number(f.percentage);
     if (isNaN(n) || n < 0 || n > 100) e.percentage = 'Percentage must be between 0 and 100.';
   }
+  if (f.previous_class && !previousClassOptions(f, programs).some((o) => o === f.previous_class)) {
+    e.previous_class = 'This previous class does not match the selected program. Please choose again.';
+  }
+  if (f.previous_class === PREVIOUS_CLASS_OTHER) {
+    if (!f.previous_class_other?.trim()) e.previous_class_other = 'Please specify your previous qualification.';
+    else if (f.previous_class_other.trim().length > PREVIOUS_CLASS_OTHER_MAX) e.previous_class_other = `Keep this under ${PREVIOUS_CLASS_OTHER_MAX} characters.`;
+  }
   if (f.passing_year?.trim()) {
     const y = Number(f.passing_year);
     if (!Number.isInteger(y) || y < 1990 || y > new Date().getFullYear() + 1) e.passing_year = 'Enter a valid year.';
@@ -67,12 +79,38 @@ export default function Apply() {
   const [appNo, setAppNo] = useState<string | null>(null);
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setF((p) => ({ ...p, [k]: e.target.value }));
+  const prevOptions = previousClassOptions(f, programs.data);
+
+  /** Changing the program re-checks the previous class; a choice the new program does not offer is cleared. */
+  function onProgramChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const next: Form = { ...f, program_applied: e.target.value };
+    const stillValid = !next.previous_class || previousClassOptions(next, programs.data).some((o) => o === next.previous_class);
+    if (!stillValid) { next.previous_class = ''; next.previous_class_other = ''; }
+    setF(next);
+    setErrors((er) => {
+      const rest = { ...er };
+      delete rest.program_applied;
+      if (!stillValid) {
+        delete rest.previous_class_other;
+        rest.previous_class = 'Your previous class does not match the newly selected program. Please choose again.';
+      }
+      return rest;
+    });
+  }
+
+  /** Leaving "Other" discards the typed qualification so it can never be sent alongside a listed class. */
+  function onPreviousClassChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const v = e.target.value;
+    setF((prev) => ({ ...prev, previous_class: v, previous_class_other: v === PREVIOUS_CLASS_OTHER ? prev.previous_class_other ?? '' : '' }));
+    setErrors((er) => { const rest = { ...er }; delete rest.previous_class; delete rest.previous_class_other; return rest; });
+  }
+
   const p = (k: string) => ({ id: k, value: f[k] ?? '', onChange: set(k), className: input(!!errors[k]), 'aria-invalid': !!errors[k], 'aria-describedby': errors[k] ? `${k}-err` : undefined });
 
   async function onSubmit(ev: FormEvent) {
     ev.preventDefault();
     setSubmitError(null);
-    const v = validate(f);
+    const v = validate(f, programs.data);
     setErrors(v);
     if (Object.keys(v).length) {
       document.getElementById(Object.keys(v)[0])?.focus();
@@ -80,7 +118,8 @@ export default function Apply() {
     }
     setBusy(true);
     try {
-      const res = await submitRpc('submit_admission', f);
+      const { previous_class_other, ...rest } = f;
+      const res = await submitRpc('submit_admission', { ...rest, previous_class: encodePreviousClass(f.previous_class ?? '', previous_class_other ?? '') });
       setAppNo(res.application_no ?? null);
       if (res.application_no) saveTracking('app', res.application_no);
     } catch (e) {
@@ -143,27 +182,37 @@ export default function Apply() {
           </fieldset>
 
           <fieldset className={fieldset}>
-            <legend className={legend}>Academic Information</legend>
-            <div className="mt-4 grid gap-5 sm:grid-cols-2">
-              <Field id="previous_institution" label="Previous institution"><input {...p('previous_institution')} /></Field>
-              <Field id="previous_class" label="Previous class / qualification"><input {...p('previous_class')} /></Field>
-              <Field id="percentage" label="Marks (percentage)" error={errors.percentage} hint="Between 0 and 100"><input type="number" step="0.01" min="0" max="100" {...p('percentage')} /></Field>
-              <Field id="board" label="Board"><input {...p('board')} /></Field>
-              <Field id="passing_year" label="Passing year" error={errors.passing_year}><input type="number" {...p('passing_year')} /></Field>
-            </div>
-          </fieldset>
-
-          <fieldset className={fieldset}>
             <legend className={legend}>Program</legend>
             <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field id="program_applied" label="Applying for" required error={errors.program_applied}>
                 {programs.data?.length ? (
-                  <select {...p('program_applied')}><option value="">Select a program</option>{programs.data.map((x) => <option key={x.id}>{x.name}</option>)}</select>
+                  <select {...p('program_applied')} onChange={onProgramChange}><option value="">Select a program</option>{programs.data.map((x) => <option key={x.id}>{x.name}</option>)}</select>
                 ) : (
-                  <input {...p('program_applied')} placeholder="Program or class" />
+                  <input {...p('program_applied')} onChange={onProgramChange} placeholder="Program or class" />
                 )}
               </Field>
               <Field id="preferred_class" label="Preferred class / group"><input {...p('preferred_class')} /></Field>
+            </div>
+          </fieldset>
+
+          <fieldset className={fieldset}>
+            <legend className={legend}>Academic Information</legend>
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
+              <Field id="previous_institution" label="Previous institution"><input {...p('previous_institution')} /></Field>
+              <Field id="previous_class" label="Previous class / qualification" error={errors.previous_class} hint={f.program_applied ? 'Choices match the program selected above.' : 'Select a program above to see the matching choices.'}>
+                <select {...p('previous_class')} onChange={onPreviousClassChange} aria-describedby={errors.previous_class ? 'previous_class-err' : 'previous_class-hint'}>
+                  <option value="">Select Previous Class</option>
+                  {prevOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </Field>
+              {f.previous_class === PREVIOUS_CLASS_OTHER && (
+                <Field id="previous_class_other" label="Please specify your previous qualification" required error={errors.previous_class_other}>
+                  <input {...p('previous_class_other')} maxLength={PREVIOUS_CLASS_OTHER_MAX} placeholder="e.g. O Levels, Matric (Science) from another board" />
+                </Field>
+              )}
+              <Field id="percentage" label="Marks (percentage)" error={errors.percentage} hint="Between 0 and 100"><input type="number" step="0.01" min="0" max="100" {...p('percentage')} /></Field>
+              <Field id="board" label="Board"><input {...p('board')} /></Field>
+              <Field id="passing_year" label="Passing year" error={errors.passing_year}><input type="number" {...p('passing_year')} /></Field>
             </div>
           </fieldset>
 
