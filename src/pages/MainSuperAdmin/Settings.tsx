@@ -75,18 +75,18 @@ export default function SettingsPage() {
     toast.success('Settings saved.');
   }
 
-  if (!settings) return <DashboardLayout><Card className="p-8 text-center text-slate-400">Loading…</Card></DashboardLayout>;
+  if (!settings) return <DashboardLayout><Card className="p-8 text-center text-slate-500">Loading…</Card></DashboardLayout>;
 
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">System Settings</h1>
-        <p className="text-sm text-slate-500">Branding and configuration used across reports and dashboards.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">System Settings</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Branding and configuration used across reports and dashboards.</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="p-6 lg:col-span-2">
-          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">General Settings</h2>
+          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-500">General Settings</h2>
           <div className="space-y-4">
             <div><Label>College Name</Label><Input value={settings.college_name} onChange={(e) => setSettings({ ...settings, college_name: e.target.value })} /></div>
             <div><Label>Campus Name</Label><Input value={settings.campus_name} onChange={(e) => setSettings({ ...settings, campus_name: e.target.value })} /></div>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
 
             <div className="border-t border-slate-100 pt-4">
               <Label>Default Report Header</Label>
-              <p className="mb-1.5 text-xs text-slate-400">
+              <p className="mb-1.5 text-xs text-slate-500">
                 Used when a class/section has no override. Use text, or upload a banner image instead — the image takes priority if set.
               </p>
               <Input
@@ -126,7 +126,7 @@ export default function SettingsPage() {
 
             <div>
               <Label>Default Report Footer</Label>
-              <p className="mb-1.5 text-xs text-slate-400">
+              <p className="mb-1.5 text-xs text-slate-500">
                 Used when a class/section has no override. Use text, or upload a banner image instead — the image takes priority if set.
               </p>
               <Input
@@ -173,15 +173,15 @@ export default function SettingsPage() {
                   onKeyDown={(e) => { if (e.key === 'Enter' && newCategory.trim()) { e.preventDefault(); setCategories((p) => [...p, newCategory.trim()]); setNewCategory(''); } }} />
                 <Button type="button" variant="secondary" disabled={!newCategory.trim()} onClick={() => { setCategories((p) => [...p, newCategory.trim()]); setNewCategory(''); }}>Add</Button>
               </div>
-              <p className="mt-1 text-xs text-slate-400">Press Save All Settings to apply changes.</p>
+              <p className="mt-1 text-xs text-slate-500">Press Save All Settings to apply changes.</p>
             </div>
           </div>
         </Card>
         <CreditBox />
 
         <Card className="p-6 lg:col-span-2">
-          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Communication Settings</h2>
-          <p className="mb-4 text-xs text-slate-400">
+          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-500">Communication Settings</h2>
+          <p className="mb-4 text-xs text-slate-500">
             Used by Quick Reports &amp; Messages so CRs never have to type a phone number by hand.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -194,7 +194,7 @@ export default function SettingsPage() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Developer Credit</h2>
+          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-500">Developer Credit</h2>
           <div className="space-y-4">
             <label className="flex items-center gap-2 text-sm text-ink-800">
               <input
@@ -212,7 +212,7 @@ export default function SettingsPage() {
         </Card>
 
         <Card className="p-6 lg:col-span-3">
-          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-400">Attendance Settings</h2>
+          <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-slate-500">Attendance Settings</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <Label>Default Attendance Behavior</Label>

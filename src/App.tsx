@@ -15,6 +15,7 @@ const FacultyPage = lazy(() => import('@/pages/Admin/Faculty'));
 const WebsiteContentPage = lazy(() => import('@/pages/Admin/WebsiteContent'));
 const WebsiteSettingsPage = lazy(() => import('@/pages/Admin/WebsiteSettings'));
 const AdmissionsPage = lazy(() => import('@/pages/Admin/Admissions'));
+const MessagesPage = lazy(() => import('@/pages/Admin/Messages'));
 const StudentsPage = lazy(() => import('@/pages/MainSuperAdmin/Students'));
 const ClassesPage = lazy(() => import('@/pages/MainSuperAdmin/Classes'));
 const CRsPage = lazy(() => import('@/pages/MainSuperAdmin/CRs'));
@@ -74,11 +75,12 @@ export default function App() {
 
   return (
     <ErrorBoundary resetKey={pathname}>
-    <Suspense fallback={<div className="flex h-screen items-center justify-center text-sm text-slate-500" role="status">Loading…</div>}>
+    <Suspense fallback={<div className="flex h-screen items-center justify-center gap-2.5 bg-[var(--bg)] text-sm font-medium text-[var(--text-2)]" role="status"><span className="h-5 w-5 animate-spin rounded-full border-2 border-[#DCE4F0] border-t-brand-600" aria-hidden="true" />Loading…</div>}>
     <Routes>
       {/* Public website */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<PublicHome />} />
+        <Route path="/home" element={<PublicHome />} />
         <Route path="/about" element={<PublicAbout />} />
         <Route path="/academics" element={<PublicAcademics />} />
         <Route path="/faculty" element={<PublicFaculty />} />
@@ -104,6 +106,7 @@ export default function App() {
       <Route path="/admin/website" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN', 'SUB_SUPER_ADMIN', 'PRINCIPAL']}><WebsiteContentPage /></ProtectedRoute>} />
       <Route path="/admin/website-settings" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN']}><WebsiteSettingsPage /></ProtectedRoute>} />
       <Route path="/admin/admissions" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN', 'SUB_SUPER_ADMIN', 'PRINCIPAL']}><AdmissionsPage /></ProtectedRoute>} />
+      <Route path="/admin/messages" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN', 'SUB_SUPER_ADMIN', 'PRINCIPAL']}><MessagesPage /></ProtectedRoute>} />
       <Route path="/admin/classes" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN', 'SUB_SUPER_ADMIN']}><ClassesPage /></ProtectedRoute>} />
       <Route path="/admin/crs" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN', 'SUB_SUPER_ADMIN']}><CRsPage /></ProtectedRoute>} />
       <Route path="/admin/cr-accounts" element={<ProtectedRoute roles={['MAIN_SUPER_ADMIN']}><CrAccountsPage /></ProtectedRoute>} />

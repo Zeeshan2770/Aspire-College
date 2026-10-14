@@ -58,8 +58,8 @@ export default function PrincipalsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Principal Accounts</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Principal Accounts</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">
             Principals get full read-only visibility &mdash; students, attendance, concerns, reports and statistics
             &mdash; with no management access and no visibility into activity logs.
           </p>
@@ -77,7 +77,7 @@ export default function PrincipalsPage() {
                 </div>
                 <div>
                   <p className="font-bold text-ink-900">{p.full_name}</p>
-                  <p className="text-xs text-slate-400">{p.email}{p.phone ? ` · ${p.phone}` : ''}</p>
+                  <p className="text-xs text-slate-500">{p.email}{p.phone ? ` · ${p.phone}` : ''}</p>
                 </div>
               </div>
               <Badge tone={p.is_active ? 'green' : 'red'}>{p.is_active ? 'Active' : 'Deactivated'}</Badge>
@@ -90,7 +90,7 @@ export default function PrincipalsPage() {
             </div>
           </Card>
         ))}
-        {!principals.length && <Card className="p-8 text-center text-slate-400 md:col-span-2">No Principal accounts yet.</Card>}
+        {!principals.length && <Card className="p-8 text-center text-slate-500 md:col-span-2">No Principal accounts yet.</Card>}
       </div>
 
       <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Add Principal">

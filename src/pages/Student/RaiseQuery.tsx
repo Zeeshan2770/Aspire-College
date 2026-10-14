@@ -40,8 +40,8 @@ export default function StudentRaiseQuery() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Raise a Query</h1>
-        <p className="text-sm text-slate-500">Your query goes straight to the Main Super Admin, authorized Sub Super Admins, and the Principal.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Raise a Query</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Your query goes straight to the Main Super Admin, authorized Sub Super Admins, and the Principal.</p>
       </div>
 
       <Card className="p-5">

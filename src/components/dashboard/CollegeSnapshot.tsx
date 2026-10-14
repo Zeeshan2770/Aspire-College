@@ -98,13 +98,13 @@ export default function CollegeSnapshot() {
       {canLogs && (
         <Card className="mt-6">
           <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
-            <h3 className="font-semibold text-ink-900">Recent activity</h3>
+            <h3 className="font-display font-semibold text-ink-900">Recent activity</h3>
             <Link to="/admin/logs" className="text-sm font-medium text-brand-700 hover:underline">View all</Link>
           </div>
           {logs === null ? (
-            <p className="px-5 py-6 text-sm text-slate-400">Loading…</p>
+            <p className="px-5 py-6 text-sm text-slate-500">Loading…</p>
           ) : !logs.length ? (
-            <p className="px-5 py-6 text-sm text-slate-400">No activity has been recorded yet.</p>
+            <p className="px-5 py-6 text-sm text-slate-500">No activity has been recorded yet.</p>
           ) : (
             <ul className="divide-y divide-slate-100">
               {logs.map((l) => (
@@ -114,7 +114,7 @@ export default function CollegeSnapshot() {
                     {l.target && <span className="text-slate-500"> · {l.target}</span>}
                     <span className="block text-xs text-slate-500">{l.admin_name}</span>
                   </span>
-                  <span className="text-xs text-slate-400">{when(l.created_at)}</span>
+                  <span className="text-xs text-slate-500">{when(l.created_at)}</span>
                 </li>
               ))}
             </ul>

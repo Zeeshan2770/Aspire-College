@@ -143,7 +143,7 @@ export default function QuickReport() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {loading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -153,8 +153,8 @@ export default function QuickReport() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Quick Reports &amp; Messages</h1>
-        <p className="text-sm text-slate-500">Prepare a professional report and forward it to the coordinator in seconds.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Quick Reports &amp; Messages</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Prepare a professional report and forward it to the coordinator in seconds.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -179,10 +179,10 @@ export default function QuickReport() {
 
         {selectedStudent && (
           <div className="mt-4 grid gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4 sm:grid-cols-2">
-            <div><span className="text-xs text-slate-400">Student Name</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.full_name}</p></div>
-            <div><span className="text-xs text-slate-400">Father Name</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.father_name || '—'}</p></div>
-            <div><span className="text-xs text-slate-400">Roll Number</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.roll_number}</p></div>
-            <div><span className="text-xs text-slate-400">Class / Section</span><p className="text-sm font-semibold text-ink-900">{assignment.classes?.name} — {assignment.sections?.name}</p></div>
+            <div><span className="text-xs text-slate-500">Student Name</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.full_name}</p></div>
+            <div><span className="text-xs text-slate-500">Father Name</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.father_name || '—'}</p></div>
+            <div><span className="text-xs text-slate-500">Roll Number</span><p className="text-sm font-semibold text-ink-900">{selectedStudent.roll_number}</p></div>
+            <div><span className="text-xs text-slate-500">Class / Section</span><p className="text-sm font-semibold text-ink-900">{assignment.classes?.name} — {assignment.sections?.name}</p></div>
           </div>
         )}
 
@@ -268,11 +268,11 @@ export default function QuickReport() {
             </div>
             <div className="text-right">
               <Badge tone={c.status === 'RESOLVED' || c.status === 'CLOSED' ? 'green' : 'amber'}>{c.status}</Badge>
-              <p className="mt-1 text-xs text-slate-400">{new Date(c.created_at).toLocaleDateString()}</p>
+              <p className="mt-1 text-xs text-slate-500">{new Date(c.created_at).toLocaleDateString()}</p>
             </div>
           </div>
         ))}
-        {!history.length && <div className="px-5 py-10 text-center text-slate-400">No reports sent yet.</div>}
+        {!history.length && <div className="px-5 py-10 text-center text-slate-500">No reports sent yet.</div>}
       </Card>
     </DashboardLayout>
   );

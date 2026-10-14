@@ -4,24 +4,24 @@ import { CheckCircle2 } from 'lucide-react';
 import { useSite } from '../SiteProvider';
 import { fetchPrograms, submitRpc } from '../api';
 import { useAsync } from '../useAsync';
+import { saveTracking } from '../myTracking';
 import { PageHeader, Section, StateBox, btnPrimary, btnSecondary } from '../components';
 
 type Form = Record<string, string>;
 const PHONE = /^[0-9+\-\s]{10,16}$/;
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-const input = (bad: boolean) =>
-  `w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${bad ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-college-primary focus:ring-college-primary'}`;
+const input = (_bad: boolean) => 'field';
 
 function Field({ id, label, required, error, hint, children }: { id: string; label: string; required?: boolean; error?: string; hint?: string; children: ReactNode }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-slate-700">
-        {label} {required && <span className="text-red-600" aria-hidden="true">*</span>}
+      <label htmlFor={id} className="field-label">
+        {label} {required && <span className="text-[var(--err)]" aria-hidden="true">*</span>}
       </label>
       {children}
-      {hint && !error && <p id={`${id}-hint`} className="mt-1 text-xs text-slate-500">{hint}</p>}
-      {error && <p id={`${id}-err`} role="alert" className="mt-1 text-xs text-red-600">{error}</p>}
+      {hint && !error && <p id={`${id}-hint`} className="mt-1.5 text-xs text-[var(--text-2)]">{hint}</p>}
+      {error && <p id={`${id}-err`} role="alert" className="field-error">{error}</p>}
     </div>
   );
 }
@@ -82,6 +82,7 @@ export default function Apply() {
     try {
       const res = await submitRpc('submit_admission', f);
       setAppNo(res.application_no ?? null);
+      if (res.application_no) saveTracking('app', res.application_no);
     } catch (e) {
       setSubmitError((e as Error).message);
     } finally {
@@ -98,13 +99,13 @@ export default function Apply() {
       <>
         <PageHeader title="Application Submitted" />
         <Section>
-          <div className="mx-auto max-w-xl rounded border border-slate-200 p-8 text-center">
-            <CheckCircle2 className="mx-auto h-10 w-10 text-green-600" aria-hidden="true" />
-            <p className="mt-4 text-slate-700">Thank you. Your application has been received.</p>
-            <p className="mt-4 text-sm text-slate-500">Your application number</p>
-            <p className="font-display text-2xl font-semibold text-college-primary">{appNo}</p>
-            <p className="mt-4 text-sm text-slate-600">Please keep this number for reference. The admissions office will contact you using the phone number you provided.</p>
-            <p className="mt-3 text-sm text-slate-600">You can check your decision at any time on the <Link to={`/admissions/status?no=${encodeURIComponent(appNo)}`} className="font-medium text-college-primary hover:underline">application status page</Link> using this number and your phone number.</p>
+          <div className="surface mx-auto max-w-xl p-8 text-center shadow-card sm:p-10">
+            <CheckCircle2 className="mx-auto h-12 w-12 text-[var(--ok)]" aria-hidden="true" />
+            <p className="mt-4 text-lg font-medium text-[var(--text)]">Thank you. Your application has been received.</p>
+            <p className="eyebrow mt-6">Your application number</p>
+            <p className="mt-1 select-all font-display text-3xl font-bold tabular-nums text-college-primary">{appNo}</p>
+            <p className="mt-4 text-sm text-[var(--text-2)]">Please keep this number for reference. The admissions office will contact you using the phone number you provided.</p>
+            <p className="mt-3 text-sm text-[var(--text-2)]">You can check your decision at any time on the <Link to={`/admissions/status?no=${encodeURIComponent(appNo)}`} className="font-medium text-college-primary hover:underline underline-offset-4">application status page</Link> using this number and your phone number.</p>
             <div className="mt-6 flex justify-center gap-3 print:hidden">
               <button onClick={() => window.print()} className={btnSecondary}>Print</button>
               <Link to="/" className={btnPrimary}>Back to Home</Link>
@@ -115,12 +116,12 @@ export default function Apply() {
     );
   }
 
-  const fieldset = 'rounded border border-slate-200 p-5 sm:p-6';
-  const legend = 'px-1 font-display text-lg font-semibold text-college-primary';
+  const fieldset = 'surface p-5 sm:p-8';
+  const legend = 'px-1 font-display text-h3 text-college-primary';
 
   return (
     <>
-      <PageHeader title="Apply for Admission" subtitle="Fields marked * are required." />
+      <PageHeader title="Apply for Admission" subtitle="Fields marked * are required." parent={{ label: 'Admissions', to: '/admissions' }} />
       <Section>
         <form onSubmit={onSubmit} noValidate className="mx-auto max-w-3xl space-y-6">
           {/* honeypot: hidden from people, left empty */}
@@ -128,7 +129,7 @@ export default function Apply() {
 
           <fieldset className={fieldset}>
             <legend className={legend}>Applicant Information</legend>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field id="full_name" label="Full name" required error={errors.full_name}><input {...p('full_name')} autoComplete="name" /></Field>
               <Field id="father_name" label="Father's / guardian's name" required error={errors.father_name}><input {...p('father_name')} /></Field>
               <Field id="date_of_birth" label="Date of birth" required error={errors.date_of_birth}><input type="date" {...p('date_of_birth')} autoComplete="bday" /></Field>
@@ -143,7 +144,7 @@ export default function Apply() {
 
           <fieldset className={fieldset}>
             <legend className={legend}>Academic Information</legend>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field id="previous_institution" label="Previous institution"><input {...p('previous_institution')} /></Field>
               <Field id="previous_class" label="Previous class / qualification"><input {...p('previous_class')} /></Field>
               <Field id="percentage" label="Marks (percentage)" error={errors.percentage} hint="Between 0 and 100"><input type="number" step="0.01" min="0" max="100" {...p('percentage')} /></Field>
@@ -154,7 +155,7 @@ export default function Apply() {
 
           <fieldset className={fieldset}>
             <legend className={legend}>Program</legend>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field id="program_applied" label="Applying for" required error={errors.program_applied}>
                 {programs.data?.length ? (
                   <select {...p('program_applied')}><option value="">Select a program</option>{programs.data.map((x) => <option key={x.id}>{x.name}</option>)}</select>
@@ -168,16 +169,16 @@ export default function Apply() {
 
           <fieldset className={fieldset}>
             <legend className={legend}>Guardian Information</legend>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               <Field id="guardian_name" label="Guardian name" required error={errors.guardian_name}><input {...p('guardian_name')} /></Field>
               <Field id="guardian_relationship" label="Relationship" required error={errors.guardian_relationship}><input {...p('guardian_relationship')} /></Field>
               <Field id="guardian_phone" label="Guardian contact number" required error={errors.guardian_phone}><input type="tel" {...p('guardian_phone')} /></Field>
             </div>
           </fieldset>
 
-          {submitError && <div role="alert" className="rounded border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{submitError}</div>}
+          {submitError && <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{submitError}</div>}
 
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-wrap items-center justify-end gap-3">
             <Link to="/admissions" className={btnSecondary}>Cancel</Link>
             <button type="submit" disabled={busy} className={btnPrimary}>{busy ? 'Submitting…' : 'Submit Application'}</button>
           </div>

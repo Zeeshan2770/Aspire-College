@@ -246,7 +246,7 @@ export default function CrReports() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {loading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -256,7 +256,7 @@ export default function CrReports() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Reports</h1>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Reports</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -317,7 +317,7 @@ export default function CrReports() {
             </div>
           )}
         </div>
-        <p className="mt-2 text-xs text-slate-400">
+        <p className="mt-2 text-xs text-slate-500">
           {period === 'day'
             ? 'Prints exactly what was recorded for the selected day — Present/Absent per student, no totals.'
             : 'Prints each student\'s full attendance record across every day recorded so far.'}

@@ -111,7 +111,7 @@ export default function TakeAttendance() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {assignmentLoading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -121,7 +121,7 @@ export default function TakeAttendance() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Take Attendance</h1>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Take Attendance</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -133,14 +133,14 @@ export default function TakeAttendance() {
         <div className="w-full flex-1 sm:max-w-xs">
           <Label>Search Student</Label>
           <div className="relative">
-            <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <Input className="pl-9" placeholder="Name or roll number…" value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
         </div>
       </Card>
 
       {!loaded ? (
-        <Card className="p-8 text-center text-slate-400">Loading…</Card>
+        <Card className="p-8 text-center text-slate-500">Loading…</Card>
       ) : alreadyTaken ? (
         <Card className="p-8 text-center text-amber-600">Attendance for today has already been recorded.</Card>
       ) : (
@@ -170,7 +170,7 @@ export default function TakeAttendance() {
               <div key={s.id} className="flex items-center justify-between gap-4 px-4 py-3">
                 <div>
                   <p className="text-sm font-semibold text-ink-900">{s.full_name}</p>
-                  <p className="text-xs text-slate-400">Roll #{s.roll_number}</p>
+                  <p className="text-xs text-slate-500">Roll #{s.roll_number}</p>
                 </div>
                 <div className="flex gap-1.5">
                   {(Object.keys(STATUS_CONFIG) as AttendanceStatus[]).map((st) => {
@@ -194,7 +194,7 @@ export default function TakeAttendance() {
               </div>
             ))}
             {!filteredStudents.length && (
-              <div className="px-4 py-10 text-center text-slate-400">
+              <div className="px-4 py-10 text-center text-slate-500">
                 {students.length ? 'No students match your search.' : 'No active students in this section.'}
               </div>
             )}
@@ -213,7 +213,7 @@ export default function TakeAttendance() {
             <span className="rounded-lg bg-red-50 px-2.5 py-1 text-red-700">Absent: {absentCount}</span>
             {notMarkedCount > 0 && <span className="rounded-lg bg-amber-50 px-2.5 py-1 text-amber-700">Not Marked: {notMarkedCount}</span>}
           </div>
-          <p className="text-xs text-slate-400">This cannot be changed by re-submitting — double-check the class, section, and date above.</p>
+          <p className="text-xs text-slate-500">This cannot be changed by re-submitting — double-check the class, section, and date above.</p>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="secondary" onClick={() => setConfirmOpen(false)}>Cancel</Button>
             <Button onClick={doSave} disabled={saving}>{saving ? 'Saving…' : 'Confirm & Submit'}</Button>

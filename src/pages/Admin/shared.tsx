@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowUp, ImagePlus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, ImagePlus, Link2, Play, Trash2 } from 'lucide-react';
+import { parseVideo } from '@/lib/video';
 import toast from 'react-hot-toast';
 import { Button, Label, Spinner } from '@/components/ui';
 import { MAX_PHOTOS, SiteImage, listSiteImages, uploadSiteImage, ImageOwner } from '@/services/website';
@@ -75,7 +76,7 @@ export function ImageField({ label, value, folder, onChange, disabled, hint }: {
         {value ? (
           <img src={value} alt="" className="h-16 w-16 rounded-lg border border-slate-200 object-cover" />
         ) : (
-          <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-slate-300 text-xs text-slate-400">None</div>
+          <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-slate-300 text-xs text-slate-500">None</div>
         )}
         <input ref={ref} type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" id={`img-${folder}-${label}`} disabled={disabled || busy} onChange={(e) => pick(e.target.files?.[0])} />
         <label htmlFor={`img-${folder}-${label}`} className={`cursor-pointer rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 ${disabled || busy ? 'pointer-events-none opacity-50' : ''}`}>
@@ -96,7 +97,18 @@ export function MultiImageField({ label, images, onChange, folder, disabled, hin
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState('');
+  const [videoErr, setVideoErr] = useState<string | null>(null);
   const room = MAX_PHOTOS - images.length;
+
+  function addVideo() {
+    const u = videoUrl.trim();
+    if (!parseVideo(u)) { setVideoErr('Paste the full video link (YouTube, Vimeo, Facebook, Instagram or TikTok). For TikTok, open the video and copy the address from the browser, not a short share link.'); return; }
+    if (images.some((x) => x.url === u)) { setVideoErr('This video is already added.'); return; }
+    if (room <= 0) { setVideoErr(`Up to ${MAX_PHOTOS} items are allowed.`); return; }
+    onChange([...images, { url: u, caption: '' }]);
+    setVideoUrl(''); setVideoErr(null);
+  }
 
   async function pick(files: FileList | null) {
     if (!files?.length) return;
@@ -124,12 +136,19 @@ export function MultiImageField({ label, images, onChange, folder, disabled, hin
   };
 
   return (
-    <Field label={label} hint={hint ?? `JPG, PNG or WebP, up to 2 MB each. Up to ${MAX_PHOTOS} photographs; you can select several files at once.`}>
+    <Field label={label} hint={hint ?? `JPG, PNG or WebP, up to 2 MB each. Up to ${MAX_PHOTOS} photographs and videos in total; you can select several files at once.`}>
       {images.length > 0 && (
         <ul className="mb-3 grid gap-3 sm:grid-cols-2">
           {images.map((im, i) => (
             <li key={im.url} className="flex gap-3 rounded-xl border border-slate-200 p-2">
-              <img src={im.url} alt="" className="h-20 w-20 shrink-0 rounded-lg object-cover" />
+              {parseVideo(im.url) ? (
+                <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-900 text-white">
+                  {parseVideo(im.url)!.thumb && <img src={parseVideo(im.url)!.thumb!} alt="" className="absolute inset-0 h-full w-full object-cover opacity-80" />}
+                  <Play size={20} className="relative fill-current" aria-label="Video" />
+                </div>
+              ) : (
+                <img src={im.url} alt="" className="h-20 w-20 shrink-0 rounded-lg object-cover" />
+              )}
               <div className="min-w-0 flex-1">
                 <input aria-label={`Caption for photograph ${i + 1}`} placeholder="Caption (optional)" maxLength={200} disabled={disabled}
                   value={im.caption} onChange={(e) => onChange(images.map((x, k) => (k === i ? { ...x, caption: e.target.value } : x)))}
@@ -139,7 +158,7 @@ export function MultiImageField({ label, images, onChange, folder, disabled, hin
                     <button type="button" aria-label={`Move photograph ${i + 1} earlier`} disabled={i === 0} onClick={() => move(i, -1)} className="rounded p-1 hover:bg-slate-100 disabled:opacity-30"><ArrowUp size={14} /></button>
                     <button type="button" aria-label={`Move photograph ${i + 1} later`} disabled={i === images.length - 1} onClick={() => move(i, 1)} className="rounded p-1 hover:bg-slate-100 disabled:opacity-30"><ArrowDown size={14} /></button>
                     <button type="button" aria-label={`Remove photograph ${i + 1}`} onClick={() => onChange(images.filter((_, k) => k !== i))} className="rounded p-1 hover:bg-red-50 hover:text-red-600"><Trash2 size={14} /></button>
-                    <span className="ml-auto text-xs text-slate-400">#{i + 1}</span>
+                    <span className="ml-auto text-xs text-slate-500">#{i + 1}</span>
                   </div>
                 )}
               </div>
@@ -151,6 +170,18 @@ export function MultiImageField({ label, images, onChange, folder, disabled, hin
       <label htmlFor={`imgs-${folder}-${label}`} className={`inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 ${disabled || busy || room <= 0 ? 'pointer-events-none opacity-50' : ''}`}>
         {busy ? <><Spinner className="inline-block h-4 w-4" /> {busy}</> : <><ImagePlus size={16} /> {images.length ? 'Add more photographs' : 'Add photographs'}</>}
       </label>
+      {!disabled && (
+        <div className="mt-4 rounded-xl border border-dashed border-slate-300 p-3">
+          <label htmlFor={`vid-${folder}-${label}`} className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[var(--text-2)]"><Link2 size={14} /> Add a video link</label>
+          <div className="flex flex-wrap gap-2">
+            <input id={`vid-${folder}-${label}`} value={videoUrl} onChange={(e) => { setVideoUrl(e.target.value); setVideoErr(null); }} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addVideo(); } }}
+              placeholder="https://www.youtube.com/watch?v=…" maxLength={500} aria-invalid={!!videoErr}
+              className="min-w-0 flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/20" />
+            <Button type="button" variant="secondary" size="sm" onClick={addVideo}>Add video</Button>
+          </div>
+          {videoErr ? <p role="alert" className="mt-1.5 text-xs font-medium text-red-700">{videoErr}</p> : <p className="mt-1.5 text-xs text-slate-500">YouTube, Vimeo, Facebook, Instagram or TikTok. The video plays on the website; nothing is uploaded.</p>}
+        </div>
+      )}
     </Field>
   );
 }

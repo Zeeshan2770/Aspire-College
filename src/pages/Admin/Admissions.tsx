@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { Mail, MessageCircle, Search, Smartphone } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Badge, Button, Card, Input, Label, Modal, Select, Spinner } from '@/components/ui';
+import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { usePermissions } from '@/hooks/usePermissions';
 import QueriesPanel from './QueriesPanel';
@@ -35,11 +36,21 @@ function Pager({ page, total, onPage }: { page: number; total: number; onPage: (
   );
 }
 
+/** Link to the Message Center, prefilled from the application. */
+function messageLink(app: Admission, channel: 'email' | 'whatsapp' | 'sms') {
+  const template = app.status === 'ACCEPTED' ? 'adm-accepted' : app.status === 'REJECTED' ? 'adm-declined' : app.status === 'UNDER_REVIEW' ? 'adm-review' : 'adm-received';
+  const q = new URLSearchParams({
+    template, channel, to: channel === 'email' ? (app.email ?? '') : app.phone,
+    name: app.full_name, application_no: app.application_no, program: app.program_applied,
+  });
+  return `/admin/messages?${q.toString()}`;
+}
+
 function Detail({ k, v }: { k: string; v?: string | number | null }) {
   return (
     <div>
       <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{k}</dt>
-      <dd className="mt-0.5 text-sm text-slate-800">{v === null || v === undefined || v === '' ? <span className="text-slate-400">Not provided</span> : v}</dd>
+      <dd className="mt-0.5 text-sm text-slate-800">{v === null || v === undefined || v === '' ? <span className="text-slate-500">Not provided</span> : v}</dd>
     </div>
   );
 }
@@ -56,6 +67,15 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
   const [busy, setBusy] = useState(false);
   const [studentOpen, setStudentOpen] = useState(false);
   const locked = !!app.student_id;
+
+  const [autoSending, setAutoSending] = useState(false);
+  async function sendAutoEmail() {
+    setAutoSending(true);
+    const { data, error } = await supabase.functions.invoke('notify-applicant', { body: { application_id: app.id } });
+    setAutoSending(false);
+    if (error || data?.error) toast.error(data?.error ?? 'Automatic email is not set up yet. Use the Email button to send it by hand.');
+    else toast.success('Email sent to the applicant.');
+  }
 
   const loadNotes = useCallback(() => {
     listAdmissionNotes(app.id).then(setNotes).catch(() => toast.error('Unable to load notes.'));
@@ -105,6 +125,22 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
             <Badge tone={TONE[app.status]}>{label(app.status)}</Badge>
             <span className="text-xs text-slate-500">Submitted {dt(app.created_at)}{app.reviewed_at ? ` · Last reviewed ${dt(app.reviewed_at)}` : ''}</span>
           </div>
+
+          <section className="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+            <h4 className="text-sm font-bold text-slate-700">Send a message to the applicant</h4>
+            <p className="mt-0.5 text-xs text-slate-500">Opens the Message Center with this applicant's details already filled in. A template matching the current status is chosen for you.</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {([['whatsapp', 'WhatsApp', MessageCircle], ['sms', 'SMS', Smartphone]] as const).map(([ch, lbl, Icon]) => (
+                <Link key={ch} to={messageLink(app, ch)} className="inline-flex items-center gap-2 rounded-full border border-[#CBD5E4] bg-white px-4 py-2 text-sm font-semibold text-[#41516B] hover:border-[#AEBBD0]"><Icon size={16} /> {lbl}</Link>
+              ))}
+              {app.email && (
+                <Button size="sm" variant="secondary" disabled={autoSending} onClick={sendAutoEmail}>
+                  <Mail size={16} /> {autoSending ? 'Sending…' : 'Email automatically'}
+                </Button>
+              )}
+              {app.email && <Link to={messageLink(app, 'email')} className="inline-flex items-center gap-2 rounded-full border border-[#CBD5E4] bg-white px-4 py-2 text-sm font-semibold text-[#41516B] hover:border-[#AEBBD0]"><Mail size={16} /> Email</Link>}
+            </div>
+          </section>
 
           <section>
             <h4 className="mb-2 text-sm font-bold text-slate-700">Applicant</h4>
@@ -197,7 +233,7 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
 
           <section>
             <h4 className="mb-2 text-sm font-bold text-slate-700">Notes and history</h4>
-            {!notes.length ? <p className="text-sm text-slate-400">No notes yet.</p> : (
+            {!notes.length ? <p className="text-sm text-slate-500">No notes yet.</p> : (
               <ul className="space-y-3">
                 {notes.map((n) => (
                   <li key={n.id} className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
@@ -310,7 +346,7 @@ function Applications({ canManage, canCreateStudent }: { canManage: boolean; can
       <Card>
         <div className="flex flex-wrap gap-3 border-b border-slate-100 p-4">
           <div className="relative min-w-[220px] flex-1">
-            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" aria-hidden="true" />
+            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-500" aria-hidden="true" />
             <Input className="pl-9" placeholder="Search by name, application number or phone" aria-label="Search applications" value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
           <div className="w-48">
@@ -325,7 +361,7 @@ function Applications({ canManage, canCreateStudent }: { canManage: boolean; can
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[36rem] text-sm">
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
                 <tr><th className="px-4 py-3">Application</th><th className="px-4 py-3">Applicant</th><th className="px-4 py-3">Program</th><th className="px-4 py-3">Submitted</th><th className="px-4 py-3">Status</th></tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -339,7 +375,7 @@ function Applications({ canManage, canCreateStudent }: { canManage: boolean; can
                   </tr>
                 ))}
                 {loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-                {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">{debounced || status ? 'No applications match your search.' : 'No applications have been submitted yet.'}</td></tr>}
+                {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">{debounced || status ? 'No applications match your search.' : 'No applications have been submitted yet.'}</td></tr>}
               </tbody>
             </table>
           </div>
@@ -387,7 +423,7 @@ function Inquiries({ canManage, onUnread }: { canManage: boolean; onUnread: (n: 
       ) : loading && !rows.length ? (
         <div className="flex justify-center py-10"><Spinner /></div>
       ) : !rows.length ? (
-        <p className="px-4 py-10 text-center text-sm text-slate-400">No messages have been received yet.</p>
+        <p className="px-4 py-10 text-center text-sm text-slate-500">No messages have been received yet.</p>
       ) : (
         <ul className="divide-y divide-slate-100">
           {rows.map((m) => {
@@ -409,6 +445,12 @@ function Inquiries({ canManage, onUnread }: { canManage: boolean; onUnread: (n: 
                       {m.email && <>Email: <a className="text-brand-700 hover:underline" href={`mailto:${m.email}`}>{m.email}</a> </>}
                       {m.phone && <>Phone: <a className="text-brand-700 hover:underline" href={`tel:${m.phone}`}>{m.phone}</a></>}
                     </p>
+                    {(m.email || m.phone) && (
+                      <Link className="mt-3 mr-2 inline-flex items-center gap-2 rounded-full border border-[#CBD5E4] bg-white px-4 py-2 text-sm font-semibold text-[#41516B] hover:border-[#AEBBD0]"
+                        to={`/admin/messages?${new URLSearchParams({ template: 'contact-reply', channel: m.email ? 'email' : 'whatsapp', to: m.email ?? m.phone ?? '', name: m.name, subject: m.subject ?? 'your message' }).toString()}`}>
+                        <Mail size={16} /> Reply by message
+                      </Link>
+                    )}
                     {canManage && m.is_read && <Button className="mt-3" size="sm" variant="secondary" onClick={() => toggleRead(m, false)}>Mark as unread</Button>}
                   </div>
                 )}
@@ -442,8 +484,8 @@ export default function AdmissionsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Admissions</h1>
-        <p className="text-sm text-slate-500">Applications, contact-form messages and questions from the public website.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Admissions</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Applications, contact-form messages and questions from the public website.</p>
       </div>
 
       {loading ? (

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
 import { EventItem, NewsItem, fetchEvents, fetchNews, fetchSiteImages } from '../api';
 import { PhotoGallery } from '../PhotoGallery';
+import { TextVideos } from '@/components/VideoEmbed';
 import { useAsync } from '../useAsync';
 import { PageHeader, Photo, Section, StateBox, fmtDate } from '../components';
 
@@ -38,7 +39,7 @@ function NewsList() {
     <div>
       <div className="mb-6 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
         {['', ...cats].map((c) => (
-          <button key={c || 'all'} onClick={() => setCat(c)} aria-pressed={cat === c} className={`rounded border px-3 py-1.5 text-sm ${cat === c ? 'border-college-primary bg-college-primary text-white' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+          <button key={c || 'all'} onClick={() => setCat(c)} aria-pressed={cat === c} className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${cat === c ? 'border-transparent bg-college-primary text-white' : 'border-[#CBD5E4] bg-white text-[#41516B] hover:border-[#AEBBD0]'}`}>
             {c || 'All'}
           </button>
         ))}
@@ -48,19 +49,20 @@ function NewsList() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((n) => (
-            <Link key={n.id} to={`/news/${n.id}`} className="group block overflow-hidden rounded border border-slate-200 hover:border-slate-300">
-              <Photo src={n.image_url} alt="" className="aspect-[16/9] w-full" label="Image" />
-              <div className="p-4">
-                <p className="text-xs text-slate-500">{fmtDate(n.published_at)} · {n.category}</p>
-                <h3 className="mt-1 font-medium text-college-primary group-hover:underline">{n.title}</h3>
-                {n.summary && <p className="mt-1 line-clamp-3 text-sm text-slate-600">{n.summary}</p>}
+            <Link key={n.id} to={`/news/${n.id}`} className="surface surface-hover reveal group flex flex-col overflow-hidden">
+              <div className="overflow-hidden"><Photo src={n.image_url} alt="" className="aspect-[16/8] w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]" label="Image" /></div>
+              <div className="flex flex-1 flex-col p-5">
+                <p className="text-xs font-semibold uppercase tracking-[.1em] text-[rgb(var(--c-accent))]">{n.category}</p>
+                <h3 className="mt-2 font-display text-lg font-bold leading-snug text-college-primary group-hover:underline underline-offset-4">{n.title}</h3>
+                {n.summary && <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[var(--text-2)]">{n.summary}</p>}
+                <p className="mt-auto pt-4 text-xs text-[var(--text-2)]">{fmtDate(n.published_at)}</p>
               </div>
             </Link>
           ))}
         </div>
       )}
       {loading && <StateBox kind="loading" />}
-      {more && !loading && <div className="mt-8 text-center"><button onClick={() => load(items.length, false)} className="rounded border border-college-primary px-5 py-2 text-sm font-semibold text-college-primary hover:bg-college-primary/5">Load more</button></div>}
+      {more && !loading && <div className="mt-8 text-center"><button onClick={() => load(items.length, false)} className="btn btn-secondary">Load more</button></div>}
     </div>
   );
 }
@@ -70,14 +72,18 @@ function EventRow({ e }: { e: EventItem }) {
   const photos = useAsync(() => (show ? fetchSiteImages('event', e.id) : Promise.resolve([])), [show, e.id]);
   const all = [...(e.image_url ? [{ url: e.image_url, caption: null }] : []), ...(photos.data ?? []).filter((p) => p.url !== e.image_url)];
   return (
-    <li className="flex gap-4 rounded border border-slate-200 p-4">
-      <Calendar className="mt-0.5 h-5 w-5 shrink-0 text-college-accent" aria-hidden="true" />
-      <div>
-        <p className="font-medium text-college-primary">{e.title}</p>
-        <p className="text-sm text-slate-500">{fmtDate(e.starts_at)}{e.ends_at ? ` – ${fmtDate(e.ends_at)}` : ''}{e.location ? ` · ${e.location}` : ''}</p>
-        {e.description && <p className="mt-1 text-sm text-slate-600">{e.description}</p>}
-        <button type="button" aria-expanded={show} onClick={() => setShow((v) => !v)} className="mt-2 text-sm font-medium text-college-primary hover:underline">{show ? 'Hide photographs' : 'View photographs'}</button>
-        {show && <div className="mt-3">{photos.loading ? <StateBox kind="loading" /> : all.length ? <PhotoGallery images={all} /> : <p className="text-sm text-slate-500">No photographs have been added for this event.</p>}</div>}
+    <li className="surface flex gap-4 p-5">
+      <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-lg bg-college-primary text-white" aria-hidden="true">
+        <span className="font-display text-xl font-bold leading-none">{new Date(e.starts_at).getDate()}</span>
+        <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/75">{new Date(e.starts_at).toLocaleString('en-GB', { month: 'short' })}</span>
+      </div>
+      <div className="min-w-0">
+        <p className="font-display font-bold text-college-primary">{e.title}</p>
+        <p className="text-sm text-[var(--text-2)]">{fmtDate(e.starts_at)}{e.ends_at ? ` – ${fmtDate(e.ends_at)}` : ''}{e.location ? ` · ${e.location}` : ''}</p>
+        {e.description && <p className="mt-1.5 text-sm leading-relaxed text-[var(--text-2)]">{e.description}</p>}
+        <TextVideos text={e.description} className="mt-3 max-w-xl" />
+        <button type="button" aria-expanded={show} onClick={() => setShow((v) => !v)} className="mt-3 text-sm font-semibold text-college-primary underline-offset-4 hover:underline">{show ? 'Hide photographs & videos' : 'View photographs & videos'}</button>
+        {show && <div className="mt-3">{photos.loading ? <StateBox kind="loading" /> : all.length ? <PhotoGallery images={all} /> : <p className="text-sm text-[var(--text-2)]">No photographs or videos have been added for this event.</p>}</div>}
       </div>
     </li>
   );
@@ -93,8 +99,8 @@ function Events() {
   const past = data.filter((e) => +new Date(e.starts_at) < today);
   return (
     <div className="space-y-8">
-      {upcoming.length > 0 && (<div><h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">Upcoming</h3><ul className="space-y-3">{upcoming.map((e) => <EventRow key={e.id} e={e} />)}</ul></div>)}
-      {past.length > 0 && (<div><h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">Past events</h3><ul className="space-y-3">{past.map((e) => <EventRow key={e.id} e={e} />)}</ul></div>)}
+      {upcoming.length > 0 && (<div><h3 className="eyebrow mb-4">Upcoming</h3><ul className="space-y-3">{upcoming.map((e) => <EventRow key={e.id} e={e} />)}</ul></div>)}
+      {past.length > 0 && (<div><h3 className="eyebrow mb-4">Past events</h3><ul className="space-y-3">{past.map((e) => <EventRow key={e.id} e={e} />)}</ul></div>)}
     </div>
   );
 }
@@ -103,11 +109,11 @@ export default function News() {
   const [tab, setTab] = useState<'news' | 'events'>('news');
   return (
     <>
-      <PageHeader title="News & Events" subtitle="Announcements and activities from the college." />
+      <PageHeader title="News & Events" subtitle="Announcements and activities from the college." eyebrow="Stay informed" />
       <Section>
-        <div className="mb-8 flex gap-6 border-b border-slate-200" role="tablist">
+        <div className="mb-10 flex gap-8 border-b border-[var(--border)]" role="tablist">
           {(['news', 'events'] as const).map((t) => (
-            <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className={`-mb-px border-b-2 px-1 pb-3 text-sm font-semibold ${tab === t ? 'border-college-accent text-college-primary' : 'border-transparent text-slate-500 hover:text-slate-800'}`}>
+            <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className={`-mb-px min-h-[2.75rem] border-b-2 px-1 pb-3 text-[0.95rem] font-semibold transition-colors ${tab === t ? 'border-[rgb(var(--c-accent))] text-college-primary' : 'border-transparent text-[var(--text-2)] hover:text-college-primary'}`}>
               {t === 'news' ? 'News' : 'Events'}
             </button>
           ))}

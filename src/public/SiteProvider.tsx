@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import { ContentMap, SiteSettings, fetchSiteContent, fetchSiteSettings } from './api';
 
-// Neutral placeholder palette. Replace from Settings once the official colors are provided.
-const DEFAULTS = { primary: '#1F3A5F', secondary: '#3B4A5C', accent: '#A67C2E' };
-export const TBP = '[TO BE PROVIDED]';
+// Default palette (deep navy + blue). Colors saved in Website & Branding settings always override these.
+const DEFAULTS = { primary: '#172747', secondary: '#26385C', accent: '#246BFD' };
+export const TBP = 'Coming soon';
 
 function hexToTriplet(hex: string | null | undefined, fallback: string): string {
   const h = /^#[0-9A-Fa-f]{6}$/.test(hex ?? '') ? (hex as string) : fallback;

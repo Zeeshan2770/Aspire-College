@@ -125,8 +125,8 @@ export default function FacultyPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Faculty</h1>
-          <p className="text-sm text-slate-500">Teaching staff. Active faculty marked public appear on the college website.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Faculty</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Teaching staff. Active faculty marked public appear on the college website.</p>
         </div>
         {canEdit && <Button onClick={() => setEditing('new')}><Plus size={16} /> Add faculty</Button>}
       </div>
@@ -137,7 +137,7 @@ export default function FacultyPage() {
           <Card>
             <div className="flex flex-wrap gap-3 border-b border-slate-100 p-4">
               <div className="relative min-w-[220px] flex-1">
-                <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" aria-hidden="true" />
+                <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-500" aria-hidden="true" />
                 <Input className="pl-9" aria-label="Search faculty" placeholder="Search by name, subject or designation" value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} />
               </div>
               <div className="w-48"><Select aria-label="Department" value={dept} onChange={(e) => { setDept(e.target.value); setPage(1); }}><option value="">All departments</option>{depts.map((d) => <option key={d}>{d}</option>)}</Select></div>
@@ -146,7 +146,7 @@ export default function FacultyPage() {
             {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[36rem] text-sm">
-                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
                     <tr><th className="px-4 py-3">Name</th><th className="px-4 py-3">Designation</th><th className="px-4 py-3">Department / Subject</th><th className="px-4 py-3">Website</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -166,7 +166,7 @@ export default function FacultyPage() {
                       </tr>
                     ))}
                     {loading && !rows.length && <tr><td colSpan={6} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-                    {!loading && !pageRows.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">{rows.length ? 'No faculty match your search.' : 'No faculty have been added yet.'}</td></tr>}
+                    {!loading && !pageRows.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-500">{rows.length ? 'No faculty match your search.' : 'No faculty have been added yet.'}</td></tr>}
                   </tbody>
                 </table>
               </div>

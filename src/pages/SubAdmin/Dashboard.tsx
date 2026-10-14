@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Users, GraduationCap, ClipboardList, MessageSquareWarning } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, StatCard } from '@/components/ui';
+import { Card, StatCard, StatSkeletons } from '@/components/ui';
 import CollegeSnapshot from '@/components/dashboard/CollegeSnapshot';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -26,11 +26,11 @@ export default function SubAdminDashboard() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
-        <p className="text-sm text-slate-500">Sub Super Admin — manage students, classes, and CRs within your permissions.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Sub Super Admin — manage students, classes, and CRs within your permissions.</p>
       </div>
       {!stats ? (
-        <Card className="p-8 text-center text-slate-400">Loading dashboard…</Card>
+        <StatSkeletons />
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <StatCard label="Total Students" value={stats.students} icon={<Users size={20} />} />

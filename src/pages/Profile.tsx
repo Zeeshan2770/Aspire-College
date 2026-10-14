@@ -74,8 +74,8 @@ export default function ProfilePage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Profile</h1>
-        <p className="text-sm text-slate-500">Your name, picture, email, and mobile number as they appear across the app.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">My Profile</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Your name, picture, email, and mobile number as they appear across the app.</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -95,9 +95,9 @@ export default function ProfilePage() {
               </label>
             </div>
             <p className="mt-4 text-lg font-bold text-ink-900">{profile.full_name}</p>
-            <p className="text-sm text-slate-400">{profile.email}</p>
+            <p className="text-sm text-slate-500">{profile.email}</p>
             <Badge tone="blue">{profile.role.replace(/_/g, ' ')}</Badge>
-            <p className="mt-3 text-xs text-slate-400">Click the camera icon to change your profile picture (max 3 MB).</p>
+            <p className="mt-3 text-xs text-slate-500">Click the camera icon to change your profile picture (max 3 MB).</p>
           </div>
         </Card>
 
@@ -107,12 +107,12 @@ export default function ProfilePage() {
             <div>
               <Label>Full Name</Label>
               <Input value={fullName} onChange={(e) => setFullName(e.target.value)} />
-              <p className="mt-1 text-xs text-slate-400">This name is shown in the sidebar, header, and every report you generate.</p>
+              <p className="mt-1 text-xs text-slate-500">This name is shown in the sidebar, header, and every report you generate.</p>
             </div>
             <div>
               <Label>Email</Label>
-              <Input value={profile.email} disabled className="bg-slate-50 text-slate-400" />
-              <p className="mt-1 text-xs text-slate-400">Email cannot be changed here — contact your Main Super Admin.</p>
+              <Input value={profile.email} disabled className="bg-slate-50 text-slate-500" />
+              <p className="mt-1 text-xs text-slate-500">Email cannot be changed here — contact your Main Super Admin.</p>
             </div>
             <div>
               <Label>Mobile Number</Label>

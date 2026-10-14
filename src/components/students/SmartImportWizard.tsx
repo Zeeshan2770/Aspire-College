@@ -313,10 +313,10 @@ export function SmartImportWizard({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <div>
-            <h3 className="text-lg font-bold text-ink-900">Smart CSV Import</h3>
+            <h3 className="font-display text-lg font-bold text-ink-900">Smart CSV Import</h3>
             <p className="text-xs text-slate-500">{file?.name}</p>
           </div>
-          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-600">
             <X size={18} />
           </button>
         </div>
@@ -327,7 +327,7 @@ export function SmartImportWizard({
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-500">
               <Loader2 size={28} className="animate-spin text-brand-600" />
               <p className="text-sm font-medium">Analyzing CSV…</p>
-              <p className="text-xs text-slate-400">Detecting academic structure and matching existing students.</p>
+              <p className="text-xs text-slate-500">Detecting academic structure and matching existing students.</p>
             </div>
           )}
 
@@ -436,7 +436,7 @@ export function SmartImportWizard({
                 </div>
                 <div className="flex items-center gap-2">
                   {reanalyzing && (
-                    <span className="flex items-center gap-1.5 text-xs text-slate-400">
+                    <span className="flex items-center gap-1.5 text-xs text-slate-500">
                       <Loader2 size={13} className="animate-spin" /> Re-checking…
                     </span>
                   )}
@@ -449,14 +449,14 @@ export function SmartImportWizard({
                 </div>
               </div>
 
-              <p className="mb-2 text-xs text-slate-400">
+              <p className="mb-2 text-xs text-slate-500">
                 Name, Roll #, Class, and Section are editable directly in the table below — fix a row and it re-checks itself instantly.
               </p>
 
               {/* Row table */}
               <div className="max-h-72 overflow-auto rounded-xl border border-slate-200">
                 <table className="w-full text-xs">
-                  <thead className="sticky top-0 bg-slate-50 text-left uppercase text-slate-500">
+                  <thead className="sticky top-0 bg-[#F4F7FC] text-left text-[#5B6B83]">
                     <tr>
                       <th className="px-3 py-2">Row</th>
                       <th className="px-3 py-2">Name</th>
@@ -484,7 +484,7 @@ export function SmartImportWizard({
                     ))}
                     {!filteredRows.length && (
                       <tr>
-                        <td colSpan={6} className="px-3 py-8 text-center text-slate-400">
+                        <td colSpan={6} className="px-3 py-8 text-center text-slate-500">
                           No rows in this view.
                         </td>
                       </tr>
@@ -499,7 +499,7 @@ export function SmartImportWizard({
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-500">
               <Loader2 size={28} className="animate-spin text-brand-600" />
               <p className="text-sm font-medium">Importing students…</p>
-              <p className="text-xs text-slate-400">Creating structure and writing records in one transaction.</p>
+              <p className="text-xs text-slate-500">Creating structure and writing records in one transaction.</p>
             </div>
           )}
 
@@ -629,7 +629,7 @@ function RowLine({
 
   return (
     <tr className={row.status === 'ERROR' || row.status === 'CONFLICT' ? 'bg-red-50/50' : ''}>
-      <td className="px-3 py-2 align-top text-slate-400">{row.csvRowNumber}</td>
+      <td className="px-3 py-2 align-top text-slate-500">{row.csvRowNumber}</td>
       <td className="px-1 py-1.5 align-top">
         <input
           className={cellInputClass}
@@ -650,7 +650,7 @@ function RowLine({
       </td>
       <td className="px-1 py-1.5 align-top">
         {row.status === 'MOVED' && (
-          <div className="mb-0.5 px-1.5 text-[11px] text-slate-400 line-through">
+          <div className="mb-0.5 px-1.5 text-[11px] text-slate-500 line-through">
             {row.currentClassName} → {row.currentSectionName}
           </div>
         )}
@@ -729,7 +729,7 @@ function RowLine({
           </div>
         )}
         {needsFix && !aiSuggestion && (
-          <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-400">
+          <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-500">
             <Wand2 size={11} /> Edit the fields on the left to fix this row live.
           </p>
         )}

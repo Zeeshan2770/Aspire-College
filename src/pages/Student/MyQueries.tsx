@@ -82,13 +82,13 @@ export default function StudentMyQueries() {
         <Card className="mb-4 p-5">
           <div className="mb-2 flex items-start justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{selected.concern_type}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{selected.concern_type}</p>
               <h1 className="text-lg font-extrabold text-ink-900">{selected.short_description}</h1>
             </div>
             <Badge tone={STATUS_TONE[selected.status]}>{selected.status.replace(/_/g, ' ')}</Badge>
           </div>
           {selected.additional_notes && <p className="mt-2 text-sm text-slate-600">{selected.additional_notes}</p>}
-          <p className="mt-3 text-xs text-slate-400">Submitted {new Date(selected.created_at).toLocaleDateString()}</p>
+          <p className="mt-3 text-xs text-slate-500">Submitted {new Date(selected.created_at).toLocaleDateString()}</p>
 
           {(selected.status === 'RESOLVED' || selected.status === 'CLOSED') && (
             <Button variant="secondary" onClick={reopen} disabled={busy} className="mt-4">
@@ -97,19 +97,19 @@ export default function StudentMyQueries() {
           )}
         </Card>
 
-        <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Replies</h2>
+        <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Replies</h2>
         <Card className="mb-4 divide-y divide-slate-100">
           {comments.map((c) => (
             <div key={c.id} className="px-4 py-3">
               <p className="text-xs font-semibold text-slate-500">{c.author_role.replace(/_/g, ' ')}</p>
               <p className="text-sm text-ink-900">{c.body}</p>
-              <p className="mt-1 text-[11px] text-slate-400">{new Date(c.created_at).toLocaleString()}</p>
+              <p className="mt-1 text-[11px] text-slate-500">{new Date(c.created_at).toLocaleString()}</p>
             </div>
           ))}
           {/* Internal admin notes never appear here — the query only ever
               returns comments visible to this student (see
               concern_comments_select RLS in 0011_concerns_upgrade.sql). */}
-          {!comments.length && <div className="px-4 py-8 text-center text-slate-400">No replies yet.</div>}
+          {!comments.length && <div className="px-4 py-8 text-center text-slate-500">No replies yet.</div>}
         </Card>
 
         <Card className="p-4">
@@ -131,8 +131,8 @@ export default function StudentMyQueries() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Queries</h1>
-        <p className="text-sm text-slate-500">Only queries you've raised — never anyone else's.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">My Queries</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Only queries you've raised — never anyone else's.</p>
       </div>
 
       {loading ? (
@@ -142,14 +142,14 @@ export default function StudentMyQueries() {
           {queries.map((q) => (
             <button key={q.id} onClick={() => openQuery(q)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-slate-50">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{q.concern_type}</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{q.concern_type}</p>
                 <p className="text-sm font-medium text-ink-900">{q.short_description}</p>
-                <p className="text-xs text-slate-400">{new Date(q.created_at).toLocaleDateString()}</p>
+                <p className="text-xs text-slate-500">{new Date(q.created_at).toLocaleDateString()}</p>
               </div>
               <Badge tone={STATUS_TONE[q.status]}>{q.status.replace(/_/g, ' ')}</Badge>
             </button>
           ))}
-          {!queries.length && <div className="px-4 py-14 text-center text-slate-400">You haven't raised any queries yet.</div>}
+          {!queries.length && <div className="px-4 py-14 text-center text-slate-500">You haven't raised any queries yet.</div>}
         </Card>
       )}
     </StudentLayout>

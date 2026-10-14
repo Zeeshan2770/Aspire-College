@@ -59,7 +59,7 @@ export default function ClassAcademicsModal({ classId, className, onClose }: { c
           <section>
             <h4 className="mb-1 text-sm font-bold text-slate-700">1. Subjects of {className}</h4>
             <p className="mb-3 text-xs text-slate-500">Add the subjects first. The teacher chosen here is optional and is the default for the whole class.</p>
-            {!data.subjects.length ? <p className="mb-3 text-sm text-slate-400">No subjects have been added to this class yet.</p> : (
+            {!data.subjects.length ? <p className="mb-3 text-sm text-slate-500">No subjects have been added to this class yet.</p> : (
               <ul className="mb-3 space-y-2">
                 {data.subjects.map((cs) => (
                   <li key={cs.subject_id} className="grid items-center gap-2 sm:grid-cols-[10rem_1fr_auto]">
@@ -96,7 +96,7 @@ export default function ClassAcademicsModal({ classId, className, onClose }: { c
             <p className="mb-3 text-xs text-slate-500">
               Every section has its own teachers. Choose the class teacher (in charge), then add as many subject teachers as the section has. A subject can have more than one teacher in a section.
             </p>
-            {!data.sections.length ? <p className="text-sm text-slate-400">This class has no sections yet.</p> : (
+            {!data.sections.length ? <p className="text-sm text-slate-500">This class has no sections yet.</p> : (
               <div className="space-y-4">
                 {data.sections.map((sec) => {
                   const rows = (data.sectionTeachers ?? []).filter((r) => r.section_id === sec.id)
@@ -107,7 +107,7 @@ export default function ClassAcademicsModal({ classId, className, onClose }: { c
                     <div key={sec.id} className="rounded-xl border border-slate-200 p-3">
                       <div className="mb-3 flex items-center justify-between gap-2">
                         <h5 className="text-sm font-bold text-ink-900">Section {sec.name}</h5>
-                        <span className="text-xs text-slate-400">{rows.length} subject teacher{rows.length === 1 ? '' : 's'}</span>
+                        <span className="text-xs text-slate-500">{rows.length} subject teacher{rows.length === 1 ? '' : 's'}</span>
                       </div>
 
                       <div className="mb-3 grid items-center gap-2 sm:grid-cols-[10rem_1fr]">
@@ -126,13 +126,13 @@ export default function ClassAcademicsModal({ classId, className, onClose }: { c
                         </p>
                       ) : (
                         <>
-                          {rows.length === 0 ? <p className="mb-2 text-sm text-slate-400">No subject teachers added for this section yet.</p> : (
+                          {rows.length === 0 ? <p className="mb-2 text-sm text-slate-500">No subject teachers added for this section yet.</p> : (
                             <ul className="mb-3 divide-y divide-slate-100 rounded-lg border border-slate-100">
                               {rows.map((r) => (
                                 <li key={`${r.subject_id}-${r.faculty_id}`} className="flex items-center justify-between gap-2 px-3 py-2 text-sm">
-                                  <span><span className="font-medium text-ink-900">{subjectLabel(r.subject_id)}</span> <span className="text-slate-400">·</span> {facultyName(r.faculty_id)}</span>
+                                  <span><span className="font-medium text-ink-900">{subjectLabel(r.subject_id)}</span> <span className="text-slate-500">·</span> {facultyName(r.faculty_id)}</span>
                                   <button type="button" disabled={busy} aria-label={`Remove ${facultyName(r.faculty_id)} from ${subjectLabel(r.subject_id)} in section ${sec.name}`}
-                                    className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-600"
+                                    className="rounded p-1 text-slate-500 hover:bg-red-50 hover:text-red-600"
                                     onClick={() => run(async () => {
                                       await removeSectionTeacher(sec.id, r.subject_id, r.faculty_id);
                                       await log('Section Teacher Removed', `${className} ${sec.name}: ${subjectLabel(r.subject_id)}`, `Removed ${facultyName(r.faculty_id)} as ${subjectLabel(r.subject_id)} teacher of ${className} ${sec.name}.`);
@@ -141,7 +141,7 @@ export default function ClassAcademicsModal({ classId, className, onClose }: { c
                               ))}
                             </ul>
                           )}
-                          {!data.subjects.length ? <p className="text-xs text-slate-400">Add subjects in step 1 to assign their teachers.</p> : (
+                          {!data.subjects.length ? <p className="text-xs text-slate-500">Add subjects in step 1 to assign their teachers.</p> : (
                             <div className="grid items-end gap-2 sm:grid-cols-[1fr_1fr_auto]">
                               <div><Label>Subject</Label>
                                 <Select aria-label={`Subject for section ${sec.name}`} value={d.subject} onChange={(e) => setD({ subject: e.target.value })}>

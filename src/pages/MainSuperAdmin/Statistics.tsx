@@ -61,8 +61,8 @@ export default function StatisticsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Advanced Statistics</h1>
-          <p className="text-sm text-slate-500">Trends and comparisons across the whole system.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Advanced Statistics</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Trends and comparisons across the whole system.</p>
         </div>
         <Select className="w-44" value={range} onChange={(e) => setRange(Number(e.target.value))}>
           {RANGE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -70,13 +70,13 @@ export default function StatisticsPage() {
       </div>
 
       {loading ? (
-        <Card className="p-8 text-center text-slate-400">Crunching the numbers…</Card>
+        <Card className="p-8 text-center text-slate-500">Crunching the numbers…</Card>
       ) : (
         <div className="space-y-6">
           <Card className="p-5">
             <div className="mb-1 flex items-center gap-2">
               <TrendingUp size={16} className="text-brand-600" />
-              <h3 className="font-bold text-ink-900">Attendance Trend</h3>
+              <h3 className="font-display font-bold text-ink-900">Attendance Trend</h3>
               {trend.some((d) => d.total > 0) && (
                 <Badge tone={avgAttendance >= 75 ? 'green' : avgAttendance >= 50 ? 'amber' : 'red'}>
                   {avgAttendance}% avg present
@@ -118,7 +118,7 @@ export default function StatisticsPage() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="py-10 text-center text-sm text-slate-400">No attendance data for this period.</p>
+                <p className="py-10 text-center text-sm text-slate-500">No attendance data for this period.</p>
               )}
             </Card>
 
@@ -137,7 +137,7 @@ export default function StatisticsPage() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="py-10 text-center text-sm text-slate-400">No concerns reported in this period.</p>
+                <p className="py-10 text-center text-sm text-slate-500">No concerns reported in this period.</p>
               )}
             </Card>
           </div>
@@ -145,11 +145,11 @@ export default function StatisticsPage() {
           <Card className="overflow-hidden">
             <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-4">
               <AlertTriangle size={16} className="text-amber-500" />
-              <h3 className="font-bold text-ink-900">Students Needing Attention</h3>
-              <span className="text-xs text-slate-400">(lowest attendance, min. 3 recorded days)</span>
+              <h3 className="font-display font-bold text-ink-900">Students Needing Attention</h3>
+              <span className="text-xs text-slate-500">(lowest attendance, min. 3 recorded days)</span>
             </div>
             <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
                 <tr>
                   <th className="px-5 py-2.5">Student</th>
                   <th className="px-5 py-2.5">Class / Section</th>
@@ -160,14 +160,14 @@ export default function StatisticsPage() {
               <tbody className="divide-y divide-slate-100">
                 {absentees.map((a) => (
                   <tr key={a.studentId}>
-                    <td className="px-5 py-2.5 font-medium text-ink-900">{a.fullName} <span className="text-slate-400">#{a.rollNumber}</span></td>
+                    <td className="px-5 py-2.5 font-medium text-ink-900">{a.fullName} <span className="text-slate-500">#{a.rollNumber}</span></td>
                     <td className="px-5 py-2.5 text-slate-500">{a.className} — {a.sectionName}</td>
                     <td className="px-5 py-2.5 text-slate-500">{a.present} / {a.total}</td>
                     <td className="px-5 py-2.5"><Badge tone={a.percentage >= 50 ? 'amber' : 'red'}>{a.percentage}%</Badge></td>
                   </tr>
                 ))}
                 {!absentees.length && (
-                  <tr><td colSpan={4} className="px-5 py-10 text-center text-slate-400">No data for this period.</td></tr>
+                  <tr><td colSpan={4} className="px-5 py-10 text-center text-slate-500">No data for this period.</td></tr>
                 )}
               </tbody>
             </table></div>

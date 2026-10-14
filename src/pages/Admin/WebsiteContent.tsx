@@ -65,7 +65,7 @@ function NewsForm({ row, onClose, onSaved }: { row: NewsRow | null; onClose: () 
           />
         </Field>
         <ImageField label="Main image" value={f.image_url} folder="news" onChange={(u) => setF({ ...f, image_url: u })} hint="Shown on the news card and at the top of the article." />
-        {photos.state === 'ready' && <MultiImageField label="More photographs (optional)" folder="news" images={photos.images} onChange={photos.setImages} hint="Shown as a photo gallery under the article. Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
+        {photos.state === 'ready' && <MultiImageField label="More photographs and videos (optional)" folder="news" images={photos.images} onChange={photos.setImages} hint="Shown as a photo gallery under the article. Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
         {photos.state === 'unavailable' && <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">Extra photographs are not switched on yet. The administrator needs to run the 0024 database script once.</p>}
         <Err msg={err} />
         <div className="flex justify-end gap-2"><Button variant="secondary" onClick={onClose}>Cancel</Button><Button disabled={busy} onClick={submit}>{busy ? 'Saving…' : 'Save'}</Button></div>
@@ -101,7 +101,7 @@ function NewsTab({ canEdit }: { canEdit: boolean }) {
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
           <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Category</th><th className="px-4 py-3">Published</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
+            <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Category</th><th className="px-4 py-3">Published</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((n) => (<tr key={n.id} className="hover:bg-slate-50/60">
                 <td className="px-4 py-3 font-medium text-ink-900">{n.title}</td><td className="px-4 py-3 text-slate-600">{n.category}</td><td className="px-4 py-3 text-slate-600">{fmt(n.published_at)}</td><td className="px-4 py-3"><StatusBadge s={n.status} /></td>
@@ -111,7 +111,7 @@ function NewsTab({ canEdit }: { canEdit: boolean }) {
                   <Button size="sm" variant="ghost" aria-label={`Delete ${n.title}`} onClick={() => remove(n)}><Trash2 size={14} /></Button></td>}
               </tr>))}
               {loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No news has been added yet.</td></tr>}
+              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">No news has been added yet.</td></tr>}
             </tbody></table></div>)}
         <Pager page={page} total={total} onPage={setPage} />
       </Card>
@@ -159,7 +159,7 @@ function EventForm({ row, onClose, onSaved }: { row: EventRow | null; onClose: (
           />
         </Field>
         <ImageField label="Main image" value={f.image_url} folder="events" onChange={(u) => setF({ ...f, image_url: u })} hint="Shown on the event card." />
-        {photos.state === 'ready' && <MultiImageField label="More photographs (optional)" folder="events" images={photos.images} onChange={photos.setImages} hint="Shown as a photo gallery with the event. Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
+        {photos.state === 'ready' && <MultiImageField label="More photographs and videos (optional)" folder="events" images={photos.images} onChange={photos.setImages} hint="Shown as a photo gallery with the event. Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
         {photos.state === 'unavailable' && <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">Extra photographs are not switched on yet. The administrator needs to run the 0024 database script once.</p>}
         <Err msg={err} />
         <div className="flex justify-end gap-2"><Button variant="secondary" onClick={onClose}>Cancel</Button><Button disabled={busy} onClick={submit}>{busy ? 'Saving…' : 'Save'}</Button></div>
@@ -190,14 +190,14 @@ function EventsTab({ canEdit }: { canEdit: boolean }) {
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
           <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
+            <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]"><tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((e) => (<tr key={e.id} className="hover:bg-slate-50/60">
                 <td className="px-4 py-3 font-medium text-ink-900">{e.title}</td><td className="px-4 py-3 text-slate-600">{fmt(e.starts_at)}</td><td className="px-4 py-3 text-slate-600">{e.location ?? '–'}</td><td className="px-4 py-3"><StatusBadge s={e.status} /></td>
                 {canEdit && <td className="whitespace-nowrap px-4 py-3 text-right"><Button size="sm" variant="ghost" onClick={() => setEditing(e)}><Pencil size={14} /> Edit</Button><Button size="sm" variant="ghost" aria-label={`Delete ${e.title}`} onClick={() => remove(e)}><Trash2 size={14} /></Button></td>}
               </tr>))}
               {loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No events have been added yet.</td></tr>}
+              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">No events have been added yet.</td></tr>}
             </tbody></table></div>)}
         <Pager page={page} total={total} onPage={setPage} />
       </Card>
@@ -273,14 +273,14 @@ function ProgramsTab({ canEdit }: { canEdit: boolean }) {
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error} <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
           <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Program</th><th className="px-4 py-3">Level</th><th className="px-4 py-3">Duration</th><th className="px-4 py-3">Website</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
+            <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]"><tr><th className="px-4 py-3">Program</th><th className="px-4 py-3">Level</th><th className="px-4 py-3">Duration</th><th className="px-4 py-3">Website</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((p) => (<tr key={p.id} className="hover:bg-slate-50/60">
                 <td className="px-4 py-3 font-medium text-ink-900">{p.name}</td><td className="px-4 py-3 text-slate-600">{p.level ?? '–'}</td><td className="px-4 py-3 text-slate-600">{p.duration ?? '–'}</td><td className="px-4 py-3"><Badge tone={p.is_active ? 'green' : 'slate'}>{p.is_active ? 'Shown' : 'Hidden'}</Badge></td>
                 {canEdit && <td className="px-4 py-3 text-right"><Button size="sm" variant="ghost" onClick={() => setEditing(p)}><Pencil size={14} /> Edit</Button></td>}
               </tr>))}
               {loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No programs have been added yet.</td></tr>}
+              {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">No programs have been added yet.</td></tr>}
             </tbody></table></div>)}
       </Card>
       {editing && <ProgramForm row={editing === 'new' ? null : editing} onClose={() => setEditing(null)} onSaved={() => { setEditing(null); load(); }} />}
@@ -336,7 +336,7 @@ function SectionEditor({ def, value, canEdit, onSaved }: { def: (typeof SECTIONS
   return (
     <Card className="p-5">
       <div className="mb-3 flex items-start justify-between gap-3">
-        <div><h3 className="font-semibold text-ink-900">{def.label}</h3>{def.hint && <p className="text-xs text-slate-500">{def.hint}</p>}</div>
+        <div><h3 className="font-display font-semibold text-ink-900">{def.label}</h3>{def.hint && <p className="text-xs text-slate-500">{def.hint}</p>}</div>
         <Badge tone="slate">{def.page}</Badge>
       </div>
       {def.kind === 'list' ? (
@@ -429,7 +429,7 @@ function AlbumForm({ row, onClose, onSaved }: { row: AlbumRow | null; onClose: (
         </div>
         <Field label="Description (optional)"><textarea rows={3} maxLength={1000} className={textareaCls} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} /></Field>
         {photos.state === 'loading' && <div className="flex justify-center py-4"><Spinner /></div>}
-        {photos.state === 'ready' && <MultiImageField label="Photographs" folder="gallery" images={photos.images} onChange={photos.setImages} hint="The first photograph is the album cover. Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
+        {photos.state === 'ready' && <MultiImageField label="Photographs and videos" folder="gallery" images={photos.images} onChange={photos.setImages} hint="The first photograph is the album cover (a video's thumbnail is used if there are no photographs). Select several files at once; JPG, PNG or WebP, up to 2 MB each." />}
         {photos.state === 'unavailable' && <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">The photo tables are not set up yet. The administrator needs to run the 0024 database script once.</p>}
         <Err msg={err} />
         <div className="flex justify-end gap-2"><Button variant="secondary" onClick={onClose}>Cancel</Button><Button disabled={busy || photos.state !== 'ready'} onClick={submit}>{busy ? 'Saving…' : 'Save'}</Button></div>
@@ -465,7 +465,7 @@ function AlbumsTab({ canEdit }: { canEdit: boolean }) {
       <Card>
         {error ? <div className="p-8 text-center text-sm text-red-700" role="alert">{error.replace('Please try again.', '')} The photo tables may not be set up yet (run the 0024 database script). <button className="ml-2 underline" onClick={load}>Retry</button></div> : (
           <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3">Album</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
+            <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]"><tr><th className="px-4 py-3">Album</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Status</th>{canEdit && <th className="px-4 py-3 text-right">Actions</th>}</tr></thead>
             <tbody className="divide-y divide-slate-100">
               {rows.map((a) => (<tr key={a.id} className="hover:bg-slate-50/60">
                 <td className="px-4 py-3 font-medium text-ink-900">{a.title}</td><td className="px-4 py-3 text-slate-600">{a.event_date ? fmt(a.event_date) : '–'}</td><td className="px-4 py-3"><StatusBadge s={a.status} /></td>
@@ -475,7 +475,7 @@ function AlbumsTab({ canEdit }: { canEdit: boolean }) {
                   <Button size="sm" variant="ghost" aria-label={`Delete ${a.title}`} onClick={() => remove(a)}><Trash2 size={14} /></Button></td>}
               </tr>))}
               {loading && !rows.length && <tr><td colSpan={4} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-              {!loading && !rows.length && <tr><td colSpan={4} className="px-4 py-10 text-center text-slate-400">No albums have been added yet.</td></tr>}
+              {!loading && !rows.length && <tr><td colSpan={4} className="px-4 py-10 text-center text-slate-500">No albums have been added yet.</td></tr>}
             </tbody></table></div>)}
         <Pager page={page} total={total} onPage={setPage} />
       </Card>
@@ -497,8 +497,8 @@ export default function WebsiteContentPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Website Content</h1>
-        <p className="text-sm text-slate-500">News, events, gallery, programs and page text shown on the public college website.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Website Content</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">News, events, gallery, programs and page text shown on the public college website.</p>
       </div>
       {loading ? <div className="flex justify-center py-16"><Spinner /></div> : !canView ? <NoAccess /> : (
         <>

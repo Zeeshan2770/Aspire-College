@@ -61,8 +61,8 @@ export default function StudentProfile() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Profile</h1>
-        <p className="text-sm text-slate-500">Your academic identity — class, section, and student ID can only be changed by a Main Super Admin.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">My Profile</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Your academic identity — class, section, and student ID can only be changed by a Main Super Admin.</p>
       </div>
 
       <Card className="mb-6 p-6">
@@ -81,7 +81,7 @@ export default function StudentProfile() {
             </label>
           </div>
           <p className="mt-3 text-lg font-bold text-ink-900">{student?.full_name}</p>
-          <p className="text-sm text-slate-400">{student?.student_uid ?? '—'}</p>
+          <p className="text-sm text-slate-500">{student?.student_uid ?? '—'}</p>
         </div>
       </Card>
 

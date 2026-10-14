@@ -45,7 +45,7 @@ export class ErrorBoundary extends Component<Props, State> {
       >
         <p className="text-base font-semibold text-slate-800">{title}</p>
         <p className="max-w-md text-sm text-slate-500">{detail}</p>
-        <details className="max-w-lg text-left text-xs text-slate-400">
+        <details className="max-w-lg text-left text-xs text-slate-500">
           <summary className="cursor-pointer text-center">Technical details (send these to the developer)</summary>
           <pre className="mt-2 whitespace-pre-wrap break-words">{`Page: ${typeof window !== 'undefined' ? window.location.pathname : ''}\n${error.name}: ${error.message}\n${(error.stack ?? '').split('\n').slice(1, 4).join('\n')}`}</pre>
         </details>

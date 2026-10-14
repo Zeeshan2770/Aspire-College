@@ -29,7 +29,7 @@ export function CreditBox({ variant = 'full', className = '', collapsible = true
       return (
         <button
           onClick={() => setCollapsed(false)}
-          className={`flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white py-1.5 text-[10px] font-semibold text-slate-400 hover:bg-slate-50 ${className}`}
+          className={`flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white py-1.5 text-[10px] font-semibold text-slate-500 hover:bg-slate-50 ${className}`}
         >
           <ChevronUp size={12} /> Credit
         </button>
@@ -37,7 +37,7 @@ export function CreditBox({ variant = 'full', className = '', collapsible = true
     }
     return (
       <div
-        className={`relative rounded-xl border border-slate-200 bg-brand-900 px-3 py-2.5 text-center ${className}`}
+        className={`relative rounded-xl border border-white/10 bg-brand-950 px-3 py-2.5 text-center ${className}`}
       >
 
         {collapsible && (

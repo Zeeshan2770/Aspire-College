@@ -4,7 +4,7 @@ import { Users, GraduationCap, ClipboardList, UserCog, CalendarCheck, CheckCircl
 import toast from 'react-hot-toast';
 import { supabase } from '@/lib/supabase';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, StatCard, Button } from '@/components/ui';
+import { Card, StatCard, Button, PageHeading, SectionLabel, StatSkeletons } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
 import CollegeSnapshot from '@/components/dashboard/CollegeSnapshot';
 import { quickSystemAttendanceReport } from '@/services/reports/quickActions';
@@ -83,14 +83,11 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
-        <p className="text-sm text-slate-500">Main Super Admin — full system overview</p>
-      </div>
+      <PageHeading title={`Welcome, ${profile?.full_name ?? ''}`} description="Main Super Admin — full system overview" />
 
-      <Card className="mb-6 flex flex-wrap items-center justify-between gap-3 border-brand-100 bg-brand-50/50 p-5">
+      <Card className="relative mb-2 flex flex-wrap items-center justify-between gap-3 overflow-hidden border-brand-100 bg-gradient-to-r from-brand-50 to-white p-5 sm:p-6">
         <div>
-          <h3 className="font-bold text-ink-900">Today's Attendance Report</h3>
+          <h3 className="font-display font-bold text-ink-900">Today's Attendance Report</h3>
           <p className="mt-0.5 text-xs text-slate-500">One click — download a PDF covering every class &amp; section for today.</p>
         </div>
         <div className="flex items-center gap-2">
@@ -104,9 +101,10 @@ export default function Dashboard() {
       </Card>
 
       {!stats ? (
-        <Card className="p-8 text-center text-slate-400">Loading dashboard…</Card>
+        <StatSkeletons />
       ) : (
         <>
+          <SectionLabel>Overview</SectionLabel>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
             <StatCard label="Total Students" value={stats.students} icon={<Users size={20} />} />
             <StatCard label="Classes" value={stats.classes} icon={<GraduationCap size={20} />} tone="green" />
@@ -115,13 +113,15 @@ export default function Dashboard() {
             <StatCard label="Sub Super Admins" value={stats.subAdmins} icon={<UserCog size={20} />} tone="amber" />
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
+          <SectionLabel>Today</SectionLabel>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             <StatCard label="Today's Sessions" value={stats.todaySessions} icon={<CalendarCheck size={20} />} />
             <StatCard label="Today's Present" value={stats.todayPresent} icon={<CheckCircle2 size={20} />} tone="green" />
             <StatCard label="Today's Absent" value={stats.todayAbsent} icon={<XCircle size={20} />} tone="red" />
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
+          <SectionLabel>Concerns</SectionLabel>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             <StatCard label="Total Concerns" value={stats.concernsTotal} icon={<MessageSquareWarning size={20} />} tone="amber" />
             <StatCard label="Open Concerns" value={stats.concernsPending} icon={<MessageSquareWarning size={20} />} tone="red" />
             <StatCard label="Resolved Concerns" value={stats.concernsResolved} icon={<CheckCircle2 size={20} />} tone="green" />

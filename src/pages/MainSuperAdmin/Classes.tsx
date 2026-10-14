@@ -163,8 +163,8 @@ export default function ClassesPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Classes & Sections</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Classes & Sections</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">
             Organize the academic structure used across the system. If a CSV import doesn&rsquo;t match, rename a class
             or section here instead of deleting it &mdash; linked students stay attached automatically.
           </p>
@@ -177,11 +177,11 @@ export default function ClassesPage() {
           <Card key={c.id} className="p-4 sm:p-5">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-ink-900">{c.name}</h3>
+                <h3 className="font-display font-bold text-ink-900">{c.name}</h3>
                 <button
                   onClick={() => openEditClass(c)}
                   title="Rename class"
-                  className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-brand-600"
+                  className="rounded-lg p-1 text-slate-500 hover:bg-slate-100 hover:text-brand-600"
                 >
                   <Pencil size={13} />
                 </button>
@@ -205,12 +205,12 @@ export default function ClassesPage() {
                 </span>
               ))}
               {!sections.filter((s) => s.class_id === c.id).length && (
-                <span className="text-xs text-slate-400">No sections yet.</span>
+                <span className="text-xs text-slate-500">No sections yet.</span>
               )}
             </div>
           </Card>
         ))}
-        {!classes.length && <Card className="p-8 text-center text-slate-400">No classes yet. Add your first class to get started.</Card>}
+        {!classes.length && <Card className="p-8 text-center text-slate-500">No classes yet. Add your first class to get started.</Card>}
       </div>
 
       <Modal open={classModal.open} onClose={() => setClassModal({ open: false, mode: 'add' })} title={classModalTitle}>
@@ -223,7 +223,7 @@ export default function ClassesPage() {
           autoFocus
         />
         {classModal.mode === 'edit' && (
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-slate-500">
             This updates the name everywhere it&rsquo;s used. Students already in this class stay linked &mdash; make
             sure the new name matches what your CSV file uses in its Class column.
           </p>
@@ -243,7 +243,7 @@ export default function ClassesPage() {
           autoFocus
         />
         {sectionModal.mode === 'edit' && (
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-slate-500">
             This updates the name everywhere it&rsquo;s used. Students already in this section stay linked &mdash; make
             sure the new name matches what your CSV file uses in its Section column.
           </p>

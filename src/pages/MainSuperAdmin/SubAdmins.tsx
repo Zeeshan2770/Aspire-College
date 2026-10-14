@@ -88,8 +88,8 @@ export default function SubAdminsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Sub Super Admins</h1>
-          <p className="text-sm text-slate-500">Delegate administrative work with fine-grained permissions.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Sub Super Admins</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Delegate administrative work with fine-grained permissions.</p>
         </div>
         <Button onClick={() => setCreateOpen(true)}><Plus size={16} /> Create Sub Super Admin</Button>
       </div>
@@ -100,7 +100,7 @@ export default function SubAdminsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="font-bold text-ink-900">{a.full_name}</p>
-                <p className="text-xs text-slate-400">{a.email}{a.phone ? ` · ${a.phone}` : ''}</p>
+                <p className="text-xs text-slate-500">{a.email}{a.phone ? ` · ${a.phone}` : ''}</p>
               </div>
               <Badge tone={a.is_active ? 'green' : 'red'}>{a.is_active ? 'Active' : 'Deactivated'}</Badge>
             </div>
@@ -113,7 +113,7 @@ export default function SubAdminsPage() {
             </div>
           </Card>
         ))}
-        {!admins.length && <Card className="p-8 text-center text-slate-400 md:col-span-2">No Sub Super Admins yet.</Card>}
+        {!admins.length && <Card className="p-8 text-center text-slate-500 md:col-span-2">No Sub Super Admins yet.</Card>}
       </div>
 
       <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Create Sub Super Admin">

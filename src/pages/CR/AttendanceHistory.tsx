@@ -36,7 +36,7 @@ export default function AttendanceHistory() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {loading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -46,8 +46,8 @@ export default function AttendanceHistory() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Attendance History</h1>
-        <p className="text-sm text-slate-500">Review past attendance days for your section.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Attendance History</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Review past attendance days for your section.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -79,7 +79,7 @@ export default function AttendanceHistory() {
             )}
           </div>
         ))}
-        {!sessions.length && <div className="px-5 py-10 text-center text-slate-400">No attendance sessions yet.</div>}
+        {!sessions.length && <div className="px-5 py-10 text-center text-slate-500">No attendance sessions yet.</div>}
       </Card>
     </DashboardLayout>
   );

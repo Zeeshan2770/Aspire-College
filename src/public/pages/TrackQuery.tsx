@@ -25,30 +25,30 @@ export default function TrackQuery() {
         <div className="mx-auto max-w-xl">
           <form onSubmit={onSubmit} className="flex flex-wrap items-end gap-3">
             <div className="min-w-[220px] flex-1">
-              <label htmlFor="t-code" className="mb-1 block text-sm font-medium text-slate-700">Tracking code</label>
-              <input id="t-code" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Q-XXXXX-XXXXX" autoComplete="off" className="w-full rounded border border-slate-300 px-3 py-2 font-mono text-sm focus:border-college-primary focus:outline-none focus:ring-1 focus:ring-college-primary" />
+              <label htmlFor="t-code" className="field-label">Tracking code</label>
+              <input id="t-code" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Q-XXXXX-XXXXX" autoComplete="off" className="field font-mono" />
             </div>
             <button type="submit" disabled={busy} className={btnPrimary}>{busy ? 'Looking…' : 'Check'}</button>
           </form>
           {error && <div className="mt-4"><StateBox kind="error" message={error} /></div>}
           {result === null && <div className="mt-6"><StateBox kind="empty" message="No question was found with this code. Please check it and try again." /></div>}
           {result && (
-            <div className="mt-8 space-y-5">
-              <div className="rounded border border-slate-200 p-4">
-                <p className="text-xs text-slate-500">{result.category} · {fmtDate(result.created_at)} · <span className="font-medium text-college-primary">{statusLabel(result.status)}</span></p>
+            <div className="mt-8 space-y-5" aria-live="polite">
+              <div className="surface p-5 shadow-card">
+                <p className="text-xs text-[var(--text-2)]">{result.category} · {fmtDate(result.created_at)} · <span className="font-medium text-college-primary">{statusLabel(result.status)}</span></p>
                 <h2 className="mt-1 font-medium text-college-primary">{result.subject}</h2>
-                <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{result.message}</p>
+                <p className="mt-2 whitespace-pre-wrap text-sm text-[var(--text)]">{result.message}</p>
               </div>
               <div>
-                <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-slate-500">Reply from the college</h3>
+                <h3 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--text-2)]">Reply from the college</h3>
                 {result.replies.length === 0 ? (
-                  <p className="rounded border border-dashed border-slate-300 px-4 py-6 text-center text-sm text-slate-500">There is no reply yet. Please check again later.</p>
+                  <p className="rounded-lg border border-dashed border-[#CBD5E4] px-4 py-6 text-center text-sm text-[var(--text-2)]">There is no reply yet. Please check again later.</p>
                 ) : (
                   <ul className="space-y-3">
                     {result.replies.map((r, i) => (
-                      <li key={i} className="rounded bg-slate-50 p-4 text-sm">
-                        <p className="whitespace-pre-wrap text-slate-800">{r.body}</p>
-                        <p className="mt-2 text-xs text-slate-500">{fmtDate(r.created_at)}</p>
+                      <li key={i} className="rounded-lg bg-[var(--soft-blue)] p-4 text-sm">
+                        <p className="whitespace-pre-wrap text-[var(--text)]">{r.body}</p>
+                        <p className="mt-2 text-xs text-[var(--text-2)]">{fmtDate(r.created_at)}</p>
                       </li>
                     ))}
                   </ul>
@@ -56,7 +56,7 @@ export default function TrackQuery() {
               </div>
             </div>
           )}
-          <p className="mt-8 text-sm text-slate-600">Have another question? <Link to="/ask" className="font-medium text-college-primary hover:underline">Ask a question</Link></p>
+          <p className="mt-8 text-sm text-[var(--text-2)]">Have another question? <Link to="/ask" className="font-medium text-college-primary hover:underline underline-offset-4">Ask a question</Link></p>
         </div>
       </Section>
     </>

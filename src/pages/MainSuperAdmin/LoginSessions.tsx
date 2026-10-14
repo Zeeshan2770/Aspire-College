@@ -31,8 +31,8 @@ export default function LoginSessionsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Login Sessions</h1>
-        <p className="text-sm text-slate-500">See who logged in, and who changed whose email or password.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Login Sessions</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">See who logged in, and who changed whose email or password.</p>
       </div>
 
       <Card className="mb-4 p-4">
@@ -53,7 +53,7 @@ export default function LoginSessionsPage() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
             <tr>
               <th className="px-4 py-3">When</th>
               <th className="px-4 py-3">User</th>
@@ -68,14 +68,14 @@ export default function LoginSessionsPage() {
               return (
                 <tr key={s.id} className="hover:bg-slate-50/60">
                   <td className="px-4 py-3 whitespace-nowrap text-slate-500">{new Date(s.created_at).toLocaleString()}</td>
-                  <td className="px-4 py-3 font-medium text-ink-900">{s.user_name} <span className="text-slate-400">({s.user_role})</span></td>
+                  <td className="px-4 py-3 font-medium text-ink-900">{s.user_name} <span className="text-slate-500">({s.user_role})</span></td>
                   <td className="px-4 py-3"><Badge tone={meta.tone}><span className="mr-1 inline-flex align-middle">{meta.icon}</span>{meta.label}</Badge></td>
                   <td className="px-4 py-3 text-slate-500">{s.description}</td>
                   <td className="px-4 py-3 text-slate-500">{s.performed_by_name ?? (s.event_type === 'LOGIN' ? 'Self' : '—')}</td>
                 </tr>
               );
             })}
-            {!loading && !filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No session activity recorded yet.</td></tr>}
+            {!loading && !filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">No session activity recorded yet.</td></tr>}
           </tbody>
         </table></div>
       </Card>

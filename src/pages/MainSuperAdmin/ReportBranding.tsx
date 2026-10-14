@@ -106,8 +106,8 @@ export default function ReportBrandingPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Report Branding</h1>
-        <p className="text-sm text-slate-500">
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Report Branding</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">
           Set a custom header, footer, and logo for a specific class or section's reports. Anything left blank falls
           back to the global settings in <span className="font-semibold">System Settings</span>.
         </p>
@@ -144,7 +144,7 @@ export default function ReportBrandingPage() {
           <div className="mt-4 space-y-4">
             <div>
               <Label>Header</Label>
-              <p className="mb-1.5 text-xs text-slate-400">Use text, or upload a banner image instead — the image takes priority if set.</p>
+              <p className="mb-1.5 text-xs text-slate-500">Use text, or upload a banner image instead — the image takes priority if set.</p>
               <Input value={headerText} onChange={(e) => setHeaderText(e.target.value)} placeholder="e.g. Department of Computer Science" disabled={!!headerImageUrl} />
               <div className="mt-2 flex items-center gap-3">
                 {headerImageUrl ? (
@@ -164,7 +164,7 @@ export default function ReportBrandingPage() {
             </div>
             <div>
               <Label>Footer</Label>
-              <p className="mb-1.5 text-xs text-slate-400">Use text, or upload a banner image instead — the image takes priority if set.</p>
+              <p className="mb-1.5 text-xs text-slate-500">Use text, or upload a banner image instead — the image takes priority if set.</p>
               <Input value={footerText} onChange={(e) => setFooterText(e.target.value)} placeholder="e.g. Attested copy — for internal use only" disabled={!!footerImageUrl} />
               <div className="mt-2 flex items-center gap-3">
                 {footerImageUrl ? (
@@ -184,7 +184,7 @@ export default function ReportBrandingPage() {
             </div>
             <div>
               <Label>Logo</Label>
-              <p className="mb-1.5 text-xs text-slate-400">Small mark shown next to the header text (ignored when a header image is set).</p>
+              <p className="mb-1.5 text-xs text-slate-500">Small mark shown next to the header text (ignored when a header image is set).</p>
               <div className="flex items-center gap-4">
                 {logoUrl ? (
                   <img src={logoUrl} alt="Logo" className="h-14 w-14 rounded-xl border border-slate-200 object-contain p-1" />
@@ -214,12 +214,12 @@ export default function ReportBrandingPage() {
                   <p className="font-medium text-ink-900">
                     {row.class_id ? classes.find((c) => c.id === row.class_id)?.name ?? 'Class' : sections.find((s) => s.id === row.section_id)?.name ?? 'Section'}
                   </p>
-                  <p className="text-xs text-slate-400">{row.class_id ? 'Class-wide' : 'Section-specific'}</p>
+                  <p className="text-xs text-slate-500">{row.class_id ? 'Class-wide' : 'Section-specific'}</p>
                 </div>
                 <button onClick={() => handleRemove(row)} className="rounded-lg p-1.5 text-red-500 hover:bg-red-50"><Trash2 size={14} /></button>
               </div>
             ))}
-            {!existing.length && <p className="py-6 text-center text-sm text-slate-400">No overrides yet — all reports use the global branding.</p>}
+            {!existing.length && <p className="py-6 text-center text-sm text-slate-500">No overrides yet — all reports use the global branding.</p>}
           </div>
         </Card>
       </div>

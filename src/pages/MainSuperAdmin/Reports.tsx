@@ -195,8 +195,8 @@ export default function AdminReportsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Reports</h1>
-        <p className="text-sm text-slate-500">Preview a report before downloading so figures can be checked and corrected — pick "Today" for a daily report, a range for a period report, or leave the dates empty for the complete record. Choose student-wise detail for the actual attendance record of every student, not just totals.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Reports</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Preview a report before downloading so figures can be checked and corrected — pick "Today" for a daily report, a range for a period report, or leave the dates empty for the complete record. Choose student-wise detail for the actual attendance record of every student, not just totals.</p>
       </div>
 
       <Card className="mb-4 border-brand-100 bg-brand-50/50 p-5">
@@ -274,7 +274,7 @@ export default function AdminReportsPage() {
         </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-slate-400">Quick range:</span>
+          <span className="text-xs font-semibold text-slate-500">Quick range:</span>
           <button
             onClick={() => { const t = new Date().toISOString().slice(0, 10); setFrom(t); setTo(t); }}
             className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200"

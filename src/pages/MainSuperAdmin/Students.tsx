@@ -136,8 +136,8 @@ export default function StudentsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Students</h1>
-          <p className="text-sm text-slate-500">Manage student records across all classes and sections.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Students</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Manage student records across all classes and sections.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" onClick={() => downloadCsvTemplate()}>
@@ -166,7 +166,7 @@ export default function StudentsPage() {
       <Card className="mb-4 p-4">
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
             <Input className="pl-9" placeholder="Search by name or roll number…" value={search} onChange={(e) => { setPage(1); setSearch(e.target.value); }} />
           </div>
           <Select value={classFilter} onChange={(e) => { setPage(1); setClassFilter(e.target.value); setSectionFilter(''); }}>
@@ -182,7 +182,7 @@ export default function StudentsPage() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
             <tr>
               <th className="px-4 py-3">Roll #</th>
               <th className="px-4 py-3">Name</th>
@@ -209,7 +209,7 @@ export default function StudentsPage() {
               </tr>
             ))}
             {!students.length && (
-              <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">No students found.</td></tr>
+              <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-500">No students found.</td></tr>
             )}
           </tbody>
         </table></div>

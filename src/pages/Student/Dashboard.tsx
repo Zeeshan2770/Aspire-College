@@ -38,7 +38,7 @@ export default function StudentDashboard() {
   if (!student) {
     return (
       <StudentLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           No student record is linked to this account yet. Please contact your Main Super Admin.
         </Card>
       </StudentLayout>
@@ -48,8 +48,8 @@ export default function StudentDashboard() {
   return (
     <StudentLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {student.full_name.split(' ')[0]}</h1>
-        <p className="text-sm text-slate-500">{student.classes?.name} — {student.sections?.name}</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Welcome, {student.full_name.split(' ')[0]}</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">{student.classes?.name} — {student.sections?.name}</p>
       </div>
 
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -66,7 +66,7 @@ export default function StudentDashboard() {
           </div>
           <div>
             <p className="text-sm font-bold text-ink-900">Active Queries</p>
-            <p className="text-xs text-slate-400">Submitted and awaiting a response</p>
+            <p className="text-xs text-slate-500">Submitted and awaiting a response</p>
           </div>
         </div>
         <p className="text-xl font-extrabold text-ink-900 sm:text-2xl">{activeQueries}</p>
@@ -77,14 +77,14 @@ export default function StudentDashboard() {
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"><CalendarCheck size={18} /></div>
           <div>
             <p className="text-sm font-bold text-ink-900">My Attendance</p>
-            <p className="text-xs text-slate-400">Subject-wise breakdown &amp; history</p>
+            <p className="text-xs text-slate-500">Subject-wise breakdown &amp; history</p>
           </div>
         </Link>
         <Link to="/student/raise-query" className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-soft transition hover:border-brand-200 hover:shadow-card">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"><MessageSquarePlus size={18} /></div>
           <div>
             <p className="text-sm font-bold text-ink-900">Raise a Query</p>
-            <p className="text-xs text-slate-400">Academic, attendance, welfare &amp; more</p>
+            <p className="text-xs text-slate-500">Academic, attendance, welfare &amp; more</p>
           </div>
         </Link>
       </div>

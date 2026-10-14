@@ -70,7 +70,7 @@ export default function CrDashboard() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
         {assignment ? (
           <div className="mt-2"><CrSectionSwitcher /></div>
         ) : !loading ? (
@@ -87,10 +87,10 @@ export default function CrDashboard() {
                 <div className="min-w-0 flex-1 basis-[calc(100%-2.5rem)] sm:basis-auto">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
                     <Badge tone={w.severity === 'HIGH' ? 'red' : w.severity === 'MEDIUM' ? 'amber' : 'slate'}>{w.severity} Warning</Badge>
-                    <span className="text-xs text-slate-400">{new Date(w.created_at).toLocaleString()}</span>
+                    <span className="text-xs text-slate-500">{new Date(w.created_at).toLocaleString()}</span>
                   </div>
                   <p className="text-sm text-ink-800">{w.message}</p>
-                  <p className="mt-1 text-xs text-slate-400">Issued by {w.issued_by_name}</p>
+                  <p className="mt-1 text-xs text-slate-500">Issued by {w.issued_by_name}</p>
                 </div>
                 <Button size="sm" variant="secondary" className="shrink-0" onClick={() => handleAcknowledge(w.id)}><X size={13} /> Acknowledge</Button>
               </div>
@@ -112,7 +112,7 @@ export default function CrDashboard() {
       {assignment && (
         <Card className="mt-6 flex flex-wrap items-center justify-between gap-3 border-brand-100 bg-brand-50/50 p-5">
           <div>
-            <h3 className="font-bold text-ink-900">Today's Attendance Report</h3>
+            <h3 className="font-display font-bold text-ink-900">Today's Attendance Report</h3>
             <p className="mt-0.5 text-xs text-slate-500">One click — download a PDF of today's Present/Absent for your section.</p>
           </div>
           <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export default function CrDashboard() {
       )}
 
       {!assignment && !loading && (
-        <Card className="p-8 text-center text-slate-400">No section assigned yet.</Card>
+        <Card className="p-8 text-center text-slate-500">No section assigned yet.</Card>
       )}
     </DashboardLayout>
   );

@@ -123,8 +123,8 @@ export default function CRsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Class Representatives</h1>
-          <p className="text-sm text-slate-500">Create CR accounts and assign them to a class & section.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Class Representatives</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Create CR accounts and assign them to a class & section.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" onClick={() => setCreateOpen(true)}><Plus size={16} /> New CR Account</Button>
@@ -134,7 +134,7 @@ export default function CRsPage() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
             <tr>
               <th className="px-4 py-3">CR Name</th>
               <th className="px-4 py-3">Email</th>
@@ -164,7 +164,7 @@ export default function CRsPage() {
                 </td>
               </tr>
             ))}
-            {!assignments.length && <tr><td colSpan={7} className="px-4 py-10 text-center text-slate-400">No CRs assigned yet.</td></tr>}
+            {!assignments.length && <tr><td colSpan={7} className="px-4 py-10 text-center text-slate-500">No CRs assigned yet.</td></tr>}
           </tbody>
         </table></div>
       </Card>
@@ -202,7 +202,7 @@ export default function CRsPage() {
               {formSections.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
             </Select>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Assigning a new CR replaces the previous CR of that section. A single CR can now be assigned to more than
             one section &mdash; assign them again here for a second section and they&rsquo;ll get a switcher to move
             between their sections.
@@ -242,15 +242,15 @@ export default function CRsPage() {
             <div key={w.id} className="rounded-xl border border-slate-100 p-3">
               <div className="mb-1 flex items-center justify-between">
                 <Badge tone={w.severity === 'HIGH' ? 'red' : w.severity === 'MEDIUM' ? 'amber' : 'slate'}>{w.severity}</Badge>
-                <span className="text-xs text-slate-400">{new Date(w.created_at).toLocaleString()}</span>
+                <span className="text-xs text-slate-500">{new Date(w.created_at).toLocaleString()}</span>
               </div>
               <p className="text-sm text-ink-800">{w.message}</p>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-1 text-xs text-slate-500">
                 Issued by {w.issued_by_name} · {w.acknowledged_at ? `Acknowledged ${new Date(w.acknowledged_at).toLocaleDateString()}` : 'Not yet acknowledged'}
               </p>
             </div>
           ))}
-          {!historyModal.warnings.length && <p className="py-8 text-center text-sm text-slate-400">No warnings issued to this CR.</p>}
+          {!historyModal.warnings.length && <p className="py-8 text-center text-sm text-slate-500">No warnings issued to this CR.</p>}
         </div>
       </Modal>
     </DashboardLayout>

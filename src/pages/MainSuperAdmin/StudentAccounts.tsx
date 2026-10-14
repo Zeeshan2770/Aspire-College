@@ -223,8 +223,8 @@ export default function StudentAccountsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Student Accounts</h1>
-        <p className="text-sm text-slate-500">Create and manage Student Portal logins. Every student keeps their roster record whether or not they have an account.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Student Accounts</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Create and manage Student Portal logins. Every student keeps their roster record whether or not they have an account.</p>
       </div>
 
       <Card className="mb-4 p-4">
@@ -237,7 +237,7 @@ export default function StudentAccountsPage() {
           </button>
         </div>
         <div className="relative max-w-sm">
-          <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
           <Input className="pl-9" placeholder="Search by name or roll number…" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
       </Card>
@@ -295,12 +295,12 @@ export default function StudentAccountsPage() {
             {withoutAccount.map((s: any) => (
               <div key={s.id} className="flex items-center justify-between gap-3 px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <button onClick={() => toggleSelected(s.id)} className="shrink-0 text-slate-400 hover:text-brand-600">
+                  <button onClick={() => toggleSelected(s.id)} className="shrink-0 text-slate-500 hover:text-brand-600">
                     {selectedIds.has(s.id) ? <CheckSquare size={17} className="text-brand-600" /> : <Square size={17} />}
                   </button>
                   <div>
                     <p className="text-sm font-semibold text-ink-900">{s.full_name}</p>
-                    <p className="text-xs text-slate-400">Roll #{s.roll_number} — {s.classes?.name ?? ''} {s.sections?.name ?? ''}</p>
+                    <p className="text-xs text-slate-500">Roll #{s.roll_number} — {s.classes?.name ?? ''} {s.sections?.name ?? ''}</p>
                   </div>
                 </div>
                 <Button onClick={() => handleCreate(s)} disabled={creating === s.id} className="!py-1.5 !px-3 text-xs">
@@ -308,13 +308,13 @@ export default function StudentAccountsPage() {
                 </Button>
               </div>
             ))}
-            {!withoutAccount.length && <div className="px-4 py-14 text-center text-slate-400">Every active student already has an account, or none match your search.</div>}
+            {!withoutAccount.length && <div className="px-4 py-14 text-center text-slate-500">Every active student already has an account, or none match your search.</div>}
           </Card>
         </>
       ) : (
         <Card className="overflow-x-auto">
           <table className="w-full min-w-[36rem] text-sm">
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
               <tr>
                 <th className="px-4 py-3">Student</th>
                 <th className="px-4 py-3">Student ID</th>
@@ -329,22 +329,22 @@ export default function StudentAccountsPage() {
                 <tr key={row.id} className="hover:bg-slate-50/60">
                   <td className="px-4 py-3 font-medium text-ink-900">
                     {row.students?.full_name}
-                    <p className="text-xs font-normal text-slate-400">Roll #{row.students?.roll_number} — {row.students?.classes?.name} {row.students?.sections?.name}</p>
+                    <p className="text-xs font-normal text-slate-500">Roll #{row.students?.roll_number} — {row.students?.classes?.name} {row.students?.sections?.name}</p>
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-slate-600">{row.student_uid}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">
                       <span className="text-slate-700">{row.username}</span>
-                      <button onClick={() => copy(row.username, 'Username')} className="rounded p-1 text-slate-400 hover:bg-slate-100"><Copy size={13} /></button>
+                      <button onClick={() => copy(row.username, 'Username')} className="rounded p-1 text-slate-500 hover:bg-slate-100"><Copy size={13} /></button>
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5 font-mono">
                       <span>{revealed[row.id] ? row.temp_password : '••••••••••'}</span>
-                      <button onClick={() => setRevealed((r) => ({ ...r, [row.id]: !r[row.id] }))} className="rounded p-1 text-slate-400 hover:bg-slate-100">
+                      <button onClick={() => setRevealed((r) => ({ ...r, [row.id]: !r[row.id] }))} className="rounded p-1 text-slate-500 hover:bg-slate-100">
                         {revealed[row.id] ? <EyeOff size={13} /> : <Eye size={13} />}
                       </button>
-                      <button onClick={() => copy(row.temp_password, 'Password')} className="rounded p-1 text-slate-400 hover:bg-slate-100"><Copy size={13} /></button>
+                      <button onClick={() => copy(row.temp_password, 'Password')} className="rounded p-1 text-slate-500 hover:bg-slate-100"><Copy size={13} /></button>
                     </div>
                   </td>
                   <td className="px-4 py-3">
@@ -378,7 +378,7 @@ export default function StudentAccountsPage() {
                   </td>
                 </tr>
               ))}
-              {!filteredVault.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">No accounts match.</td></tr>}
+              {!filteredVault.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-500">No accounts match.</td></tr>}
             </tbody>
           </table>
         </Card>
@@ -390,19 +390,19 @@ export default function StudentAccountsPage() {
             <p className="text-sm text-slate-500">Share these with <strong>{createdCreds.full_name}</strong>. They're also saved permanently in the vault above.</p>
             <div className="space-y-2 rounded-xl bg-slate-50 p-3 font-mono text-sm">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Student ID</p>
-                <div className="flex items-center justify-between"><span>{createdCreds.student_uid}</span><button onClick={() => copy(createdCreds.student_uid, 'Student ID')} className="rounded p-1 text-slate-400 hover:bg-slate-200"><Copy size={14} /></button></div>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Student ID</p>
+                <div className="flex items-center justify-between"><span>{createdCreds.student_uid}</span><button onClick={() => copy(createdCreds.student_uid, 'Student ID')} className="rounded p-1 text-slate-500 hover:bg-slate-200"><Copy size={14} /></button></div>
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Username</p>
-                <div className="flex items-center justify-between"><span>{createdCreds.username}</span><button onClick={() => copy(createdCreds.username, 'Username')} className="rounded p-1 text-slate-400 hover:bg-slate-200"><Copy size={14} /></button></div>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Username</p>
+                <div className="flex items-center justify-between"><span>{createdCreds.username}</span><button onClick={() => copy(createdCreds.username, 'Username')} className="rounded p-1 text-slate-500 hover:bg-slate-200"><Copy size={14} /></button></div>
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Temporary Password</p>
-                <div className="flex items-center justify-between"><span>{createdCreds.password}</span><button onClick={() => copy(createdCreds.password, 'Temporary Password')} className="rounded p-1 text-slate-400 hover:bg-slate-200"><Copy size={14} /></button></div>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Temporary Password</p>
+                <div className="flex items-center justify-between"><span>{createdCreds.password}</span><button onClick={() => copy(createdCreds.password, 'Temporary Password')} className="rounded p-1 text-slate-500 hover:bg-slate-200"><Copy size={14} /></button></div>
               </div>
             </div>
-            <p className="text-xs text-slate-400">The student will be asked to change this password after their first login.</p>
+            <p className="text-xs text-slate-500">The student will be asked to change this password after their first login.</p>
             <Button className="w-full" onClick={() => setCreatedCreds(null)}>Done</Button>
           </div>
         )}
@@ -430,7 +430,7 @@ export default function StudentAccountsPage() {
             </p>
             <div className="max-h-80 overflow-y-auto rounded-xl border border-slate-100">
               <table className="w-full text-xs">
-                <thead className="sticky top-0 bg-slate-50 text-left font-semibold uppercase tracking-wide text-slate-500">
+                <thead className="sticky top-0 bg-[#F4F7FC] text-left font-semibold tracking-wide text-[#5B6B83]">
                   <tr>
                     <th className="px-3 py-2">Student</th>
                     <th className="px-3 py-2">Student ID</th>
@@ -441,7 +441,7 @@ export default function StudentAccountsPage() {
                 <tbody className="divide-y divide-slate-100">
                   {bulkResults.map((r) => (
                     <tr key={r.studentId} className={r.success ? '' : 'bg-red-50/60'}>
-                      <td className="px-3 py-2 font-medium text-ink-900">{r.full_name}<span className="ml-1 font-normal text-slate-400">#{r.roll_number}</span></td>
+                      <td className="px-3 py-2 font-medium text-ink-900">{r.full_name}<span className="ml-1 font-normal text-slate-500">#{r.roll_number}</span></td>
                       {r.success ? (
                         <>
                           <td className="px-3 py-2 font-mono">{r.student_uid}</td>

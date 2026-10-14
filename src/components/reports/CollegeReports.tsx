@@ -46,7 +46,7 @@ export default function CollegeReports() {
       <div className="grid gap-5 lg:grid-cols-2">
         {canAdmissions && (
           <Card className="p-6">
-            <h3 className="font-bold text-ink-900">Admission applications</h3>
+            <h3 className="font-display font-bold text-ink-900">Admission applications</h3>
             <p className="text-xs text-slate-500">Applications submitted through the website.</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               <div><Label>Status</Label>
@@ -61,7 +61,7 @@ export default function CollegeReports() {
         )}
         {canFaculty && (
           <Card className="p-6">
-            <h3 className="font-bold text-ink-900">Faculty list</h3>
+            <h3 className="font-display font-bold text-ink-900">Faculty list</h3>
             <p className="text-xs text-slate-500">Includes internal contact details. Do not publish.</p>
             <div className="mt-4 max-w-xs">
               <Label>Status</Label>

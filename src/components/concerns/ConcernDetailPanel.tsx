@@ -210,15 +210,15 @@ export function ConcernDetailPanel({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 p-4 backdrop-blur-xs">
       <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-card">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-          <h3 className="text-lg font-bold text-ink-900">Concern Details</h3>
-          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+          <h3 className="font-display text-lg font-bold text-ink-900">Concern Details</h3>
+          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-600">
             <X size={18} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {loading && (
-            <div className="flex justify-center py-16 text-slate-400">
+            <div className="flex justify-center py-16 text-slate-500">
               <Loader2 className="animate-spin" size={24} />
             </div>
           )}
@@ -242,21 +242,21 @@ export function ConcernDetailPanel({
 
               <div className="mb-4 grid grid-cols-2 gap-3 rounded-xl bg-slate-50 px-4 py-3 text-xs text-slate-600 sm:grid-cols-4">
                 <div>
-                  <p className="font-semibold uppercase tracking-wide text-slate-400">Raised by</p>
+                  <p className="font-semibold uppercase tracking-wide text-slate-500">Raised by</p>
                   <p>{concern.reporter?.full_name ?? '—'}</p>
                 </div>
                 <div>
-                  <p className="font-semibold uppercase tracking-wide text-slate-400">Assigned to</p>
+                  <p className="font-semibold uppercase tracking-wide text-slate-500">Assigned to</p>
                   <p>{concern.assignee?.full_name ?? 'Unassigned'}</p>
                 </div>
                 <div>
-                  <p className="font-semibold uppercase tracking-wide text-slate-400">Class / Section</p>
+                  <p className="font-semibold uppercase tracking-wide text-slate-500">Class / Section</p>
                   <p>
                     {concern.classes?.name ?? '—'} {concern.sections?.name ? `→ ${concern.sections.name}` : ''}
                   </p>
                 </div>
                 <div>
-                  <p className="font-semibold uppercase tracking-wide text-slate-400">Student</p>
+                  <p className="font-semibold uppercase tracking-wide text-slate-500">Student</p>
                   <p>{concern.students?.full_name ?? '—'}</p>
                 </div>
               </div>
@@ -320,11 +320,11 @@ export function ConcernDetailPanel({
                 <div className="flex flex-wrap gap-2">
                   {attachments.map((a) => (
                     <div key={a.id} className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs">
-                      <Paperclip size={12} className="text-slate-400" />
+                      <Paperclip size={12} className="text-slate-500" />
                       <button onClick={() => handleDownload(a)} className="max-w-[160px] truncate font-medium text-brand-600 hover:underline">
                         {a.file_name}
                       </button>
-                      <Download size={12} className="cursor-pointer text-slate-400" onClick={() => handleDownload(a)} />
+                      <Download size={12} className="cursor-pointer text-slate-500" onClick={() => handleDownload(a)} />
                       <Trash2 size={12} className="cursor-pointer text-red-400" onClick={() => handleDeleteAttachment(a)} />
                     </div>
                   ))}
@@ -349,7 +349,7 @@ export function ConcernDetailPanel({
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Activity</p>
                 <div className="space-y-2.5">
                   {history.map((h) => (
-                    <div key={`h-${h.id}`} className="flex items-center gap-2 text-xs text-slate-400">
+                    <div key={`h-${h.id}`} className="flex items-center gap-2 text-xs text-slate-500">
                       <Clock size={12} />
                       <span>{historyLine(h)}</span>
                       <span>· {timeAgo(h.created_at)}</span>
@@ -365,13 +365,13 @@ export function ConcernDetailPanel({
                       <div className="mb-1 flex items-center gap-2 text-xs font-semibold text-ink-700">
                         {c.is_internal && <Lock size={11} className="text-amber-600" />}
                         {ROLE_LABEL[c.author_role] ?? c.author_role}
-                        <span className="font-normal text-slate-400">· {timeAgo(c.created_at)}</span>
+                        <span className="font-normal text-slate-500">· {timeAgo(c.created_at)}</span>
                       </div>
                       <p className="whitespace-pre-line text-slate-700">{c.body}</p>
                     </div>
                   ))}
                   {!comments.length && !history.length && (
-                    <p className="text-xs text-slate-400">No activity yet.</p>
+                    <p className="text-xs text-slate-500">No activity yet.</p>
                   )}
                 </div>
               </div>

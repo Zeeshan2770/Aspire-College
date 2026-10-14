@@ -17,8 +17,8 @@ export default function ActivityLogsPage() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Administrative Activity Logs</h1>
-        <p className="text-sm text-slate-500">
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Administrative Activity Logs</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">
           Every action taken by any admin account. Visible only to the Main Super Admin.
         </p>
       </div>
@@ -33,13 +33,13 @@ export default function ActivityLogsPage() {
               </div>
               <p className="mt-1 text-sm text-slate-600">{log.description}</p>
             </div>
-            <div className="whitespace-nowrap text-right text-xs text-slate-400">
+            <div className="whitespace-nowrap text-right text-xs text-slate-500">
               <div>{new Date(log.created_at).toLocaleDateString()}</div>
               <div>{new Date(log.created_at).toLocaleTimeString()}</div>
             </div>
           </div>
         ))}
-        {!logs.length && <div className="px-5 py-10 text-center text-slate-400">No activity recorded yet.</div>}
+        {!logs.length && <div className="px-5 py-10 text-center text-slate-500">No activity recorded yet.</div>}
       </Card>
     </DashboardLayout>
   );

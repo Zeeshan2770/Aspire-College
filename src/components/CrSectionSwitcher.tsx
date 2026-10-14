@@ -42,7 +42,7 @@ export function CrSectionSwitcher({ className }: { className?: string }) {
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
           <div className="absolute left-0 z-20 mt-1.5 w-56 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-card">
-            <p className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+            <p className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-500">
               You're CR of {assignments.length} sections
             </p>
             {assignments.map((a) => (

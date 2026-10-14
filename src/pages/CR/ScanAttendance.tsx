@@ -166,7 +166,7 @@ export default function ScanAttendance() {
   if (settings && !settings.allow_ocr_scanning) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           OCR attendance scanning is currently disabled by your Super Admin. Use Take Attendance instead.
         </Card>
       </DashboardLayout>
@@ -176,7 +176,7 @@ export default function ScanAttendance() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {assignmentLoading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -186,8 +186,8 @@ export default function ScanAttendance() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Scan Attendance Sheet</h1>
-        <p className="text-sm text-slate-500">Photograph a paper attendance sheet — nothing is saved until you confirm it below.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Scan Attendance Sheet</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Photograph a paper attendance sheet — nothing is saved until you confirm it below.</p>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -219,7 +219,7 @@ export default function ScanAttendance() {
                 <Camera size={32} className="text-slate-300" />
               )}
               <p className="text-sm text-slate-500">Take a photo or upload an image of the attendance sheet.</p>
-              <p className="text-xs text-slate-400">The photo is processed on your device and is never uploaded or saved.</p>
+              <p className="text-xs text-slate-500">The photo is processed on your device and is never uploaded or saved.</p>
               <Button onClick={() => fileInputRef.current?.click()} disabled={processing}>
                 {processing ? <><Loader2 size={15} className="mr-1.5 inline animate-spin" /> {progressLabel}</> : <><ScanLine size={15} className="mr-1.5 inline" /> {previewUrl ? 'Scan Another Sheet' : 'Scan Attendance Sheet'}</>}
               </Button>
@@ -247,11 +247,11 @@ export default function ScanAttendance() {
                 </Button>
               </Card>
 
-              <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Attendance Review</h2>
+              <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Attendance Review</h2>
               <Card className="overflow-x-auto">
                 <table className="w-full min-w-[36rem] text-sm">
                   <thead>
-                    <tr className="border-b border-slate-100 text-left text-xs uppercase tracking-wide text-slate-400">
+                    <tr className="border-b border-slate-100 text-left text-xs uppercase tracking-wide text-slate-500">
                       <th className="px-4 py-3">Roll No.</th>
                       <th className="px-4 py-3">Student</th>
                       <th className="px-4 py-3">Detected Status</th>

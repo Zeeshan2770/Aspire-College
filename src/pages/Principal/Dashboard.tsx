@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, StatCard, Button } from '@/components/ui';
+import { Card, StatCard, Button, StatSkeletons } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
 import CollegeSnapshot from '@/components/dashboard/CollegeSnapshot';
 
@@ -66,8 +66,8 @@ export default function PrincipalDashboard() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
-          <p className="text-sm text-slate-500">Principal — full read-only visibility across the system.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Welcome, {profile?.full_name}</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Principal — full read-only visibility across the system.</p>
         </div>
         <div className="flex gap-2">
           <Link to="/admin/statistics"><Button variant="secondary"><BarChart3 size={16} /> Statistics</Button></Link>
@@ -77,7 +77,7 @@ export default function PrincipalDashboard() {
       </div>
 
       {!stats ? (
-        <Card className="p-8 text-center text-slate-400">Loading dashboard…</Card>
+        <StatSkeletons />
       ) : (
         <>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

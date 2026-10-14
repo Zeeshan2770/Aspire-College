@@ -120,8 +120,8 @@ export default function CrAccountsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">CR Accounts &amp; Credentials</h1>
-          <p className="text-sm text-slate-500">Auto-generate CR logins from class &amp; section, and keep every credential on file.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">CR Accounts &amp; Credentials</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Auto-generate CR logins from class &amp; section, and keep every credential on file.</p>
         </div>
         <Button onClick={() => { setGen({ fullName: '', phone: '', classId: '', sectionId: '' }); setGenOpen(true); }}>
           <Wand2 size={16} /> Generate CR Account
@@ -130,7 +130,7 @@ export default function CrAccountsPage() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
             <tr>
               <th className="px-4 py-3">CR Name</th>
               <th className="px-4 py-3">Class / Section</th>
@@ -151,19 +151,19 @@ export default function CrAccountsPage() {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <span className="text-slate-700">{row.email}</span>
-                    <button onClick={() => copy(row.email, 'Email')} className="rounded p-1 text-slate-400 hover:bg-slate-100"><Copy size={13} /></button>
+                    <button onClick={() => copy(row.email, 'Email')} className="rounded p-1 text-slate-500 hover:bg-slate-100"><Copy size={13} /></button>
                   </div>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-1.5 font-mono">
                     <span>{revealed[row.id] ? row.temp_password : '••••••••••'}</span>
-                    <button onClick={() => setRevealed((r) => ({ ...r, [row.id]: !r[row.id] }))} className="rounded p-1 text-slate-400 hover:bg-slate-100">
+                    <button onClick={() => setRevealed((r) => ({ ...r, [row.id]: !r[row.id] }))} className="rounded p-1 text-slate-500 hover:bg-slate-100">
                       {revealed[row.id] ? <EyeOff size={13} /> : <Eye size={13} />}
                     </button>
-                    <button onClick={() => copy(row.temp_password, 'Password')} className="rounded p-1 text-slate-400 hover:bg-slate-100"><Copy size={13} /></button>
+                    <button onClick={() => copy(row.temp_password, 'Password')} className="rounded p-1 text-slate-500 hover:bg-slate-100"><Copy size={13} /></button>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-slate-400">{new Date(row.updated_at).toLocaleDateString()}</td>
+                <td className="px-4 py-3 text-slate-500">{new Date(row.updated_at).toLocaleDateString()}</td>
                 <td className="px-4 py-3">
                   <div className="flex justify-end gap-1.5">
                     <button
@@ -191,7 +191,7 @@ export default function CrAccountsPage() {
                 </td>
               </tr>
             ))}
-            {!loading && !vault.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-400">No CR accounts generated yet.</td></tr>}
+            {!loading && !vault.length && <tr><td colSpan={6} className="px-4 py-10 text-center text-slate-500">No CR accounts generated yet.</td></tr>}
           </tbody>
         </table></div>
       </Card>
@@ -218,10 +218,10 @@ export default function CrAccountsPage() {
             </div>
           </div>
           <div className="rounded-xl bg-slate-50 px-3 py-2.5 text-sm">
-            <span className="text-slate-400">Auto-generated email: </span>
+            <span className="text-slate-500">Auto-generated email: </span>
             <span className="font-mono font-semibold text-ink-900">{emailPreview}</span>
           </div>
-          <p className="text-xs text-slate-400">A secure random password will be generated automatically and saved to the credentials vault below.</p>
+          <p className="text-xs text-slate-500">A secure random password will be generated automatically and saved to the credentials vault below.</p>
           <Button className="w-full" onClick={handleGenerate} disabled={creating}><KeyRound size={16} /> {creating ? 'Generating…' : 'Generate & Assign'}</Button>
         </div>
       </Modal>
@@ -232,8 +232,8 @@ export default function CrAccountsPage() {
           <div className="space-y-3">
             <p className="text-sm text-slate-500">Share these with <strong>{createdCreds.full_name}</strong>. They're also saved permanently in the vault below.</p>
             <div className="space-y-2 rounded-xl bg-slate-50 p-3 font-mono text-sm">
-              <div className="flex items-center justify-between"><span>{createdCreds.email}</span><button onClick={() => copy(createdCreds.email, 'Email')} className="rounded p-1 text-slate-400 hover:bg-slate-200"><Copy size={14} /></button></div>
-              <div className="flex items-center justify-between"><span>{createdCreds.password}</span><button onClick={() => copy(createdCreds.password, 'Password')} className="rounded p-1 text-slate-400 hover:bg-slate-200"><Copy size={14} /></button></div>
+              <div className="flex items-center justify-between"><span>{createdCreds.email}</span><button onClick={() => copy(createdCreds.email, 'Email')} className="rounded p-1 text-slate-500 hover:bg-slate-200"><Copy size={14} /></button></div>
+              <div className="flex items-center justify-between"><span>{createdCreds.password}</span><button onClick={() => copy(createdCreds.password, 'Password')} className="rounded p-1 text-slate-500 hover:bg-slate-200"><Copy size={14} /></button></div>
             </div>
             <Button className="w-full" onClick={() => setCreatedCreds(null)}>Done</Button>
           </div>

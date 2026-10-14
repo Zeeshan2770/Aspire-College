@@ -22,7 +22,7 @@ function timeAgo(iso: string) {
   return `${Math.floor(hrs / 24)}d ago`;
 }
 
-export function AnnouncementBell() {
+export function AnnouncementBell({ tone = 'default' }: { tone?: 'default' | 'island' }) {
   const { profile } = useAuth();
   const [items, setItems] = useState<InboxAnnouncement[]>([]);
   const [open, setOpen] = useState(false);
@@ -52,12 +52,13 @@ export function AnnouncementBell() {
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100"
+        className={tone === 'island' ? 'relative flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:bg-white/20' : 'relative rounded-lg p-2 text-slate-500 hover:bg-slate-100'}
         title="Announcements"
+        aria-label="Announcements"
       >
         <Bell size={19} />
         {unread.length > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
             {unread.length > 9 ? '9+' : unread.length}
           </span>
         )}
@@ -66,10 +67,10 @@ export function AnnouncementBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="fixed inset-x-3 top-14 z-40 mt-2 w-auto sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:w-80 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+          <div className="fixed inset-x-3 top-[4.75rem] z-40 w-auto sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-3 sm:w-80 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <p className="text-sm font-bold text-ink-900">Announcements</p>
-              {unread.length > 0 && <span className="text-xs text-slate-400">{unread.length} unread</span>}
+              {unread.length > 0 && <span className="text-xs text-slate-500">{unread.length} unread</span>}
             </div>
             <div className="max-h-96 overflow-y-auto">
               {items.slice(0, 8).map((item) => (
@@ -88,11 +89,11 @@ export function AnnouncementBell() {
                       <p className={clsx('truncate text-sm', item.read ? 'text-slate-600' : 'font-semibold text-ink-900')}>{item.title}</p>
                     </div>
                     <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{item.message}</p>
-                    <p className="mt-1 text-[11px] text-slate-400">{item.created_by_name} · {timeAgo(item.created_at)}</p>
+                    <p className="mt-1 text-[11px] text-slate-500">{item.created_by_name} · {timeAgo(item.created_at)}</p>
                   </div>
                 </button>
               ))}
-              {!items.length && <p className="px-4 py-8 text-center text-sm text-slate-400">No announcements yet.</p>}
+              {!items.length && <p className="px-4 py-8 text-center text-sm text-slate-500">No announcements yet.</p>}
             </div>
             <Link
               to="/announcements"

@@ -5,18 +5,19 @@ export default {
     extend: {
       colors: {
         // Portal palette: restrained navy, matching the public website's placeholder primary (#1F3A5F).
+        // Portal palette: deep navy + clear blue, aligned with the public site tokens.
         brand: {
-          50: '#f1f5fa',
-          100: '#dbe5f1',
-          200: '#b3c8e0',
-          300: '#7c9dc7',
-          400: '#4a73a6',
-          500: '#2d5384',
-          600: '#1F3A5F',
-          700: '#182e4c',
-          800: '#12233a',
-          900: '#0e1c2f',
-          950: '#0a131f',
+          50: '#EAF1FF',
+          100: '#D9E6FF',
+          200: '#B5CDFF',
+          300: '#86AEFF',
+          400: '#5189FF',
+          500: '#2F6FF5',
+          600: '#1F5BDB',
+          700: '#1A4AB3',
+          800: '#172747',
+          900: '#101D35',
+          950: '#0A1326',
         },
         college: {
           primary: 'rgb(var(--c-primary) / <alpha-value>)',
@@ -24,19 +25,35 @@ export default {
           accent: 'rgb(var(--c-accent) / <alpha-value>)',
         },
         ink: {
-          900: '#0b0f1a',
-          800: '#121729',
-          700: '#1a2036',
+          900: '#101D35',
+          800: '#172747',
+          700: '#26385C',
         },
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+        display: ['Manrope', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
+      fontSize: {
+        display: ['clamp(2.5rem, 1.6rem + 4.2vw, 4.5rem)', { lineHeight: '1.04', letterSpacing: '-0.03em', fontWeight: '700' }],
+        h1: ['clamp(2rem, 1.4rem + 2.6vw, 3.25rem)', { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '700' }],
+        h2: ['clamp(1.625rem, 1.3rem + 1.5vw, 2.5rem)', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' }],
+        h3: ['clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem)', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '700' }],
+        lead: ['clamp(1.0625rem, 1rem + 0.35vw, 1.25rem)', { lineHeight: '1.65' }],
+      },
+      borderRadius: {
+        xs: 'var(--r-xs)', sm: 'var(--r-sm)', DEFAULT: 'var(--r-sm)', md: 'var(--r-md)',
+        lg: 'var(--r-md)', xl: 'var(--r-lg)', '2xl': 'var(--r-xl)', '3xl': 'var(--r-2xl)',
+      },
+      maxWidth: { content: '72rem', prose: '42rem' },
       boxShadow: {
-        soft: '0 1px 2px 0 rgba(16,24,40,0.04), 0 1px 3px 0 rgba(16,24,40,0.06)',
-        card: '0 4px 24px -4px rgba(16,24,40,0.10)',
+        soft: 'var(--sh-1)',
+        card: 'var(--sh-2)',
+        float: 'var(--sh-3)',
+        pop: 'var(--sh-4)',
+        hero: 'var(--sh-5)',
       },
+      transitionTimingFunction: { out: 'cubic-bezier(.22,.8,.3,1)' },
       backdropBlur: {
         xs: '2px',
       },

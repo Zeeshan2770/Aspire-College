@@ -17,15 +17,20 @@ export default function Admissions() {
   ];
   return (
     <>
-      <PageHeader title="Admissions" subtitle="How to apply to the college." />
+      <PageHeader title="Admissions" subtitle="How to apply to the college." eyebrow="Join us" />
       <Section>
-        <div className="flex flex-col items-start justify-between gap-4 rounded border border-slate-200 bg-slate-50 p-5 sm:flex-row sm:items-center">
-          <div>
-            <p className="font-medium text-college-primary">{open ? 'Applications are open' : 'Applications are currently closed'}</p>
-            <p className="text-sm text-slate-600">{open ? 'You can submit your application online at any time.' : 'Please check back later or contact the admissions office.'}</p>
+        <div className="glass-hairline flex flex-col items-start justify-between gap-5 rounded-xl border border-[var(--border)] bg-[var(--soft-blue)] p-6 sm:flex-row sm:items-center sm:p-8">
+          <div className="flex items-start gap-4">
+            <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${open ? 'bg-[var(--ok)]' : 'bg-[var(--warn)]'}`} aria-hidden="true" />
+            <div>
+              <p className="font-display text-xl font-bold text-college-primary">{open ? 'Applications are open' : 'Applications are currently closed'}</p>
+              <p className="mt-1 text-sm text-[var(--text-2)]">{open ? 'You can submit your application online at any time.' : 'Please check back later or contact the admissions office.'}</p>
+            </div>
           </div>
-          {open && <Link to="/admissions/apply" className={btnPrimary}>Apply Online</Link>}
-          <Link to="/admissions/status" className="ml-3 text-sm font-medium text-college-primary hover:underline">Check application status</Link>
+          <div className="flex flex-wrap items-center gap-3">
+            {open && <Link to="/admissions/apply" className={btnPrimary}>Apply Online</Link>}
+            <Link to="/admissions/status" className="btn btn-secondary">Check application status</Link>
+          </div>
         </div>
       </Section>
       <Section title="Available Programs" muted>
@@ -33,13 +38,13 @@ export default function Admissions() {
           <StateBox kind="empty" message="Programs will be listed here once they have been added." />
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.data.map((p) => (<li key={p.id} className="rounded border border-slate-200 bg-white px-4 py-3 text-sm"><span className="font-medium text-college-primary">{p.name}</span>{p.level && <span className="text-slate-500"> · {p.level}</span>}</li>))}
+            {programs.data.map((p) => (<li key={p.id} className="surface px-5 py-4 text-sm"><span className="font-display font-bold text-college-primary">{p.name}</span>{p.level && <span className="text-[var(--text-2)]"> · {p.level}</span>}</li>))}
           </ul>
         )}
       </Section>
       {blocks.map(([title, key], i) => (
         <Section key={key} title={title} muted={i % 2 === 1}>
-          <div className="max-w-3xl text-slate-700"><Block value={content[key]} /></div>
+          <div className="prose-body"><Block value={content[key]} /></div>
         </Section>
       ))}
     </>

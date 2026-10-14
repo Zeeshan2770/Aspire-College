@@ -63,7 +63,7 @@ export default function Concerns() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {loading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -73,7 +73,7 @@ export default function Concerns() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Report Student Concern</h1>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Report Student Concern</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
@@ -145,15 +145,15 @@ export default function Concerns() {
             <div>
               <p className="text-sm font-semibold text-ink-900">{c.students?.full_name} (#{c.students?.roll_number})</p>
               <p className="text-sm text-slate-600">{c.short_description}</p>
-              {c.additional_notes && <p className="text-xs text-slate-400">{c.additional_notes}</p>}
+              {c.additional_notes && <p className="text-xs text-slate-500">{c.additional_notes}</p>}
             </div>
             <div className="text-right">
               <Badge tone={c.status === 'RESOLVED' || c.status === 'CLOSED' ? 'green' : 'amber'}>{c.status}</Badge>
-              <p className="mt-1 text-xs text-slate-400">{new Date(c.created_at).toLocaleDateString()}</p>
+              <p className="mt-1 text-xs text-slate-500">{new Date(c.created_at).toLocaleDateString()}</p>
             </div>
           </div>
         ))}
-        {!history.length && <div className="px-5 py-10 text-center text-slate-400">No concerns reported yet.</div>}
+        {!history.length && <div className="px-5 py-10 text-center text-slate-500">No concerns reported yet.</div>}
       </Card>
     </DashboardLayout>
   );

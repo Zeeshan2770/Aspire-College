@@ -68,8 +68,8 @@ export default function AttendanceRecords() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Attendance Records</h1>
-        <p className="text-sm text-slate-500">Drill into real attendance data for any class and section — not just totals.</p>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Attendance Records</h1>
+        <p className="mt-1 text-sm text-[var(--text-2)]">Drill into real attendance data for any class and section — not just totals.</p>
       </div>
 
       <Card className="mb-4 p-5">
@@ -111,7 +111,7 @@ export default function AttendanceRecords() {
       {mode === 'sessions' ? (
         <Card className="divide-y divide-slate-100">
           {loadingSessions ? (
-            <div className="px-5 py-10 text-center text-slate-400">Loading sessions…</div>
+            <div className="px-5 py-10 text-center text-slate-500">Loading sessions…</div>
           ) : (
             <>
               {sessions.map((s) => (
@@ -120,9 +120,9 @@ export default function AttendanceRecords() {
                     <div>
                       <p className="text-sm font-semibold text-ink-900">
                         {new Date(s.date).toLocaleDateString()}
-                        <span className="ml-2 font-normal text-slate-400">{s.classes?.name} · {s.sections?.name}</span>
+                        <span className="ml-2 font-normal text-slate-500">{s.classes?.name} · {s.sections?.name}</span>
                       </p>
-                      {s.subject && <p className="text-xs text-slate-400">{s.subject}{s.teacher ? ` • ${s.teacher}` : ''}</p>}
+                      {s.subject && <p className="text-xs text-slate-500">{s.subject}{s.teacher ? ` • ${s.teacher}` : ''}</p>}
                     </div>
                     <Badge tone="blue">View</Badge>
                   </button>
@@ -147,21 +147,21 @@ export default function AttendanceRecords() {
                   )}
                 </div>
               ))}
-              {!sessions.length && <div className="px-5 py-10 text-center text-slate-400">No attendance sessions found for this filter.</div>}
+              {!sessions.length && <div className="px-5 py-10 text-center text-slate-500">No attendance sessions found for this filter.</div>}
             </>
           )}
         </Card>
       ) : (
         <Card className="overflow-hidden">
           <div className="border-b border-slate-100 px-5 py-4">
-            <h3 className="font-bold text-ink-900">Student-wise Attendance</h3>
-            <p className="text-xs text-slate-400">Every student's individual record for the selected class/section and date range.</p>
+            <h3 className="font-display font-bold text-ink-900">Student-wise Attendance</h3>
+            <p className="text-xs text-slate-500">Every student's individual record for the selected class/section and date range.</p>
           </div>
           {loadingRoster ? (
-            <div className="px-5 py-10 text-center text-slate-400">Loading roster…</div>
+            <div className="px-5 py-10 text-center text-slate-500">Loading roster…</div>
           ) : (
             <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
                 <tr>
                   <th className="px-5 py-2.5">Student</th>
                   <th className="px-5 py-2.5">Class / Section</th>
@@ -174,7 +174,7 @@ export default function AttendanceRecords() {
               <tbody className="divide-y divide-slate-100">
                 {roster.map(({ student, stats }) => (
                   <tr key={student.id}>
-                    <td className="px-5 py-2.5 font-medium text-ink-900">{student.full_name} <span className="text-slate-400">#{student.roll_number}</span></td>
+                    <td className="px-5 py-2.5 font-medium text-ink-900">{student.full_name} <span className="text-slate-500">#{student.roll_number}</span></td>
                     <td className="px-5 py-2.5 text-slate-500">{student.classes?.name} — {student.sections?.name}</td>
                     <td className="px-5 py-2.5"><Badge tone="green">{stats.counts.PRESENT}</Badge></td>
                     <td className="px-5 py-2.5"><Badge tone="red">{stats.counts.ABSENT}</Badge></td>
@@ -183,7 +183,7 @@ export default function AttendanceRecords() {
                   </tr>
                 ))}
                 {!roster.length && (
-                  <tr><td colSpan={6} className="px-5 py-10 text-center text-slate-400">No students found for this filter.</td></tr>
+                  <tr><td colSpan={6} className="px-5 py-10 text-center text-slate-500">No students found for this filter.</td></tr>
                 )}
               </tbody>
             </table></div>

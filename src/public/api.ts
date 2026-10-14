@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { parseVideo } from '@/lib/video';
 
 export interface SiteSettings {
   college_name: string;
@@ -169,7 +170,9 @@ export async function fetchAlbums(): Promise<Album[]> {
   const counts = new Map<string, number>();
   (imgs ?? []).forEach((i) => {
     const k = i.owner_id as string;
-    if (!first.has(k)) first.set(k, i.url as string);
+    const u = i.url as string;
+    const thumb = parseVideo(u) ? parseVideo(u)!.thumb : u;
+    if (!first.has(k) && thumb) first.set(k, thumb);
     counts.set(k, (counts.get(k) ?? 0) + 1);
   });
   return albums.map((a) => ({ ...a, cover: first.get(a.id) ?? null, count: counts.get(a.id) ?? 0 }));

@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  functions = "netlify/functions"
 
   # The Supabase URL and anon key are public by design (they ship to every browser; the database is
   # protected by row-level security). Without this, Netlify's secret scanner can fail the build because
@@ -32,6 +33,19 @@
   from = "/assets/*"
   to = "/index.html"
   status = 404
+
+# Search-engine files, generated on request (must come before the catch-all below).
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/.netlify/functions/robots"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/*"

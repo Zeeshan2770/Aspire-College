@@ -1,3 +1,4 @@
+import { saveTracking } from '../myTracking';
 import { FormEvent, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Copy, Paperclip, X } from 'lucide-react';
@@ -22,10 +23,10 @@ export default function AskQuestion() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const set = (k: keyof PublicQueryInput) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setF((p) => ({ ...p, [k]: e.target.value }));
-  const cls = (bad: boolean) => `w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${bad ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-college-primary focus:ring-college-primary'}`;
-  const Err = ({ k }: { k: string }) => (errors[k] ? <p id={`q-${k}-err`} role="alert" className="mt-1 text-xs text-red-600">{errors[k]}</p> : null);
-  const lbl = 'mb-1 block text-sm font-medium text-slate-700';
-  const star = <span className="text-red-600" aria-hidden="true"> *</span>;
+  const cls = (_bad: boolean) => 'field';
+  const Err = ({ k }: { k: string }) => (errors[k] ? <p id={`q-${k}-err`} role="alert" className="field-error">{errors[k]}</p> : null);
+  const lbl = 'field-label';
+  const star = <span className="text-[var(--err)]" aria-hidden="true"> *</span>;
 
   const showName = f.visibility !== 'ANONYMOUS';
   const showContact = f.visibility === 'FULL';
@@ -77,7 +78,9 @@ export default function AskQuestion() {
         subject: f.subject.trim(),
         message: f.message.trim(),
       };
-      setCode(await submitQuery(payload, uploaded));
+      const newCode = await submitQuery(payload, uploaded);
+      saveTracking('q', newCode);
+      setCode(newCode);
     } catch (err) {
       setSubmitError((err as Error).message);
     } finally {
@@ -94,13 +97,13 @@ export default function AskQuestion() {
       <>
         <PageHeader title="Ask a Question" subtitle="Your question has been received." />
         <Section>
-          <div className="mx-auto max-w-xl rounded border border-slate-200 p-8 text-center">
-            <CheckCircle2 className="mx-auto h-10 w-10 text-green-600" aria-hidden="true" />
+          <div className="surface mx-auto max-w-xl p-8 text-center shadow-card sm:p-10">
+            <CheckCircle2 className="mx-auto h-12 w-12 text-[var(--ok)]" aria-hidden="true" />
             <p className="mt-3 font-medium text-college-primary">Thank you. Your question has been sent.</p>
-            <p className="mt-4 text-sm text-slate-600">Your tracking code is</p>
-            <p className="mt-1 select-all font-mono text-2xl font-semibold tracking-wider text-college-primary" data-testid="code">{code}</p>
+            <p className="mt-4 text-sm text-[var(--text-2)]">Your tracking code is</p>
+            <p className="mt-2 select-all rounded-lg bg-[var(--soft-blue)] px-4 py-3 font-mono text-2xl font-semibold tracking-wider text-college-primary" data-testid="code">{code}</p>
             <button onClick={copy} className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-college-primary hover:underline"><Copy className="h-4 w-4" aria-hidden="true" /> {copied ? 'Copied' : 'Copy code'}</button>
-            <p className="mt-4 text-sm text-slate-600">Write this code down. It is the only way to see the answer{f.visibility === 'FULL' ? ' on this website' : ''}, and we cannot recover it for you.</p>
+            <p className="mt-4 text-sm text-[var(--text-2)]">Write this code down. It is the only way to see the answer{f.visibility === 'FULL' ? ' on this website' : ''}, and we cannot recover it for you.</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Link to={`/ask/track?code=${encodeURIComponent(code)}`} className={btnPrimary}>Check the answer</Link>
               <button onClick={() => { setCode(null); setF(empty); setFiles([]); setCopied(false); }} className={btnSecondary}>Ask another question</button>
@@ -120,25 +123,25 @@ export default function AskQuestion() {
             <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" value={f.website} onChange={set('website')} /></label></div>
 
             <fieldset>
-              <legend className="mb-2 text-sm font-semibold text-college-primary">1. Who are you?</legend>
+              <legend className="mb-3 font-display text-h3 text-college-primary">1. Who are you?</legend>
               <div className="grid gap-2 sm:grid-cols-3">
                 {IDENTITIES.map((o) => (
-                  <label key={o.value} className={`cursor-pointer rounded border p-3 text-sm ${f.identity_type === o.value ? 'border-college-primary bg-college-primary/5' : 'border-slate-300 hover:bg-slate-50'}`}>
+                  <label key={o.value} className={`cursor-pointer rounded-lg border p-3.5 text-sm transition-colors focus-within:ring-2 focus-within:ring-[rgb(var(--c-accent)/.4)] ${f.identity_type === o.value ? 'border-[rgb(var(--c-accent))] bg-[var(--soft-blue)]' : 'border-[#CBD5E4] bg-white hover:border-[#AEBBD0]'}`}>
                     <input type="radio" name="identity" className="sr-only" checked={f.identity_type === o.value} onChange={() => setF((p) => ({ ...p, identity_type: o.value }))} />
-                    <span className="block font-medium text-slate-800">{o.label}</span>
-                    <span className="block text-xs text-slate-500">{o.hint}</span>
+                    <span className="block font-medium text-[var(--text)]">{o.label}</span>
+                    <span className="block text-xs text-[var(--text-2)]">{o.hint}</span>
                   </label>
                 ))}
               </div>
             </fieldset>
 
             <fieldset>
-              <legend className="mb-2 text-sm font-semibold text-college-primary">2. How much do you want to share about yourself?</legend>
+              <legend className="mb-3 font-display text-h3 text-college-primary">2. How much do you want to share about yourself?</legend>
               <div className="space-y-2">
                 {VISIBILITIES.map((o) => (
-                  <label key={o.value} className={`flex cursor-pointer gap-3 rounded border p-3 text-sm ${f.visibility === o.value ? 'border-college-primary bg-college-primary/5' : 'border-slate-300 hover:bg-slate-50'}`}>
+                  <label key={o.value} className={`flex cursor-pointer gap-3 rounded-lg border p-3.5 text-sm transition-colors focus-within:ring-2 focus-within:ring-[rgb(var(--c-accent)/.4)] ${f.visibility === o.value ? 'border-[rgb(var(--c-accent))] bg-[var(--soft-blue)]' : 'border-[#CBD5E4] bg-white hover:border-[#AEBBD0]'}`}>
                     <input type="radio" name="visibility" className="mt-0.5" checked={f.visibility === o.value} onChange={() => { setF((p) => ({ ...p, visibility: o.value })); setErrors({}); }} />
-                    <span><span className="block font-medium text-slate-800">{o.label}</span><span className="block text-xs text-slate-500">{o.hint}</span></span>
+                    <span><span className="block font-medium text-[var(--text)]">{o.label}</span><span className="block text-xs text-[var(--text-2)]">{o.hint}</span></span>
                   </label>
                 ))}
               </div>
@@ -171,11 +174,11 @@ export default function AskQuestion() {
                   )}
                 </div>
               )}
-              {f.visibility === 'ANONYMOUS' && <p className="mt-3 rounded bg-slate-50 px-3 py-2 text-xs text-slate-600">No name, email or phone will be saved with this question. Please do not write personal details in the message either.</p>}
+              {f.visibility === 'ANONYMOUS' && <p className="mt-3 rounded bg-[var(--bg)] px-3 py-2 text-xs text-[var(--text-2)]">No name, email or phone will be saved with this question. Please do not write personal details in the message either.</p>}
             </fieldset>
 
             <fieldset>
-              <legend className="mb-2 text-sm font-semibold text-college-primary">3. Your question</legend>
+              <legend className="mb-3 font-display text-h3 text-college-primary">3. Your question</legend>
               <div className="space-y-4">
                 <div>
                   <label htmlFor="q-category" className={lbl}>Topic{star}</label>
@@ -193,32 +196,32 @@ export default function AskQuestion() {
                 <div>
                   <label htmlFor="q-message" className={lbl}>Message{star}</label>
                   <textarea id="q-message" rows={6} maxLength={4000} value={f.message} onChange={set('message')} className={cls(!!errors.message)} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'q-message-err' : undefined} />
-                  <div className="flex justify-between"><Err k="message" /><span className="ml-auto mt-1 text-xs text-slate-400">{f.message.length} / 4000</span></div>
+                  <div className="flex justify-between"><Err k="message" /><span className="ml-auto mt-1 text-xs text-[#7A8AA3]">{f.message.length} / 4000</span></div>
                 </div>
                 <div>
                   <span className={lbl}>Attachments (optional)</span>
-                  <p className="mb-2 text-xs text-slate-500">Up to {MAX_FILES} files: JPG, PNG, WebP or PDF, 5 MB each. Only the college staff who answer questions can open them.</p>
+                  <p className="mb-2 text-xs text-[var(--text-2)]">Up to {MAX_FILES} files: JPG, PNG, WebP or PDF, 5 MB each. Only the college staff who answer questions can open them.</p>
                   {files.length > 0 && (
                     <ul className="mb-2 space-y-1.5">
                       {files.map((file, i) => (
-                        <li key={`${file.name}-${i}`} className="flex items-center justify-between gap-3 rounded border border-slate-200 px-3 py-1.5 text-sm">
-                          <span className="min-w-0 truncate"><Paperclip className="mr-1.5 inline h-3.5 w-3.5 text-slate-400" aria-hidden="true" />{file.name} <span className="text-xs text-slate-400">({kb(file.size)})</span></span>
-                          <button type="button" aria-label={`Remove ${file.name}`} onClick={() => setFiles(files.filter((_, k) => k !== i))} className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-red-600"><X className="h-4 w-4" /></button>
+                        <li key={`${file.name}-${i}`} className="flex items-center justify-between gap-3 rounded-lg border border-[#CBD5E4] px-3 py-1.5 text-sm">
+                          <span className="min-w-0 truncate"><Paperclip className="mr-1.5 inline h-3.5 w-3.5 text-[#7A8AA3]" aria-hidden="true" />{file.name} <span className="text-xs text-[#7A8AA3]">({kb(file.size)})</span></span>
+                          <button type="button" aria-label={`Remove ${file.name}`} onClick={() => setFiles(files.filter((_, k) => k !== i))} className="rounded p-1 text-[var(--text-2)] hover:bg-slate-100 hover:text-red-600"><X className="h-4 w-4" /></button>
                         </li>
                       ))}
                     </ul>
                   )}
                   <input ref={fileRef} id="q-files" type="file" multiple accept={ALLOWED.join(',')} className="sr-only" disabled={files.length >= MAX_FILES || !!busy} onChange={(e) => addFiles(e.target.files)} />
-                  <label htmlFor="q-files" className={`inline-flex cursor-pointer items-center gap-2 rounded border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 ${files.length >= MAX_FILES || busy ? 'pointer-events-none opacity-50' : ''}`}><Paperclip className="h-4 w-4" aria-hidden="true" /> Add files</label>
-                  {errors.files && <p role="alert" className="mt-1 text-xs text-red-600">{errors.files}</p>}
+                  <label htmlFor="q-files" className={`inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[#CBD5E4] px-3 py-2 text-sm font-medium text-[var(--text)] hover:bg-[var(--bg)] ${files.length >= MAX_FILES || busy ? 'pointer-events-none opacity-50' : ''}`}><Paperclip className="h-4 w-4" aria-hidden="true" /> Add files</label>
+                  {errors.files && <p role="alert" className="field-error">{errors.files}</p>}
                 </div>
               </div>
             </fieldset>
 
-            {submitError && <div role="alert" className="rounded border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{submitError}</div>}
+            {submitError && <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{submitError}</div>}
             <div className="flex flex-wrap items-center gap-4">
               <button type="submit" disabled={!!busy} className={btnPrimary}>{busy ?? 'Send Question'}</button>
-              <Link to="/ask/track" className="text-sm font-medium text-college-primary hover:underline">Already asked? Check your answer</Link>
+              <Link to="/ask/track" className="link-arrow">Already asked? Check your answer</Link>
             </div>
           </form>
         </div>

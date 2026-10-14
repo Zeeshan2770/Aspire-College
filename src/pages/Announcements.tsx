@@ -1,3 +1,4 @@
+import { TextVideos } from '@/components/VideoEmbed';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Pin, PinOff, Pencil, Trash2, Send, Inbox as InboxIcon, CheckCheck, Clock, X } from 'lucide-react';
@@ -162,8 +163,8 @@ export default function AnnouncementsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Announcements</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Announcements</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">
             {canCompose
               ? `You can announce to: ${audience.map((r) => ROLE_PLURAL[r]).join(', ')}.`
               : 'Updates from your Principal and Sub Super Admin.'}
@@ -214,13 +215,14 @@ export default function AnnouncementsPage() {
                   <Badge tone={item.priority === 'URGENT' ? 'red' : item.priority === 'HIGH' ? 'amber' : item.priority === 'LOW' ? 'slate' : 'blue'}>{item.priority}</Badge>
                 </div>
                 <p className="mt-1.5 whitespace-pre-line text-sm text-slate-600">{item.message}</p>
-                <p className="mt-2 text-xs text-slate-400">
+                <TextVideos text={item.message} className="mt-3 max-w-xl" />
+                <p className="mt-2 text-xs text-slate-500">
                   {item.created_by_name} · {ROLE_LABEL[item.created_by_role]} · {timeAgo(item.created_at)}
                   {item.expires_at && <> · <Clock size={11} className="inline -mt-0.5" /> expires {new Date(item.expires_at).toLocaleDateString()}</>}
                 </p>
               </Card>
             ))}
-            {!filteredInbox.length && <Card className="p-8 text-center text-slate-400">{inboxFilter === 'unread' ? 'No unread announcements.' : 'No announcements yet.'}</Card>}
+            {!filteredInbox.length && <Card className="p-8 text-center text-slate-500">{inboxFilter === 'unread' ? 'No unread announcements.' : 'No announcements yet.'}</Card>}
           </div>
         </>
       )}
@@ -243,6 +245,8 @@ export default function AnnouncementsPage() {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               placeholder="Write your announcement…"
             />
+            <p className="mt-1 text-xs text-slate-500">Tip: paste a YouTube, Vimeo, Facebook, Instagram or TikTok link in the message and it will play inside the announcement.</p>
+            <TextVideos text={form.message} className="mt-2 max-w-sm" />
           </div>
 
           <div className="mt-4">
@@ -314,15 +318,16 @@ export default function AnnouncementsPage() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Badge tone={a.priority === 'URGENT' ? 'red' : a.priority === 'HIGH' ? 'amber' : a.priority === 'LOW' ? 'slate' : 'blue'}>{a.priority}</Badge>
-                    <button onClick={() => togglePin(a)} title={a.is_pinned ? 'Unpin' : 'Pin'} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-brand-600">
+                    <button onClick={() => togglePin(a)} title={a.is_pinned ? 'Unpin' : 'Pin'} className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-brand-600">
                       {a.is_pinned ? <PinOff size={14} /> : <Pin size={14} />}
                     </button>
-                    <button onClick={() => startEdit(a)} title="Edit" className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-brand-600"><Pencil size={14} /></button>
+                    <button onClick={() => startEdit(a)} title="Edit" className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-brand-600"><Pencil size={14} /></button>
                     <button onClick={() => handleDelete(a.id)} title="Delete" className="rounded-lg p-1.5 text-red-400 hover:bg-red-50"><Trash2 size={14} /></button>
                   </div>
                 </div>
                 <p className="mt-1.5 whitespace-pre-line text-sm text-slate-600">{a.message}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+                <TextVideos text={a.message} className="mt-3 max-w-xl" />
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-500">
                   <span>To: {a.target_roles.map((r) => ROLE_PLURAL[r]).join(', ')}</span>
                   <span>· {timeAgo(a.created_at)}</span>
                   {a.expires_at && <span>· expires {new Date(a.expires_at).toLocaleDateString()}</span>}
@@ -331,7 +336,7 @@ export default function AnnouncementsPage() {
               </Card>
             );
           })}
-          {!sent.length && <Card className="p-8 text-center text-slate-400">You haven't posted any announcements yet.</Card>}
+          {!sent.length && <Card className="p-8 text-center text-slate-500">You haven't posted any announcements yet.</Card>}
         </div>
       )}
     </DashboardLayout>

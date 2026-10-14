@@ -12,7 +12,7 @@ const ICONS: Record<PortalKey, typeof ShieldCheck> = {
 };
 
 /** Header dropdown: one entry per portal role. Keyboard: Enter/Space/ArrowDown open, arrows move, Esc closes. */
-export default function PortalLoginMenu() {
+export default function PortalLoginMenu({ variant = 'default' }: { variant?: 'default' | 'island' }) {
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
@@ -62,10 +62,14 @@ export default function PortalLoginMenu() {
         aria-controls="portal-login-menu"
         onClick={() => setOpen((o) => !o)}
         onKeyDown={onButtonKey}
-        className="inline-flex items-center gap-1.5 whitespace-nowrap rounded border border-slate-300 px-3.5 py-2 text-sm font-semibold text-slate-700 hover:border-college-primary hover:text-college-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-college-accent"
+        className={variant === 'island' ? 'island-login' : 'btn btn-secondary btn-sm'}
       >
-        <LogIn className="h-4 w-4" aria-hidden="true" />
-        Portal Login
+        {variant === 'island' ? (
+          <span className="island-login-icon"><LogIn className="h-4 w-4" aria-hidden="true" /></span>
+        ) : (
+          <LogIn className="h-4 w-4" aria-hidden="true" />
+        )}
+        {variant === 'island' ? 'Login' : 'Portal Login'}
         <ChevronDown className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
       </button>
 
@@ -75,9 +79,9 @@ export default function PortalLoginMenu() {
           role="menu"
           aria-label="Portal login by role"
           onKeyDown={onMenuKey}
-          className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-md border border-slate-200 bg-white shadow-lg"
+          className={`absolute right-0 z-50 w-80 overflow-hidden border border-[var(--border)] bg-white shadow-pop ${variant === 'island' ? 'mt-3 rounded-3xl' : 'mt-2 rounded-xl'}`} style={{ animation: 'sheetIn var(--dur-2) var(--ease)' }}
         >
-          <p className="border-b border-slate-100 bg-slate-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Sign in as</p>
+          <p className="border-b border-[var(--border)] bg-[var(--bg)] px-4 py-2.5 text-xs font-semibold uppercase tracking-[.12em] text-[var(--text-2)]">Sign in as</p>
           <ul>
             {PORTAL_ROLES.map((p, i) => {
               const Icon = ICONS[p.key];
@@ -88,12 +92,12 @@ export default function PortalLoginMenu() {
                     role="menuitem"
                     to={`/login?as=${p.key}`}
                     onClick={() => setOpen(false)}
-                    className="flex items-start gap-3 px-4 py-3 hover:bg-slate-50 focus:bg-slate-50 focus:outline-none"
+                    className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-[var(--soft-blue)] focus:bg-[var(--soft-blue)] focus:outline-none"
                   >
-                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-college-primary" aria-hidden="true" />
+                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[rgb(var(--c-accent))]" aria-hidden="true" />
                     <span>
-                      <span className="block text-sm font-semibold text-slate-800">{p.label}</span>
-                      <span className="block text-xs text-slate-500">{p.blurb}</span>
+                      <span className="block text-sm font-semibold text-college-primary">{p.label}</span>
+                      <span className="block text-xs text-[var(--text-2)]">{p.blurb}</span>
                     </span>
                   </Link>
                 </li>

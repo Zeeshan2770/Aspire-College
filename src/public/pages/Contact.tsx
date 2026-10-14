@@ -16,7 +16,7 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF((p) => ({ ...p, [k]: e.target.value }));
-  const cls = (bad: boolean) => `w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${bad ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-college-primary focus:ring-college-primary'}`;
+  const cls = (_bad: boolean) => 'field';
 
   async function onSubmit(ev: FormEvent) {
     ev.preventDefault();
@@ -44,65 +44,65 @@ export default function Contact() {
 
   return (
     <>
-      <PageHeader title="Contact" subtitle="Get in touch with the college." />
+      <PageHeader title="Contact" subtitle="Get in touch with the college." eyebrow="Reach us" />
       <Section>
-        <div className="grid gap-10 lg:grid-cols-2">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
           <div>
-            <h2 className="font-display text-xl font-semibold text-college-primary">{settings?.college_name}, {settings?.campus_name}</h2>
-            <ul className="mt-5 space-y-4 text-sm text-slate-700">
-              <li className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.address ?? <Placeholder label="[ADDRESS TO BE PROVIDED]" />}</li>
-              <li className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.phone ?? <Placeholder label="[PHONE TO BE PROVIDED]" />}</li>
-              <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.email ?? <Placeholder label="[EMAIL TO BE PROVIDED]" />}</li>
+            <h2 className="font-display text-h3 text-college-primary">{settings?.college_name}, {settings?.campus_name}</h2>
+            <ul className="mt-6 space-y-4 text-[0.95rem]">
+              <li className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.address ?? <Placeholder label="Address coming soon" />}</li>
+              <li className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.phone ?? <Placeholder label="Phone coming soon" />}</li>
+              <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-college-accent" aria-hidden="true" />{settings?.email ?? <Placeholder label="Email coming soon" />}</li>
             </ul>
-            <p className="mt-6 rounded border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+            <p className="mt-7 rounded-xl border border-[var(--border)] bg-[var(--soft-blue)] px-5 py-4 text-sm">
               Have a question or a concern? You can <Link to="/ask" className="font-medium text-college-primary hover:underline">ask it here</Link>, anonymously if you prefer, and attach files.
             </p>
             {embed ? (
-              <iframe title="Map showing the college location" src={embed} loading="lazy" className="mt-6 h-64 w-full rounded border border-slate-200" />
+              <iframe title="Map showing the college location" src={embed} loading="lazy" className="mt-6 h-72 w-full rounded-xl border border-[var(--border)] shadow-soft" />
             ) : settings?.map_url ? (
-              <a href={settings.map_url} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block text-sm font-medium text-college-primary hover:underline">View on map</a>
+              <a href={settings.map_url} target="_blank" rel="noopener noreferrer" className="link-arrow mt-6">View on map</a>
             ) : (
-              <div className="mt-6 flex h-40 items-center justify-center rounded border border-dashed border-slate-300 text-sm text-slate-400">Map location to be provided</div>
+              <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-[#CBD5E4] text-sm text-[var(--text-2)]">Map location to be provided</div>
             )}
           </div>
 
           <div>
             {sent ? (
-              <div className="rounded border border-slate-200 p-8 text-center">
-                <CheckCircle2 className="mx-auto h-10 w-10 text-green-600" aria-hidden="true" />
-                <p className="mt-3 font-medium text-college-primary">Message sent</p>
-                <p className="mt-1 text-sm text-slate-600">Thank you. We will get back to you soon.</p>
+              <div className="surface p-10 text-center shadow-card">
+                <CheckCircle2 className="mx-auto h-12 w-12 text-[var(--ok)]" aria-hidden="true" />
+                <p className="mt-4 font-display text-xl font-bold text-college-primary">Message sent</p>
+                <p className="mt-1 text-sm text-[var(--text-2)]">Thank you. We will get back to you soon.</p>
               </div>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="space-y-4">
+              <form onSubmit={onSubmit} noValidate className="surface space-y-5 p-6 shadow-card sm:p-8">
                 <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" value={f.website} onChange={set('website')} /></label></div>
                 <div>
-                  <label htmlFor="c-name" className="mb-1 block text-sm font-medium text-slate-700">Name <span className="text-red-600" aria-hidden="true">*</span></label>
+                  <label htmlFor="c-name" className="field-label">Name <span className="text-[var(--err)]" aria-hidden="true">*</span></label>
                   <input id="c-name" value={f.name} onChange={set('name')} className={cls(!!errors.name)} aria-invalid={!!errors.name} aria-describedby={errors.name ? 'c-name-err' : undefined} autoComplete="name" />
-                  {errors.name && <p id="c-name-err" role="alert" className="mt-1 text-xs text-red-600">{errors.name}</p>}
+                  {errors.name && <p id="c-name-err" role="alert" className="field-error">{errors.name}</p>}
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="c-email" className="mb-1 block text-sm font-medium text-slate-700">Email</label>
+                    <label htmlFor="c-email" className="field-label">Email</label>
                     <input id="c-email" type="email" value={f.email} onChange={set('email')} className={cls(!!errors.email)} aria-invalid={!!errors.email} aria-describedby={errors.email ? 'c-email-err' : undefined} autoComplete="email" />
-                    {errors.email && <p id="c-email-err" role="alert" className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                    {errors.email && <p id="c-email-err" role="alert" className="field-error">{errors.email}</p>}
                   </div>
                   <div>
-                    <label htmlFor="c-phone" className="mb-1 block text-sm font-medium text-slate-700">Phone</label>
+                    <label htmlFor="c-phone" className="field-label">Phone</label>
                     <input id="c-phone" type="tel" value={f.phone} onChange={set('phone')} className={cls(!!errors.phone)} aria-invalid={!!errors.phone} aria-describedby={errors.phone ? 'c-phone-err' : undefined} autoComplete="tel" />
-                    {errors.phone && <p id="c-phone-err" role="alert" className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+                    {errors.phone && <p id="c-phone-err" role="alert" className="field-error">{errors.phone}</p>}
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="c-subject" className="mb-1 block text-sm font-medium text-slate-700">Subject</label>
+                  <label htmlFor="c-subject" className="field-label">Subject</label>
                   <input id="c-subject" value={f.subject} onChange={set('subject')} className={cls(false)} />
                 </div>
                 <div>
-                  <label htmlFor="c-message" className="mb-1 block text-sm font-medium text-slate-700">Message <span className="text-red-600" aria-hidden="true">*</span></label>
+                  <label htmlFor="c-message" className="field-label">Message <span className="text-[var(--err)]" aria-hidden="true">*</span></label>
                   <textarea id="c-message" rows={5} value={f.message} onChange={set('message')} className={cls(!!errors.message)} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'c-message-err' : undefined} />
-                  {errors.message && <p id="c-message-err" role="alert" className="mt-1 text-xs text-red-600">{errors.message}</p>}
+                  {errors.message && <p id="c-message-err" role="alert" className="field-error">{errors.message}</p>}
                 </div>
-                {submitError && <div role="alert" className="rounded border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{submitError}</div>}
+                {submitError && <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{submitError}</div>}
                 <button type="submit" disabled={busy} className={btnPrimary}>{busy ? 'Sending…' : 'Send Message'}</button>
               </form>
             )}

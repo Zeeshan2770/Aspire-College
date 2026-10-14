@@ -121,7 +121,7 @@ function ManageOptionsModal({ category, title, onClose }: { category: OptionCate
             )}
           </li>
         ))}
-        {!options.length && <li className="py-4 text-center text-sm text-slate-400">No options yet. Add the first one below.</li>}
+        {!options.length && <li className="py-4 text-center text-sm text-slate-500">No options yet. Add the first one below.</li>}
       </ul>
       <div className="mt-4 flex gap-2">
         <Input aria-label="New option" placeholder="Add a new option" value={newText} maxLength={120} onChange={(e) => setNewText(e.target.value)}

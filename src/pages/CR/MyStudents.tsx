@@ -104,7 +104,7 @@ export default function MyStudents() {
   if (!assignment) {
     return (
       <DashboardLayout>
-        <Card className="p-8 text-center text-slate-400">
+        <Card className="p-8 text-center text-slate-500">
           {loading ? 'Loading…' : 'You are not assigned to any section yet.'}
         </Card>
       </DashboardLayout>
@@ -114,14 +114,14 @@ export default function MyStudents() {
   return (
     <DashboardLayout>
       <div className="mb-6">
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">My Students</h1>
+        <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">My Students</h1>
         <div className="mt-2"><CrSectionSwitcher /></div>
       </div>
 
       <Card className="mb-4 p-4">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
             <Input className="pl-9" placeholder="Search by name or roll number…" value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
           <Button onClick={openAdd}><Plus size={16} /> Add Student</Button>
@@ -130,7 +130,7 @@ export default function MyStudents() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto"><table className="w-full min-w-[36rem] text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
             <tr>
               <th className="px-4 py-3">Roll #</th>
               <th className="px-4 py-3">Name</th>
@@ -157,7 +157,7 @@ export default function MyStudents() {
                 </td>
               </tr>
             ))}
-            {!filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">No students found.</td></tr>}
+            {!filtered.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">No students found.</td></tr>}
           </tbody>
         </table></div>
       </Card>
@@ -167,7 +167,7 @@ export default function MyStudents() {
           <div><Label>Full Name</Label><Input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} /></div>
           <div><Label>Roll Number</Label><Input value={form.roll_number} onChange={(e) => setForm({ ...form, roll_number: e.target.value })} /></div>
           <div><Label>Phone (optional)</Label><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Adds to {assignment.classes?.name} — {assignment.sections?.name}.
           </p>
           <Button className="w-full" disabled={saving} onClick={submitAdd}>{saving ? 'Adding…' : 'Add Student'}</Button>

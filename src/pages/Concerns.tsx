@@ -73,7 +73,7 @@ function ConcernRow({ c, onOpen }: { c: ConcernWithNames; onOpen: () => void }) 
         <Badge tone="slate">{c.concern_type}</Badge>
         <Badge tone={STATUS_TONE[c.status]}>{c.status.replace('_', ' ')}</Badge>
         <Badge tone={PRIORITY_TONE[c.priority]}>{c.priority}</Badge>
-        <span className="ml-auto text-xs text-slate-400">{timeAgo(c.created_at)}</span>
+        <span className="ml-auto text-xs text-slate-500">{timeAgo(c.created_at)}</span>
       </div>
       <p className="text-sm font-semibold text-ink-900">{c.short_description}</p>
       <p className="text-xs text-slate-500">
@@ -273,8 +273,8 @@ export default function ConcernsPage() {
     <DashboardLayout>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">Concerns</h1>
-          <p className="text-sm text-slate-500">Raise and track institutional concerns and complaints.</p>
+          <h1 className="font-display text-xl font-extrabold tracking-tight text-ink-900 sm:text-2xl">Concerns</h1>
+          <p className="mt-1 text-sm text-[var(--text-2)]">Raise and track institutional concerns and complaints.</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -291,7 +291,7 @@ export default function ConcernsPage() {
             </button>
             {notifOpen && (
               <div className="absolute right-0 z-40 mt-2 w-80 rounded-xl border border-slate-200 bg-white p-2 shadow-card">
-                {notifications.length === 0 && <p className="px-3 py-4 text-center text-xs text-slate-400">No notifications.</p>}
+                {notifications.length === 0 && <p className="px-3 py-4 text-center text-xs text-slate-500">No notifications.</p>}
                 {notifications.map((n) => (
                   <button
                     key={n.id}
@@ -302,7 +302,7 @@ export default function ConcernsPage() {
                     )}
                   >
                     <span className={clsx(!n.is_read && 'font-semibold text-ink-900')}>{n.message}</span>
-                    <span className="text-slate-400">{timeAgo(n.created_at)}</span>
+                    <span className="text-slate-500">{timeAgo(n.created_at)}</span>
                   </button>
                 ))}
               </div>
@@ -416,7 +416,7 @@ export default function ConcernsPage() {
                 </button>
               ))}
             </div>
-            <p className="mt-1.5 text-xs text-slate-400">
+            <p className="mt-1.5 text-xs text-slate-500">
               Personal/Institution concerns are only visible to you and concern managers. Section/Class concerns are
               also visible to CRs assigned there.
             </p>
@@ -473,7 +473,7 @@ export default function ConcernsPage() {
 
       {tab === 'manage' && capabilities.canManage && (
         <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl bg-slate-50 px-3.5 py-2.5">
-          <Filter size={14} className="text-slate-400" />
+          <Filter size={14} className="text-slate-500" />
           <select
             className="rounded-lg border border-slate-200 px-2 py-1 text-xs"
             value={manageFilters.status ?? ''}
@@ -518,7 +518,7 @@ export default function ConcernsPage() {
           )}
           {!loadingList && list.map((c) => <ConcernRow key={c.id} c={c} onOpen={() => setSelectedId(c.id)} />)}
           {!loadingList && !list.length && (
-            <div className="px-5 py-10 text-center text-slate-400">
+            <div className="px-5 py-10 text-center text-slate-500">
               {tab === 'mine' && "You haven't raised any concerns yet."}
               {tab === 'assigned' && 'No concerns are currently assigned to you.'}
               {tab === 'manage' && 'No concerns match these filters.'}

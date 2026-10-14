@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FileText, Paperclip, Search, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
+import { FileText, Mail, Paperclip, Search, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { logActivity } from '@/services/activityLog';
@@ -21,7 +23,7 @@ function Detail({ k, v }: { k: string; v?: string | null }) {
   return (
     <div>
       <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{k}</dt>
-      <dd className="mt-0.5 text-sm text-slate-800">{v ? v : <span className="text-slate-400">Not shared</span>}</dd>
+      <dd className="mt-0.5 text-sm text-slate-800">{v ? v : <span className="text-slate-500">Not shared</span>}</dd>
     </div>
   );
 }
@@ -64,6 +66,13 @@ function QueryModal({ q, canManage, onClose, onChanged }: { q: QueryRow; canMana
       toast.success(isPublic ? 'Reply saved. The person can see it with their tracking code.' : 'Internal note saved.');
     } catch (e) { toast.error((e as Error).message); } finally { setBusy(false); }
   }
+  async function emailReply() {
+    setBusy(true);
+    const { data, error } = await supabase.functions.invoke('notify-applicant', { body: { query_id: cur.id } });
+    setBusy(false);
+    if (error || data?.error) toast.error(data?.error ?? 'Automatic email is not set up yet. Use "Message the person" to send it by hand.');
+    else { log('Question Emailed', `Emailed the reply for question ${cur.code}.`); toast.success('Reply emailed.'); }
+  }
   async function remove() {
     if (!window.confirm('Delete this question, its replies and its attachments? This cannot be undone.')) return;
     try { await deleteQuery(cur); log('Question Deleted', `Deleted question ${cur.code}.`); toast.success('Question deleted.'); onChanged(); onClose(); } catch (e) { toast.error((e as Error).message); }
@@ -86,6 +95,15 @@ function QueryModal({ q, canManage, onClose, onChanged }: { q: QueryRow; canMana
             <Detail k="Role" v={identityLabel(cur.identity_type)} />
             <Detail k="Identity shared" v={visibilityLabel(cur.visibility)} />
             <Detail k="Contact" v={reachable.length ? reachable.join(' · ') : null} />
+            {(cur.email || cur.phone) && (
+              <div className="flex flex-wrap gap-2">
+                {cur.email && <button type="button" disabled={busy} onClick={emailReply} className="inline-flex items-center gap-2 rounded-full border border-[#CBD5E4] bg-white px-4 py-2 text-sm font-semibold text-[#41516B] hover:border-[#AEBBD0] disabled:opacity-50"><Mail size={16} /> Email latest reply</button>}
+                <Link className="inline-flex items-center gap-2 rounded-full border border-[#CBD5E4] bg-white px-4 py-2 text-sm font-semibold text-[#41516B] hover:border-[#AEBBD0]"
+                  to={`/admin/messages?${new URLSearchParams({ template: 'query-reply', channel: cur.email ? 'email' : 'whatsapp', to: cur.email ?? cur.phone ?? '', name: cur.name ?? 'there', tracking_code: cur.code, question: cur.subject, answer: [...replies].reverse().find((r) => r.is_public)?.body ?? '' }).toString()}`}>
+                  <Mail size={16} /> Message the person
+                </Link>
+              </div>
+            )}
             {(cur.class_name || cur.roll_no) && <Detail k="Class / roll number" v={[cur.class_name, cur.roll_no && `#${cur.roll_no}`].filter(Boolean).join(' ')} />}
           </dl>
           {cur.visibility !== 'FULL' && <p className="mt-2 text-xs text-slate-500">This person chose not to share contact details. Reply here; they read it with their tracking code on the website.</p>}
@@ -99,7 +117,7 @@ function QueryModal({ q, canManage, onClose, onChanged }: { q: QueryRow; canMana
               {cur.attachments.map((a) => (
                 <li key={a.path}>
                   <button type="button" onClick={() => open(a.path)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50">
-                    {a.type === 'application/pdf' ? <FileText size={14} /> : <Paperclip size={14} />} {a.name} <span className="text-xs text-slate-400">({kb(a.size)})</span>
+                    {a.type === 'application/pdf' ? <FileText size={14} /> : <Paperclip size={14} />} {a.name} <span className="text-xs text-slate-500">({kb(a.size)})</span>
                   </button>
                 </li>
               ))}
@@ -109,7 +127,7 @@ function QueryModal({ q, canManage, onClose, onChanged }: { q: QueryRow; canMana
 
         <section>
           <h4 className="mb-2 text-sm font-bold text-slate-700">Replies and notes</h4>
-          {!replies.length ? <p className="text-sm text-slate-400">No replies yet.</p> : (
+          {!replies.length ? <p className="text-sm text-slate-500">No replies yet.</p> : (
             <ul className="space-y-3">
               {replies.map((r) => (
                 <li key={r.id} className={`rounded-lg px-3 py-2 text-sm ${r.is_public ? 'bg-green-50' : 'bg-amber-50'}`}>
@@ -198,7 +216,7 @@ export default function QueriesPanel({ canManage, onNew }: { canManage: boolean;
       <Card>
         <div className="flex flex-wrap gap-3 border-b border-slate-100 p-4">
           <div className="relative min-w-[220px] flex-1">
-            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" aria-hidden="true" />
+            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-500" aria-hidden="true" />
             <Input className="pl-9" placeholder="Search by subject, tracking code or name" aria-label="Search questions" value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
           <div className="w-48">
@@ -213,7 +231,7 @@ export default function QueriesPanel({ canManage, onNew }: { canManage: boolean;
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[36rem] text-sm">
-              <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <thead className="bg-[#F4F7FC] text-left text-xs font-semibold tracking-wide text-[#5B6B83]">
                 <tr><th className="px-4 py-3">Question</th><th className="px-4 py-3">From</th><th className="px-4 py-3">Topic</th><th className="px-4 py-3">Received</th><th className="px-4 py-3">Status</th></tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -228,7 +246,7 @@ export default function QueriesPanel({ canManage, onNew }: { canManage: boolean;
                   </tr>
                 ))}
                 {loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center"><Spinner className="mx-auto" /></td></tr>}
-                {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-400">{debounced || status ? 'No questions match your search.' : 'No questions have been received yet.'}</td></tr>}
+                {!loading && !rows.length && <tr><td colSpan={5} className="px-4 py-10 text-center text-slate-500">{debounced || status ? 'No questions match your search.' : 'No questions have been received yet.'}</td></tr>}
               </tbody>
             </table>
           </div>
