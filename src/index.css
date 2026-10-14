@@ -211,9 +211,15 @@ thead th:last-child { border-top-right-radius: 14px; border-bottom-right-radius:
     border-radius: 9999px; padding: .6rem 1rem; font-size: .9rem; font-weight: 600;
     color: rgba(255,255,255,.78); transition: color var(--dur-2) var(--ease);
   }
-  /* Laptop widths: tighter links so all nav items and the Apply button fit inside the island. */
-  @media (min-width: 1280px) and (max-width: 1535px) {
-    .island-link { padding: .6rem .6rem; font-size: .85rem; }
+  /* Laptop widths: tighter links (still full-size, readable text) so the whole row fits beside the branding.
+     If it still does not fit, the header switches to the menu button (see useFullNavFits in PublicLayout). */
+  @media (max-width: 1535px) {
+    .island-link { padding: .6rem .7rem; font-size: .875rem; }
+  }
+  /* The link row / actions while the header is in menu-button mode: kept in place for measuring, never seen or focused.
+     Clipped so they cannot widen the page on phones (scrollWidth still reports their full width). */
+  .island-measure {
+    position: absolute; left: 0; top: 0; display: flex; max-width: 100%; overflow: hidden; visibility: hidden; pointer-events: none;
   }
   .island-link:hover { color: #fff; }
   .island-link.is-active { color: rgb(var(--ink-950)); }

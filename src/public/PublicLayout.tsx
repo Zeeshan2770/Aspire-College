@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Home as HomeIcon, Facebook, Instagram, Mail, Menu, Phone, X, Youtube, GraduationCap, MapPin, MessageCircle, Code2 } from 'lucide-react';
+import { ArrowRight, ChevronDown, Facebook, Instagram, Mail, Menu, Phone, X, Youtube, GraduationCap, MapPin, MessageCircle, Code2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { SiteProvider, useSite } from './SiteProvider';
 import { Placeholder, StateBox } from './components';
@@ -103,14 +103,13 @@ function Logo({ large = false, island = false }: { large?: boolean; island?: boo
 }
 
 /** Desktop nav pills with one shared sliding highlight (active = solid, hover = soft). */
-function IslandNav({ pathname }: { pathname: string }) {
-  const nav = useRef<HTMLElement>(null);
+function IslandNav({ pathname, navRef, compact }: { pathname: string; navRef: React.RefObject<HTMLElement>; compact: boolean }) {
   const els = useRef<Record<string, HTMLElement | null>>({});
   const [hover, setHover] = useState<string | null>(null);
   const [box, setBox] = useState<Record<'active' | 'hover', { x: number; w: number } | null>>({ active: null, hover: null });
 
   const match = (to: string, end?: boolean) => (end ? pathname === to : pathname === to || pathname.startsWith(to + '/'));
-  const activeKey = pathname === '/' || pathname === '/home' ? '/' : MAIN_NAV.find((n) => match(n.to, n.end))?.to ?? (MORE_NAV.some((n) => match(n.to)) ? 'more' : null);
+  const activeKey = MAIN_NAV.find((n) => match(n.to, n.end))?.to ?? (MORE_NAV.some((n) => match(n.to)) ? 'more' : null);
 
   useLayoutEffect(() => {
     const measure = (k: string | null) => {
@@ -128,22 +127,51 @@ function IslandNav({ pathname }: { pathname: string }) {
   const slot = (b: { x: number; w: number } | null) => ({ transform: `translateX(${b?.x ?? 0}px)`, width: b?.w ?? 0, opacity: b ? 1 : 0 });
 
   return (
-    <nav ref={nav} aria-label="Main" className="relative hidden items-center gap-0.5 xl:flex" onMouseLeave={() => setHover(null)} onBlur={() => setHover(null)}>
-      <span className="island-hover" style={slot(box.hover)} aria-hidden="true" />
-      <span className="island-active" style={slot(box.active)} aria-hidden="true" />
-      <NavLink to="/" end aria-label="Home" ref={(el) => { els.current['/'] = el; }} {...hoverProps('/')} className={({ isActive }) => `island-link !px-3 ${isActive || pathname === '/home' ? 'is-active' : ''}`}>
-        <HomeIcon className="h-[1.05rem] w-[1.05rem]" aria-hidden="true" />
-      </NavLink>
-      {MAIN_NAV.map((n) => (
-        <NavLink key={n.to} to={n.to} end={n.end} ref={(el) => { els.current[n.to] = el; }} {...hoverProps(n.to)} className={({ isActive }) => `island-link ${isActive ? 'is-active' : ''}`}>
-          {n.label}
-        </NavLink>
-      ))}
-      <div {...hoverProps('more')} ref={(el) => { els.current.more = el; }} className="relative">
-        <MoreMenu items={MORE_NAV} pathname={pathname} />
-      </div>
+    <nav ref={navRef} aria-label="Main" aria-hidden={compact || undefined} className={`items-center justify-center gap-0.5 ${compact ? 'island-measure' : 'relative flex flex-1'}`} onMouseLeave={() => setHover(null)} onBlur={() => setHover(null)}>
+      <span className="relative flex items-center gap-0.5">
+        <span className="island-hover" style={slot(box.hover)} aria-hidden="true" />
+        <span className="island-active" style={slot(box.active)} aria-hidden="true" />
+        {MAIN_NAV.map((n) => (
+          <NavLink key={n.to} to={n.to} end={n.end} ref={(el) => { els.current[n.to] = el; }} {...hoverProps(n.to)} className={({ isActive }) => `island-link ${isActive ? 'is-active' : ''}`}>
+            {n.label}
+          </NavLink>
+        ))}
+        <div {...hoverProps('more')} ref={(el) => { els.current.more = el; }} className="relative">
+          <MoreMenu items={MORE_NAV} pathname={pathname} />
+        </div>
+      </span>
     </nav>
   );
+}
+
+/**
+ * True when the branding, the full link row and the actions all fit inside the island at their natural size.
+ * The college name comes from Website Settings, so a fixed breakpoint cannot guarantee this; when it does not
+ * fit (tablets, small laptops, long names) the header switches to the menu button instead of overflowing.
+ * While compact, the link row and actions stay in the DOM but invisible (see .island-measure) so they can be measured.
+ */
+function useFullNavFits(island: React.RefObject<HTMLElement>, parts: React.RefObject<HTMLElement>[]) {
+  const [fits, setFits] = useState(false);
+  useLayoutEffect(() => {
+    const el = island.current;
+    if (!el) return;
+    const check = () => {
+      if (window.innerWidth < 1024) { setFits(false); return; }
+      const cs = getComputedStyle(el);
+      const avail = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const gap = parseFloat(cs.columnGap) || 0;
+      const need = parts.reduce((sum, r) => sum + (r.current?.scrollWidth ?? 0), 0) + gap * (parts.length - 1);
+      setFits(need <= avail + 1);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    parts.forEach((r) => r.current && ro.observe(r.current));
+    document.fonts?.ready.then(check).catch(() => {});
+    return () => ro.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return fits;
 }
 
 function Header() {
@@ -154,7 +182,14 @@ function Header() {
   const { pathname } = useLocation();
   const menuBtn = useRef<HTMLButtonElement>(null);
   const sheet = useRef<HTMLElement>(null);
+  const island = useRef<HTMLDivElement>(null);
+  const brand = useRef<HTMLAnchorElement>(null);
+  const navRow = useRef<HTMLElement>(null);
+  const actions = useRef<HTMLDivElement>(null);
+  const full = useFullNavFits(island, [brand, navRow, actions]);
   const hasBar = !!(settings?.phone || settings?.email);
+
+  useEffect(() => { if (full) setOpen(false); }, [full]);
 
   useEffect(() => { setOpen(false); }, [pathname]);
   useEffect(() => {
@@ -174,41 +209,45 @@ function Header() {
   }, [open]);
 
   return (
-    <header className={`sticky top-0 z-40 ${hasBar ? 'sm:-top-9' : ''}`}>
+    <header className={`sticky z-40 ${hasBar ? '-top-9' : 'top-0'}`}>
       {hasBar && (
-        <div className="hidden h-9 bg-[rgb(var(--ink-950))] text-xs text-white/85 sm:block">
-          <div className="mx-auto flex h-full max-w-content items-center justify-between px-6">
-            <span className="flex items-center gap-5">
+        <div className="h-9 bg-[rgb(var(--ink-950))] text-xs text-white/85">
+          {/* Phones show the phone/email as icons only so the bar never scrolls sideways. */}
+          <div className="mx-auto flex h-full max-w-content items-center justify-between gap-4 px-4 sm:px-6">
+            <span className="flex min-w-0 items-center gap-4 sm:gap-5">
               {settings?.phone && (
-                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-white hover:underline">
-                  <Phone className="h-3 w-3" aria-hidden="true" /> {settings.phone}
+                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} aria-label={`Call ${settings.phone}`} className="flex shrink-0 items-center gap-1.5 hover:text-white hover:underline">
+                  <Phone className="h-3.5 w-3.5 sm:h-3 sm:w-3" aria-hidden="true" /> <span className="hidden sm:inline">{settings.phone}</span>
                 </a>
               )}
               {settings?.email && (
-                <a href={`mailto:${settings.email}`} className="flex items-center gap-1.5 hover:text-white hover:underline">
-                  <Mail className="h-3 w-3" aria-hidden="true" /> {settings.email}
+                <a href={`mailto:${settings.email}`} aria-label={`Email ${settings.email}`} className="flex min-w-0 items-center gap-1.5 hover:text-white hover:underline">
+                  <Mail className="h-3.5 w-3.5 shrink-0 sm:h-3 sm:w-3" aria-hidden="true" /> <span className="hidden truncate sm:inline">{settings.email}</span>
                 </a>
               )}
             </span>
-            <Link to="/admissions/status" className="hover:text-white hover:underline">Check application status</Link>
+            <Link to="/admissions/status" className="shrink-0 whitespace-nowrap hover:text-white hover:underline">Check application status</Link>
           </div>
         </div>
       )}
 
       {/* The "island": a floating dark capsule that tightens when the page scrolls. */}
       <div className={`pointer-events-none px-3 pt-3 transition-colors duration-300 sm:px-6 ${scrolled ? 'pb-0 bg-transparent' : 'pb-3 bg-college-primary'}`}>
-        <div className={`island pointer-events-auto relative mx-auto flex max-w-[76rem] items-center justify-between gap-3 2xl:max-w-[86rem] ${scrolled ? 'is-scrolled' : ''}`}>
-          <Link to="/" className="flex min-w-0 shrink-0 items-center gap-3 rounded-full pr-2" aria-label={`${settings?.college_name ?? 'Aspire Group of Colleges'} home`}>
+        <div ref={island} className={`island pointer-events-auto relative mx-auto flex max-w-[76rem] items-center justify-between gap-3 2xl:max-w-[86rem] ${scrolled ? 'is-scrolled' : ''}`}>
+          {/* LEFT: branding (only as wide as it needs) */}
+          <Link ref={brand} to="/" className={`flex items-center gap-3 rounded-full pr-2 ${full ? 'shrink-0' : 'min-w-0'}`} aria-label={`${settings?.college_name ?? 'Aspire Group of Colleges'} home`}>
             <Logo island />
-            <span className="min-w-0 leading-tight xl:hidden 2xl:block">
+            <span className="min-w-0 leading-tight">
               <span className="block truncate font-display text-[0.95rem] font-bold tracking-tight text-white">{settings?.college_name ?? 'Aspire Group of Colleges'}</span>
               <span className="block text-[0.7rem] text-white/70">{settings?.campus_name ?? 'Taunsa Sharif'}</span>
             </span>
           </Link>
 
-          <IslandNav pathname={pathname} />
+          {/* CENTER: links, filling the remaining space */}
+          <IslandNav pathname={pathname} navRef={navRow} compact={!full} />
 
-          <div className="hidden shrink-0 items-center gap-2 xl:flex">
+          {/* RIGHT: portal login and Apply Now */}
+          <div ref={actions} aria-hidden={!full || undefined} className={`items-center gap-2 ${full ? 'flex shrink-0' : 'island-measure'}`}>
             {session && profile ? (
               <Link to={portalHomeForRole(profile.role)} className="island-login">Open Portal</Link>
             ) : (
@@ -225,7 +264,7 @@ function Header() {
           <button
             ref={menuBtn}
             type="button"
-            className="island-menu-btn xl:hidden"
+            className={`island-menu-btn ${full ? 'hidden' : ''}`}
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
@@ -236,12 +275,12 @@ function Header() {
         </div>
       </div>
 
-      {open && (
+      {open && !full && (
         <nav
           id="mobile-nav"
           ref={sheet}
           aria-label="Mobile"
-          className="absolute inset-x-3 top-full mt-2 max-h-[calc(100dvh-6.5rem)] overflow-y-auto overscroll-contain rounded-[2rem] border border-white/10 bg-[var(--island-2)] text-white shadow-pop sm:inset-x-6 xl:hidden"
+          className="absolute inset-x-3 top-full mt-2 max-h-[calc(100dvh-9rem)] overflow-y-auto overscroll-contain rounded-[2rem] border border-white/10 bg-[var(--island-2)] text-white shadow-pop sm:inset-x-6"
           style={{ animation: 'sheetIn var(--dur-2) var(--ease)' }}
         >
           <div className="mx-auto flex max-w-[76rem] flex-col p-3">

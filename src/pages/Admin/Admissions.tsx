@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Badge, Button, Card, Input, Label, Modal, Select, Spinner } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
+import { PREVIOUS_CLASS_OTHER, formatPreviousClass } from '@/lib/previousClass';
 import { useAuth } from '@/hooks/useAuth';
 import { usePermissions } from '@/hooks/usePermissions';
 import QueriesPanel from './QueriesPanel';
@@ -67,6 +68,7 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
   const [busy, setBusy] = useState(false);
   const [studentOpen, setStudentOpen] = useState(false);
   const locked = !!app.student_id;
+  const prevClass = formatPreviousClass(app.previous_class); // legacy free text is shown as typed
 
   const [autoSending, setAutoSending] = useState(false);
   async function sendAutoEmail() {
@@ -157,7 +159,8 @@ function ApplicationModal({ app, canManage, canCreateStudent, onClose, onChanged
             <h4 className="mb-2 text-sm font-bold text-slate-700">Academic</h4>
             <dl className="grid gap-3 sm:grid-cols-2">
               <Detail k="Previous institution" v={app.previous_institution} />
-              <Detail k="Previous class" v={app.previous_class} />
+              <Detail k="Previous class" v={prevClass?.label} />
+              {prevClass?.label === PREVIOUS_CLASS_OTHER && <Detail k="Specified qualification" v={prevClass.other} />}
               <Detail k="Percentage" v={app.percentage !== null ? `${app.percentage}%` : null} />
               <Detail k="Board" v={app.board} />
               <Detail k="Passing year" v={app.passing_year} />
