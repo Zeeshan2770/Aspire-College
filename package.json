@@ -1,41 +1,26 @@
 {
-  "name": "aspire-college-platform",
+  "name": "zeeshan-hq",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.1.0",
   "type": "module",
-  "description": "Aspire Group of Colleges, Taunsa Sharif: public website and management portal (includes the CR Connect module for class representatives)",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "test": "node --test tests/unit.test.mjs tests/prerender.test.mjs",
+    "test:db": "node --test tests/db.test.mjs",
+    "test:all": "node --test tests/unit.test.mjs tests/prerender.test.mjs tests/db.test.mjs",
+    "test:e2e": "python3 -I tests/e2e/public_smoke.py && python3 -I tests/e2e/admin_smoke.py"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.4",
+    "@supabase/supabase-js": "^2.45.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "papaparse": "^5.4.1",
-    "jspdf": "^2.5.2",
-    "jspdf-autotable": "^3.8.4",
-    "html-to-image": "^1.11.11",
-    "recharts": "^2.12.7",
-    "tesseract.js": "^5.1.1",
-    "lucide-react": "^0.446.0",
-    "react-hot-toast": "^2.4.1",
-    "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "zustand": "^4.5.5"
+    "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
-    "@types/papaparse": "^5.3.14",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
+    "@electric-sql/pglite": "^0.5.8",
     "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.11",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.6"
+    "vite": "^5.4.0"
   }
 }
