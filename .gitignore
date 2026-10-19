@@ -1,6 +1,18 @@
-node_modules
-dist
+# Dependencies and build output
+node_modules/
+dist/
+
+# Secrets (keep only the example file)
 .env
 .env.*
 !.env.example
+
+# TypeScript build artifacts (created by `tsc -b`, rebuilt on every build)
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Local tooling
+.netlify/
 .DS_Store
+Thumbs.db
